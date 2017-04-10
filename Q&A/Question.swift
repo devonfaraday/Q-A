@@ -7,3 +7,22 @@
 //
 
 import Foundation
+import CloudKit
+
+class Question {
+    
+    
+    let question: String
+    var topicRef: CKReference?
+    var vote: Int
+    let questionOwner: String
+    
+    init(question: String, vote: Int = 0, questionOwner: String) {
+        self.question = question
+        self.vote = vote
+        self.questionOwner = questionOwner
+    }
+    
+   
+    
+}
