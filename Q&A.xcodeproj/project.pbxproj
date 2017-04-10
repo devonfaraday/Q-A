@@ -20,6 +20,8 @@
 		FDF2C2651E9C032E005419C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDF2C2631E9C032E005419C3 /* Main.storyboard */; };
 		FDF2C2671E9C032E005419C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDF2C2661E9C032E005419C3 /* Assets.xcassets */; };
 		FDF2C26A1E9C032E005419C3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDF2C2681E9C032E005419C3 /* LaunchScreen.storyboard */; };
+		FDF2C2741E9C26F3005419C3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF2C2731E9C26F3005419C3 /* CloudKit.framework */; };
+		FDF2C2761E9C296B005419C3 /* Question+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF2C2751E9C296B005419C3 /* Question+CloudKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,9 @@
 		FDF2C2661E9C032E005419C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDF2C2691E9C032E005419C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FDF2C26B1E9C032E005419C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDF2C2711E9C26F0005419C3 /* Q&A.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Q&A.entitlements"; sourceTree = "<group>"; };
+		FDF2C2731E9C26F3005419C3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		FDF2C2751E9C296B005419C3 /* Question+CloudKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Question+CloudKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDF2C2741E9C26F3005419C3 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +98,7 @@
 				81D8492A1E9C0E9100A38BFD /* User.swift */,
 				81D8492C1E9C0E9D00A38BFD /* Question.swift */,
 				81D8492E1E9C0EA800A38BFD /* Topic.swift */,
+				FDF2C2751E9C296B005419C3 /* Question+CloudKit.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -120,6 +127,7 @@
 				FDF2C25E1E9C032E005419C3 /* Q&A */,
 				81D849291E9C0E3700A38BFD /* Resources */,
 				FDF2C25D1E9C032E005419C3 /* Products */,
+				FDF2C2721E9C26F3005419C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +142,7 @@
 		FDF2C25E1E9C032E005419C3 /* Q&A */ = {
 			isa = PBXGroup;
 			children = (
+				FDF2C2711E9C26F0005419C3 /* Q&A.entitlements */,
 				FDF2C25F1E9C032E005419C3 /* AppDelegate.swift */,
 				81D849261E9C0DDC00A38BFD /* Storyboards */,
 				81D849251E9C0DDB00A38BFD /* Views */,
@@ -143,6 +152,14 @@
 				81D849281E9C0E1B00A38BFD /* Controllers */,
 			);
 			path = "Q&A";
+			sourceTree = "<group>";
+		};
+		FDF2C2721E9C26F3005419C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FDF2C2731E9C26F3005419C3 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +196,14 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = 9Q8KVW72F5;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -223,6 +248,7 @@
 				81D8493B1E9C0F6600A38BFD /* ProfileViewController.swift in Sources */,
 				81D849371E9C0EF000A38BFD /* CloudKitManager.swift in Sources */,
 				81D849311E9C0EB700A38BFD /* UserController.swift in Sources */,
+				FDF2C2761E9C296B005419C3 /* Question+CloudKit.swift in Sources */,
 				81D8492B1E9C0E9100A38BFD /* User.swift in Sources */,
 				FDF2C2601E9C032E005419C3 /* AppDelegate.swift in Sources */,
 				81D849351E9C0ED400A38BFD /* TopicController.swift in Sources */,
@@ -352,6 +378,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Q&A/Q&A.entitlements";
 				DEVELOPMENT_TEAM = 9Q8KVW72F5;
 				INFOPLIST_FILE = "Q&A/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -365,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Q&A/Q&A.entitlements";
 				DEVELOPMENT_TEAM = 9Q8KVW72F5;
 				INFOPLIST_FILE = "Q&A/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
