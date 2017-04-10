@@ -37,7 +37,7 @@ class Topic {
     convenience required init?(record: CKRecord) {
         guard let name = record[Topic.nameKey] as? String,
             let codeGenerator = record[Topic.codeGeneratorKey] as? Int,
-            let questions = record[Topic.questionsKey] as? [String]
+            let questions = record[Topic.questionsKey] as? [Question]
             else { return nil }
         
         self.init(name: name, codeGenerator: codeGenerator, questions: questions, recordID: record.recordID)
