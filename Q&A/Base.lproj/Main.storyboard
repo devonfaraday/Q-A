@@ -86,6 +86,9 @@
                                         <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
                                         <color key="backgroundColor" red="0.5047556956507081" green="1" blue="0.7489410446133713" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Submit"/>
+                                        <connections>
+                                            <action selector="submitButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="QZm-rm-gMj"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -107,6 +110,7 @@
                                 </constraints>
                                 <state key="normal" title="Add"/>
                                 <connections>
+                                    <action selector="addTopicButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="I8S-aH-RuS"/>
                                     <segue destination="Q4A-s4-6jR" kind="show" identifier="toCreateTopic" id="BhD-gG-JnP"/>
                                 </connections>
                             </button>
@@ -117,10 +121,16 @@
                                     <constraint firstAttribute="width" constant="46" id="Hqe-l4-Y5D"/>
                                 </constraints>
                                 <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="editButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="CuY-S2-NIF"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="62l-qG-gC2" userLabel="Add Photo">
                                 <rect key="frame" x="125.5" y="72" width="125" height="125"/>
                                 <state key="normal" title="Add Photo"/>
+                                <connections>
+                                    <action selector="addPhotoButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="Hvv-H6-yWr"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -152,6 +162,13 @@
                     <navigationItem key="navigationItem" id="nz3-bs-JGZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="LzA-sW-Ka2"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="codeTextField" destination="LqJ-dc-Ok3" id="8pp-UR-6jA"/>
+                        <outlet property="firstNameTextField" destination="0dz-YH-sai" id="ndV-JZ-wnn"/>
+                        <outlet property="lastNameTextField" destination="GbC-Di-tSR" id="LhI-PX-b60"/>
+                        <outlet property="profileImageView" destination="RaA-Pb-3JT" id="NLs-Xd-lhQ"/>
+                        <outlet property="tableView" destination="2cj-K5-Tjt" id="ZhG-oU-hcP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ol2-8H-zEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
