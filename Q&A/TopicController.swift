@@ -11,16 +11,12 @@ import CloudKit
 
 class TopicController {
     
-    var topics: [Topic] = [] {
-        didSet {
-            randomNum()
-        }
-    }
+    var topics: [Topic] = []
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
     
     func createTopic(name: String,  questions: [Question], recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
-        let randomNum = randomNum()
+        let randomNum = randomNumGenerator()
         let topics = Topic(name: name, codeGenerator: randomNum, questions: questions, recordID: recordID)
         
         let record = CKRecord(topic: topics)
@@ -50,8 +46,25 @@ class TopicController {
         }
     }
     
-    func randomNum() -> Int {
+    func delete(withRecordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
+        cloudKitManager.publicDatabase.delete(withRecordID: withRecordID) { (recordID, error) in
+            if let error = error {
+                print("Was not able to delete CKRecord from CloudKit. TopicController: delete()")
+                completion(recordID, error)
+            }
+        }
+    }
+    
+    func randomNumGenerator() -> Int {
+        var randomInt = 0
         let codeGeneratorArray = topics.flatMap({ $0.codeGenerator})
-        
+        let randomNum =  Int(arc4random_uniform(UInt32(99999))) + 10000
+        let contains = codeGeneratorArray.contains(Int(randomNum))
+        if contains {
+            let _ = randomNumGenerator()
+        } else {
+            randomInt = randomNum
+        }
+        return randomInt
     }
 }
