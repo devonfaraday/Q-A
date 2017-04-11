@@ -392,4 +392,30 @@ class CloudKitManager {
             }
         })
     }
+    
+    // MARK: - Fetch Current User
+    
+    func fetchCurrentUser(completion: @escaping(User?) -> Void) {
+        
+        CKContainer.default().fetchUserRecordID { (appleUserRecordID, error) in
+            if let error = error { NSLog(error.localizedDescription) }
+            
+            guard let appleUserRecordID = appleUserRecordID else { return }
+            
+            let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+            
+            let preditcate = NSPredicate(format: "appleUserRef == %@", appleUserRef)
+            
+            let query = CKQuery(recordType: "User", predicate: preditcate)
+            
+            self.publicDatabase.perform(query, inZoneWith: nil, completionHandler: { (records, error) in
+                if let error = error { print(error.localizedDescription) }
+                
+                guard let records = records else { return }
+                let users = records.flatMap { User(record: $0) }
+                let user = users.first
+                completion(user)
+            })
+        }
+    }
 }

@@ -11,6 +11,8 @@ import CloudKit
 
 class UserController {
     
+    static let shared = UserController()
+    
     var appleUserRecordID: CKRecordID?
     var cloudKitManager = CloudKitManager()
     var loggedInUser: User?
