@@ -13,6 +13,7 @@ class UserController {
     
     var appleUserRecordID: CKRecordID?
     var cloudKitManager = CloudKitManager()
+    var loggedInUser: User?
     
     init() {
         CKContainer.default().fetchUserRecordID { (recordID, error) in
@@ -30,18 +31,15 @@ class UserController {
         let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
         let user = User(firstName: firstName, lastName: lastName, recordID: appleUserRecordID, appleUserRef: userRef)
         let record = CKRecord(user: user)
-        cloudKitManager.saveRecord(record) { (_, error) in
+        cloudKitManager.saveRecord(record) { (savedUserRecord, error) in
             if let error = error {
                 print("Error with saving User to cloudkit: \(error.localizedDescription)")
+                completion()
                 return
             }
-            
+            guard let savedUserRecord = savedUserRecord else { completion(); return }
+            self.loggedInUser = User(record: savedUserRecord)
+            completion()
         }
-        
     }
-    
-    
-    
-    
-    
 }
