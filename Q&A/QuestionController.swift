@@ -17,12 +17,19 @@ class QuestionController {
     var currentTopic: Topic?
     
     func saveQuestion(question: String, completion: @escaping() -> Void) {
-        
         guard let owner = currentUser?.firstName else { completion(); return }
         guard let topicID = currentTopic?.recordID else { completion(); return }
         let topicRef = CKReference(recordID: topicID, action: .deleteSelf)
         let question = Question(question: question, questionOwner: owner, topicRef: topicRef)
+        let record = question.cloudKitRecord
+        cloudKitManager.saveRecord(record) { (_, error) in
+            if let error = error {
+                print("Error with saveing question to cloudKit: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            print("Saved Question to CloudKit")
+            completion()
+        }
     }
-    
-    
 }

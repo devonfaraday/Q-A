@@ -14,22 +14,30 @@ class TopicController {
     var topics: [Topic] = []
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
+    var currentTopic: Topic? {
+        didSet {
+            QuestionController.shared.currentTopic = self.currentTopic
+        }
+    }
     
     func createTopic(name: String,  questions: [Question], recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
         let randomNum = randomNumGenerator()
         let topics = Topic(name: name, codeGenerator: randomNum, questions: questions, recordID: recordID)
         
         let record = CKRecord(topic: topics)
-        cloudKitManager.publicDatabase.save(record) { (_, error) in
+        cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
             
             if let error = error {
                 print("There was an error saving to CloudKit. TopicController: createTopic()")
                 completion(error)
-            } else {
-                print("Record successfully saved to CloudKit")
-                self.topics.append(topics)
-                completion(nil)
+                return
             }
+                print("Record successfully saved to CloudKit")
+            guard let savedTopicRecord = savedTopicRecord else { completion(nil); return }
+            guard let topic = Topic(record: savedTopicRecord) else { completion(nil); return }
+            self.topics.append(topic)
+            self.currentTopic = topic
+            completion(nil)
         }
     }
     
