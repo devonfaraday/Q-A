@@ -9,7 +9,7 @@
 import CloudKit
 import UIKit
 
-class User {
+class User: Equatable {
     
     static let firstNameKey = "firstName"
     static let lastNameKey = "lastName"
@@ -17,6 +17,7 @@ class User {
     static let recordIDKey = "recordID"
     static let readyCheckKey = "readyCheck"
     static let topicKey = "topic"
+    static let appleUserRefKey = "appleUserRef"
     
     let firstName: String
     let lastName: String
@@ -24,6 +25,7 @@ class User {
     let recordID: CKRecordID?
     let readyCheck: Bool
     let topic: [CKReference]
+    let appleUserRef: CKReference
     
     fileprivate var temporaryPhotoURL: URL {
         let tempDir = NSTemporaryDirectory()
@@ -39,7 +41,7 @@ class User {
         return image
     }
     
-    init(firstName: String, lastName: String, profileImageData: Data? = nil, recordID: CKRecordID?, readyCheck: Bool = false, topic: [CKReference] = []) {
+    init(firstName: String, lastName: String, profileImageData: Data? = nil, recordID: CKRecordID?, readyCheck: Bool = false, topic: [CKReference] = [], appleUserRef: CKReference) {
         
         self.firstName = firstName
         self.lastName = lastName
@@ -47,6 +49,7 @@ class User {
         self.recordID = recordID
         self.readyCheck = readyCheck
         self.topic = topic
+        self.appleUserRef = appleUserRef
     }
     
     init?(record: CKRecord) {
@@ -54,7 +57,8 @@ class User {
             let lastName = record[User.lastNameKey] as? String,
             let readyCheck = record[User.readyCheckKey] as? Bool,
             let photoAsset = record[User.profileImageDataKey] as? CKAsset,
-            let topic = record[User.topicKey] as? [CKReference] else { return nil }
+            let topic = record[User.topicKey] as? [CKReference],
+            let appleUserRef = record[User.appleUserRefKey] as? CKReference else { return nil }
         
         self.firstName = firstName
         self.lastName = lastName
@@ -63,6 +67,7 @@ class User {
         self.topic = topic
         let imageData = try? Data(contentsOf: photoAsset.fileURL)
         self.profileImageData = imageData
+        self.appleUserRef = appleUserRef
     }
 }
 
@@ -77,10 +82,14 @@ extension CKRecord {
         self.setValue(user.recordID, forKey: User.recordIDKey)
         self.setValue(user.readyCheck, forKey: User.readyCheckKey)
         self.setValue(user.topic, forKey: User.topicKey)
+        self.setValue(user.appleUserRef, forKey: User.appleUserRefKey)
+        
     }
 }
 
-
+func ==(lhs: User, rhs: User) -> Bool {
+    return lhs === rhs
+}
 
 
 
