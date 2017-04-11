@@ -18,24 +18,23 @@ class Question {
     static let ownerKey = "owner"
     
     let question: String
-    var topicRef: CKReference?
+    var topicRef: CKReference
     var vote: Int
     let questionOwner: String
     
-    init(question: String, vote: Int = 0, questionOwner: String) {
+    init(question: String, vote: Int = 0, questionOwner: String, topicRef: CKReference) {
         self.question = question
         self.vote = vote
         self.questionOwner = questionOwner
+        self.topicRef = topicRef
     }
     
      convenience init?(cloudKitRecord: CKRecord) {
         guard let question = cloudKitRecord[Question.questionKey] as? String,
             let vote = cloudKitRecord[Question.voteKey] as? Int,
-            let owner = cloudKitRecord[Question.ownerKey] as? String else { return nil }
-        
-        self.init(question: question, vote: vote, questionOwner: owner)
-        self.topicRef = cloudKitRecord[Question.topicReferenceKey] as? CKReference
-        
+            let owner = cloudKitRecord[Question.ownerKey] as? String,
+            let topicRef = cloudKitRecord[Question.topicReferenceKey] as? CKReference else { return nil }
+        self.init(question: question, vote: vote, questionOwner: owner, topicRef: topicRef)
     }
     
     var cloudKitRecord: CKRecord {
@@ -46,9 +45,4 @@ class Question {
         record[Question.ownerKey] = questionOwner as CKRecordValue
         return record
     }
-
-    
-
-   
-    
 }
