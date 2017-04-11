@@ -11,7 +11,11 @@ import CloudKit
 
 class TopicController {
     
-    var topics: [Topic] = []
+    var topics: [Topic] = [] {
+        didSet {
+            randomNum()
+        }
+    }
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
     
@@ -41,11 +45,13 @@ class TopicController {
             guard let records = records
                 else { return }
             let topics = records.flatMap({ Topic(record: $0)})
+            self.topics = topics
             completion(topics)
         }
     }
     
     func randomNum() -> Int {
-        var arrayOfNumbers = []
+        let codeGeneratorArray = topics.flatMap({ $0.codeGenerator})
+        
     }
 }
