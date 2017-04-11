@@ -11,7 +11,8 @@ import CloudKit
 
 class UserController {
     
-    var userRecordID: CKRecordID?
+    var appleUserRecordID: CKRecordID?
+    var cloudKitManager = CloudKitManager()
     
     init() {
         CKContainer.default().fetchUserRecordID { (recordID, error) in
@@ -20,11 +21,22 @@ class UserController {
                 return
             }
             guard let recordID = recordID else { return }
-            self.userRecordID = recordID
+            self.appleUserRecordID = recordID
         }
     }
     
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
+        guard let appleUserRecordID = appleUserRecordID else { completion(); return }
+        let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+        let user = User(firstName: firstName, lastName: lastName, recordID: appleUserRecordID, appleUserRef: userRef)
+        let record = CKRecord(user: user)
+        cloudKitManager.saveRecord(record) { (_, error) in
+            if let error = error {
+                print("Error with saving User to cloudkit: \(error.localizedDescription)")
+                return
+            }
+            
+        }
         
     }
     
