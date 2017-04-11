@@ -10,6 +10,12 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var codeTextField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,5 +39,18 @@ class ProfileViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - IBActions
+    
+    @IBAction func editButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func addTopicButtonTapped(_ sender: Any) {
+    }
 
+    @IBAction func addPhotoButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func submitButtonTapped(_ sender: Any) {
+    }
 }
