@@ -11,6 +11,11 @@ import CloudKit
 
 class Question {
     
+    static let questionKey = "question"
+    static let questionRecordType = "Question"
+    static let voteKey = "vote"
+    static let topicReferenceKey = "topicReference"
+    static let ownerKey = "owner"
     
     let question: String
     var topicRef: CKReference?
