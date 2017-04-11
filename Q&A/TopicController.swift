@@ -14,11 +14,7 @@ class TopicController {
     var topics: [Topic] = []
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
-    var currentTopic: Topic? {
-        didSet {
-            QuestionController.shared.currentTopic = self.currentTopic
-        }
-    }
+    var currentTopic: Topic?
     
     func createTopic(name: String,  questions: [Question], recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
         let randomNum = randomNumGenerator()

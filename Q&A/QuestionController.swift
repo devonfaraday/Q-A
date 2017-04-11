@@ -14,7 +14,7 @@ class QuestionController {
     var cloudKitManager = CloudKitManager()
     static var shared = QuestionController()
     var currentUser: User?
-    var currentTopic: Topic?
+    var currentTopic: Topic? = TopicController.shared.currentTopic
     
     func saveQuestion(question: String, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
