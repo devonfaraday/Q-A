@@ -22,15 +22,14 @@ class Topic: Equatable {
     let codeGenerator: Int
     let questions: [Question]
     var blockedUsers: [CKReference]
-    let recordID: CKRecordID?
+    var recordID: CKRecordID?
     var readyCheck: Bool
     let topicOwner: CKReference
     
-    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID, readyCheck: Bool = false, topicOwner: CKReference) {
+    init(name: String, codeGenerator: Int, questions: [Question] = [], readyCheck: Bool = false, topicOwner: CKReference) {
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
-        self.recordID = recordID
         self.blockedUsers = []
         self.readyCheck = readyCheck
         self.topicOwner = topicOwner
