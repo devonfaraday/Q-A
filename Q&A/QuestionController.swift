@@ -33,6 +33,10 @@ class QuestionController {
         }
     }
     
+    func modifyQuestion(question: Question, completion: @escaping () -> Void) {
+        
+    }
+    
     func deleteQuestion(withRecordID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
         cloudKitManager.publicDatabase.delete(withRecordID: recordID) { (recordID, error) in
             if let error = error {
@@ -53,6 +57,13 @@ class QuestionController {
         self.cloudKitManager.publicDatabase.add(operation)
     }
     
+    func upvote(question: Question) {
+        question.vote += 1
+    }
+    
+    func downvote(question: Question) {
+        question.vote -= 1
+    }
     
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
