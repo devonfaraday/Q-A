@@ -231,7 +231,7 @@
                                 <rect key="frame" x="0.0" y="131" width="375" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="fMJ-jb-pnR">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fMJ-jb-pnR" id="ewx-qG-hjT">
@@ -327,6 +327,9 @@
                             <constraint firstItem="zdt-EN-OTK" firstAttribute="leading" secondItem="12b-Wu-bGa" secondAttribute="leadingMargin" id="wVK-BW-ZGO"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="questionTableView" destination="ppv-2B-ruk" id="lTm-ck-SAT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J1w-ml-4eg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -387,10 +390,10 @@
             </objects>
             <point key="canvasLocation" x="1860" y="922"/>
         </scene>
-        <!--View Controller-->
+        <!--Ready Check View Controller-->
         <scene sceneID="21Y-e5-UpK">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4er-li-1go" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="4er-li-1go" customClass="ReadyCheckViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vG4-OB-wh5"/>
                         <viewControllerLayoutGuide type="bottom" id="aQm-vf-yyB"/>
@@ -460,7 +463,7 @@
                                 <rect key="frame" x="0.0" y="211" width="375" height="456"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="R8j-T1-i4a">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="R8j-T1-i4a" customClass="ReadyCheckTableViewCell" customModule="Q_A" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R8j-T1-i4a" id="kFK-Kw-chi">
