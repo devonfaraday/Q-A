@@ -203,7 +203,7 @@
 				TargetAttributes = {
 					FDF2C25B1E9C032E005419C3 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 5H73PY6T7Z;
+						DevelopmentTeam = 9Q8KVW72F5;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -391,10 +391,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Q&A/Q&A.entitlements";
-				DEVELOPMENT_TEAM = 5H73PY6T7Z;
+				DEVELOPMENT_TEAM = 9Q8KVW72F5;
 				INFOPLIST_FILE = "Q&A/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SterlingMortensen.Q-A";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.christianmcmullin.Q-A";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -405,10 +405,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Q&A/Q&A.entitlements";
-				DEVELOPMENT_TEAM = 5H73PY6T7Z;
+				DEVELOPMENT_TEAM = 9Q8KVW72F5;
 				INFOPLIST_FILE = "Q&A/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SterlingMortensen.Q-A";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.christianmcmullin.Q-A";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
