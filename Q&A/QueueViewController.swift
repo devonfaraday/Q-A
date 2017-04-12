@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -26,7 +27,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         questionTableView.reloadData()
     }
     
@@ -41,11 +41,23 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
         return cell
+        
+        
     }
     
     // MARK: - View Control Functions
     
-   
+    func currentUserCheck() -> Bool {
+        guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return false}
+        if topic.topicOwner == currentUser.recordID {
+            print ("True")
+            return true
+        } else {
+            print ("FUCK")
+        return false
+        }
+    }
+    
     
     // MARK: - IBActions
     
