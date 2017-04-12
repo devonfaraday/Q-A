@@ -29,14 +29,17 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var readyButton: UIButton!
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // function Completion
-        topicNameTextField.borderStyle = .none
-        topicNameTextField.isEnabled = false
-        topicNameTextField.resignFirstResponder()
-        
+        if let topicName = topicNameTextField.text {
+        TopicController.shared.createTopic(name: topicName) { (topic) in
+            self.topicNameTextField.borderStyle = .none
+            self.topicNameTextField.isEnabled = false
+            self.topicNameTextField.resignFirstResponder()
+            
+        }
+
+    }
         return true
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewTypeSetup()
@@ -74,14 +77,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func viewTypeSetup() {
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
         if topic.topicOwner.recordID == currentUser.recordID {
-           
             readyButton.isHidden = true
             askQuestionButton.isHidden = true
         } else {
             blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
-   
         }
     }
     
