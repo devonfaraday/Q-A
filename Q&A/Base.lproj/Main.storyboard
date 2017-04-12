@@ -227,17 +227,72 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-2B-ruk">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-2B-ruk">
                                 <rect key="frame" x="0.0" y="131" width="375" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" rowHeight="73" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="73"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fMJ-jb-pnR" id="ewx-qG-hjT">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="72.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snd-bQ-zpf">
+                                                    <rect key="frame" x="257" y="35" width="50" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="0IF-9e-hhB"/>
+                                                        <constraint firstAttribute="width" constant="50" id="u1U-xk-PEy"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Up"/>
+                                                    <connections>
+                                                        <action selector="voteUpButtonTapped:" destination="fMJ-jb-pnR" eventType="touchUpInside" id="qUm-lH-iPy"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AcE-Q1-Z34">
+                                                    <rect key="frame" x="313" y="35" width="50" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="8J9-L5-3Z4"/>
+                                                        <constraint firstAttribute="width" constant="50" id="wd5-dv-T0g"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Down"/>
+                                                    <connections>
+                                                        <action selector="voteDownButtonTapped:" destination="fMJ-jb-pnR" eventType="touchUpInside" id="GlB-gm-HHB"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qj3-nY-kE1">
+                                                    <rect key="frame" x="14" y="8" width="347" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l72-uu-fwp">
+                                                    <rect key="frame" x="6" y="35" width="245" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="SLN-ju-PeF"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="AcE-Q1-Z34" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="0qa-v1-GUX"/>
+                                                <constraint firstItem="snd-bQ-zpf" firstAttribute="leading" secondItem="l72-uu-fwp" secondAttribute="trailing" constant="6" id="3ba-Jj-fUh"/>
+                                                <constraint firstItem="qj3-nY-kE1" firstAttribute="top" secondItem="ewx-qG-hjT" secondAttribute="topMargin" id="4es-pG-KsX"/>
+                                                <constraint firstAttribute="trailing" secondItem="AcE-Q1-Z34" secondAttribute="trailing" constant="12" id="CbA-6g-9nU"/>
+                                                <constraint firstItem="qj3-nY-kE1" firstAttribute="leading" secondItem="ewx-qG-hjT" secondAttribute="leadingMargin" constant="6" id="J7e-4G-AGL"/>
+                                                <constraint firstItem="snd-bQ-zpf" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="Qsj-b4-YRk"/>
+                                                <constraint firstItem="l72-uu-fwp" firstAttribute="leading" secondItem="ewx-qG-hjT" secondAttribute="leading" constant="6" id="guQ-gg-fu9"/>
+                                                <constraint firstItem="l72-uu-fwp" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="maD-BG-6gP"/>
+                                                <constraint firstItem="AcE-Q1-Z34" firstAttribute="leading" secondItem="snd-bQ-zpf" secondAttribute="trailing" constant="6" id="pRd-gw-WNo"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="qj3-nY-kE1" secondAttribute="trailing" constant="6" id="vK0-9S-PRb"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="ownerLabel" destination="l72-uu-fwp" id="iaY-4r-CqO"/>
+                                            <outlet property="questionLabel" destination="qj3-nY-kE1" id="thb-xE-jdH"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -362,7 +417,6 @@
                                     <constraint firstAttribute="height" constant="273" id="UCj-y7-4qK"/>
                                     <constraint firstAttribute="width" secondItem="4zC-XW-Twv" secondAttribute="height" multiplier="49:39" id="vtu-Tv-DZA"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

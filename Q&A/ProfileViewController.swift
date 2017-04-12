@@ -28,9 +28,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             updateView()
         }
     }
-    
-    
-    
+
     // MARK: -  View Life Cycle
     
     override func viewDidLoad() {
@@ -62,15 +60,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    /*
+    
+ 
      // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+ 
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "toShowTopic" {
+            guard let destinationViewController = segue.destination as? QueueViewController,
+                let indexPath = tableView.indexPathForSelectedRow else {return}
+            let topic = UserController.shared.usersTopics[indexPath.row]
+            
+            destinationViewController.topic = topic
+            
+        }
+      
+    }
+    
+ 
     
     
     // MARK: - IBActions
@@ -179,8 +185,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func uploadButton() {
         
-        
-        
         let imagePickerController = UIImagePickerController()
         
         imagePickerController.sourceType = .photoLibrary
@@ -193,9 +197,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func cameraButton() {
         
-        
-        
-        
+  
         let imagePickerController = UIImagePickerController()
         
         imagePickerController.sourceType = .camera

@@ -10,15 +10,26 @@ import UIKit
 
 class QueueTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var ownerLabel: UILabel!
+    
+    var question: Question? {
+        didSet {
+            updateView()
+        }
+    }
+    
+    func updateView() {
+        guard let question = question else {return}
+        questionLabel.text = question.question
+        ownerLabel.text = question.questionOwner
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    @IBAction func voteUpButtonTapped(_ sender: Any) {
     }
-
+    
+    @IBAction func voteDownButtonTapped(_ sender: Any) {
+    }
+    
+    
 }
