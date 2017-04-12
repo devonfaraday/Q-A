@@ -18,11 +18,11 @@ class TopicController {
     
     func createTopic(name: String, recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
         let randomNum = randomNumGenerator()
-        let topic = Topic(name: name, codeGenerator: randomNum, recordID: recordID)
-        
+        guard let recordID = currentUser?.recordID else { completion(nil); return }
+        let userRef = CKReference(recordID: recordID, action: .deleteSelf)
+        let topic = Topic(name: name, codeGenerator: randomNum, recordID: recordID, topicOwner: userRef)
         let record = CKRecord(topic: topic)
         cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
-            
             if let error = error {
                 print("There was an error saving to CloudKit. TopicController: createTopic()")
                 completion(error)
@@ -55,6 +55,26 @@ class TopicController {
                 else { return }
             let topics = records.flatMap({ Topic(record: $0)})
             self.topics = topics
+            completion(topics)
+        }
+    }
+    
+    //==============================================================
+    // MARK: - Fix Predicate for this fetch function
+    //==============================================================
+    func fetchTopicsForUser(completion: @escaping([Topic]) -> Void) {
+        guard let topicRecordID = topics.last?.recordID else { completion([]); return }
+        let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
+        let predicate = NSPredicate(format: "topicReferences CONTAINS %@", topicRef)
+        let query = CKQuery(recordType: "Topic", predicate: predicate)
+        cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let error = error {
+                print("Error with fetching topics for User: \(error.localizedDescription)")
+                completion([])
+                return
+            }
+            guard let records = records else { completion([]); return }
+            let topics = records.flatMap({ Topic(record: $0) })
             completion(topics)
         }
     }
