@@ -123,4 +123,10 @@ class TopicController {
         }
         return randomInt
     }
+    
+    func blockUsers() {
+        
+        
+        
+    }
 }
