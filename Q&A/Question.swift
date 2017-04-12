@@ -21,6 +21,7 @@ class Question {
     var topicRef: CKReference
     var vote: Int
     let questionOwner: String
+    var recordID: CKRecordID?
     
     init(question: String, vote: Int = 0, questionOwner: String, topicRef: CKReference) {
         self.question = question
@@ -35,6 +36,7 @@ class Question {
             let owner = cloudKitRecord[Question.ownerKey] as? String,
             let topicRef = cloudKitRecord[Question.topicReferenceKey] as? CKReference else { return nil }
         self.init(question: question, vote: vote, questionOwner: owner, topicRef: topicRef)
+        self.recordID = cloudKitRecord.recordID
     }
     
     var cloudKitRecord: CKRecord {

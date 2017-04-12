@@ -413,7 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J1w-ml-4eg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1860" y="142.57871064467767"/>
+            <point key="canvasLocation" x="1886" y="145"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="sTM-ko-Hd7">
@@ -467,7 +467,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QQY-2e-EHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1860" y="922"/>
+            <point key="canvasLocation" x="1886" y="1004"/>
         </scene>
         <!--Ready Check View Controller-->
         <scene sceneID="21Y-e5-UpK">
@@ -489,6 +489,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="4er-li-1go" eventType="touchUpInside" id="z6i-SN-9zH"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="YO8-vt-wBu">
                                 <rect key="frame" x="52" y="133" width="270" height="50"/>
@@ -496,7 +499,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NLF-Mi-DTe">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LVQ-aZ-hrO">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GreenButton2x" translatesAutoresizingMaskIntoConstraints="NO" id="LVQ-aZ-hrO">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="3XR-zZ-IL2"/>
@@ -517,7 +520,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0Zv-Of-C77">
                                         <rect key="frame" x="170" y="0.0" width="100" height="50"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oFw-Xi-edf">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RedButton2x" translatesAutoresizingMaskIntoConstraints="NO" id="oFw-Xi-edf">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="GkH-Lm-UaP"/>
@@ -549,13 +552,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFj-aH-etn">
-                                                    <rect key="frame" x="333" y="8" width="34" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Button"/>
-                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBC-Kq-W6o">
+                                                    <rect key="frame" x="36" y="16" width="49" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RedButton2x" translatesAutoresizingMaskIntoConstraints="NO" id="fVm-Xg-rbB">
+                                                    <rect key="frame" x="310" y="4" width="47" height="47"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="47" id="W7A-Ye-aga"/>
+                                                        <constraint firstAttribute="width" secondItem="fVm-Xg-rbB" secondAttribute="height" multiplier="1:1" id="Zx7-hy-jxO"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xBC-Kq-W6o" firstAttribute="leading" secondItem="kFK-Kw-chi" secondAttribute="leadingMargin" constant="28" id="8Ll-du-3Pk"/>
+                                                <constraint firstItem="fVm-Xg-rbB" firstAttribute="centerY" secondItem="kFK-Kw-chi" secondAttribute="centerY" id="EfK-sx-BQX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="fVm-Xg-rbB" secondAttribute="trailing" constant="10" id="aHm-CV-Ic9"/>
+                                                <constraint firstItem="xBC-Kq-W6o" firstAttribute="centerY" secondItem="kFK-Kw-chi" secondAttribute="centerY" id="e9D-4q-YKf"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="xBC-Kq-W6o" id="FzF-mx-GYR"/>
+                                            <outlet property="readyCheckImageView" destination="fVm-Xg-rbB" id="u6s-6k-NJK"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -572,12 +593,20 @@
                             <constraint firstItem="CMc-s4-PYJ" firstAttribute="trailing" secondItem="W4h-Ra-tk1" secondAttribute="trailingMargin" id="qGG-9W-j2X"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="notReadyLabel" destination="4NR-qW-Skl" id="YAV-ZZ-Rvb"/>
+                        <outlet property="readyLabel" destination="wLY-dX-1nk" id="eOy-G1-Eqs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AqZ-Kh-ykL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2724" y="142.57871064467767"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="GreenButton2x" width="40" height="40"/>
+        <image name="RedButton2x" width="40" height="40"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="WS5-wE-SvI"/>
     </inferredMetricsTieBreakers>
