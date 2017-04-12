@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CloudKit
 
 class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var topic: Topic?
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var topicNameTextField: UITextField!
     @IBOutlet weak var questionTableView: UITableView!
@@ -21,16 +24,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var readyButton: UIButton!
     
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        showTopicNumber()
         questionTableView.reloadData()
     }
     
+    // MARK: - Data Source Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return QuestionController.shared.questions.count
@@ -41,7 +42,27 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
         return cell
+        
+        
     }
+    
+    // MARK: - View Control Functions
+    
+    func showTopicNumber() {
+        if let topic = topic {
+            codeLabel.text = "\(topic.codeGenerator)"
+        }
+    }
+    
+    func viewTypeSetup() {
+        guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
+        if topic.topicOwner == currentUser.recordID {
+            print ("True")
+        } else {
+            print ("FUCK")
+        }
+    }
+    
     
     // MARK: - IBActions
     

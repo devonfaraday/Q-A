@@ -10,15 +10,26 @@ import UIKit
 
 class ReadyCheckTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var readyCheckImageView: UIImageView!
+    
+    var user: User? {
+        didSet {
+            updateViews()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    func updateViews() {
+        guard let user = user else { return }
+        nameLabel.text = "\(user.firstName) \(user.lastName)"
+        if user.readyCheck {
+            readyCheckImageView.image = #imageLiteral(resourceName: "GreenButton2x")
+        } else {
+            readyCheckImageView.image = #imageLiteral(resourceName: "RedButton2x")
+        }
     }
+    
+    // notification observer that will change the image of readyCheckImageView
 
 }
