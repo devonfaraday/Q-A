@@ -34,7 +34,13 @@ class QuestionController {
     }
     
     func modifyQuestion(question: Question, completion: @escaping () -> Void) {
-        
+        let record = CKRecord(question: question)
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
     }
     
     func deleteQuestion(withRecordID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
@@ -59,10 +65,14 @@ class QuestionController {
     
     func upvote(question: Question) {
         question.vote += 1
+        modifyQuestion(question: question) {
+        }
     }
     
     func downvote(question: Question) {
         question.vote -= 1
+        modifyQuestion(question: question) {
+        }
     }
     
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
