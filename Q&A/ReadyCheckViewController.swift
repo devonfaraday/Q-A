@@ -10,18 +10,14 @@ import UIKit
 
 class ReadyCheckViewController: UIViewController {
 
+    @IBOutlet weak var readyLabel: UILabel!
+    @IBOutlet weak var notReadyLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-
     /*
     // MARK: - Navigation
 
@@ -31,5 +27,9 @@ class ReadyCheckViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        
+    }
 
 }

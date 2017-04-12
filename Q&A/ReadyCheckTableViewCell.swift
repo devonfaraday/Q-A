@@ -10,6 +10,10 @@ import UIKit
 
 class ReadyCheckTableViewCell: UITableViewCell {
 
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var readyCheckImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
