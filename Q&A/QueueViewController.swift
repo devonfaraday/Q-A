@@ -11,15 +11,26 @@ import UIKit
 class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var topic: Topic?
- 
+    
+    @IBOutlet weak var topicNameTextField: UITextField!
+    @IBOutlet weak var questionTableView: UITableView!
+    @IBOutlet weak var blockButton: UIButton!
+    @IBOutlet weak var readyCheckButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var askQuestionButton: UIButton!
+    @IBOutlet weak var codeLabel: UILabel!
+    @IBOutlet weak var readyButton: UIButton!
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.questionTableView.delegate = self
-        self.questionTableView.dataSource = self
+        
         questionTableView.reloadData()
     }
     
-    @IBOutlet weak var questionTableView: UITableView!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return QuestionController.shared.questions.count
@@ -31,5 +42,21 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.question = question
         return cell
     }
+    
+    // MARK: - IBActions
+    
+    @IBAction func backButtonTapped(_ sender: Any) {
+    }
+    @IBAction func blockButtonTapped(_ sender: Any) {
+    }
+    @IBAction func readyCheckButtonTapped(_ sender: Any) {
+    }
+    @IBAction func clearButtonTapped(_ sender: Any) {
+    }
+    @IBAction func askQuestionButtonTapped(_ sender: Any) {
+    }
+    @IBAction func readyButtonTapped(_ sender: Any) {
+    }
+    
     
 }
