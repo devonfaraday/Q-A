@@ -17,6 +17,7 @@ class Topic: Equatable {
     static let questionsKey = "questions"
     static let blockedUsersKey = "blockedUsers"
     static let readyCheckKey = "readyCheck"
+    static let topicOwnerKey = "topicOwner"
     
     let name: String
     let codeGenerator: Int
@@ -24,14 +25,16 @@ class Topic: Equatable {
     var blockedUsers: [CKReference]
     let recordID: CKRecordID?
     var readyCheck: Bool
+    let topicOwner: CKReference
     
-    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID, readyCheck: Bool = false) {
+    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID, readyCheck: Bool = false, topicOwner: CKReference) {
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
         self.recordID = recordID
         self.blockedUsers = []
         self.readyCheck = readyCheck
+        self.topicOwner = topicOwner
     }
     
     init?(record: CKRecord) {
@@ -39,7 +42,8 @@ class Topic: Equatable {
             let codeGenerator = record[Topic.codeGeneratorKey] as? Int,
             let questions = record[Topic.questionsKey] as? [Question],
             let blockedUsers = record[Topic.blockedUsersKey] as? [CKReference],
-            let readyCheck = record[Topic.readyCheckKey] as? Bool
+            let readyCheck = record[Topic.readyCheckKey] as? Bool,
+            let topicOwner = record[Topic.topicOwnerKey] as? CKReference
             else { return nil }
         self.name = name
         self.codeGenerator = codeGenerator
@@ -47,6 +51,7 @@ class Topic: Equatable {
         self.blockedUsers = blockedUsers
         self.recordID = record.recordID
         self.readyCheck = readyCheck
+        self.topicOwner = topicOwner
     }
 }
 
@@ -59,6 +64,7 @@ extension CKRecord {
         self.setValue(topic.questions, forKey: Topic.questionsKey)
         self.setValue(topic.blockedUsers, forKey: Topic.blockedUsersKey)
         self.setValue(topic.readyCheck, forKey: Topic.readyCheckKey)
+        self.setValue(topic.topicOwner, forKey: Topic.topicOwnerKey)
     }
 }
 
