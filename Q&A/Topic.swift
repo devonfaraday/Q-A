@@ -11,7 +11,6 @@ import CloudKit
 
 class Topic: Equatable {
     
-    static let typeKey = "Q&A"
     static let nameKey = "name"
     static let codeGeneratorKey = "codeGenerator"
     static let questionsKey = "questions"
@@ -23,15 +22,14 @@ class Topic: Equatable {
     let codeGenerator: Int
     let questions: [Question]
     var blockedUsers: [CKReference]
-    let recordID: CKRecordID?
+    var recordID: CKRecordID?
     var readyCheck: Bool
     let topicOwner: CKReference
     
-    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID, readyCheck: Bool = false, topicOwner: CKReference) {
+    init(name: String, codeGenerator: Int, questions: [Question] = [], readyCheck: Bool = false, topicOwner: CKReference) {
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
-        self.recordID = recordID
         self.blockedUsers = []
         self.readyCheck = readyCheck
         self.topicOwner = topicOwner
@@ -58,10 +56,9 @@ class Topic: Equatable {
 extension CKRecord {
     convenience init(topic: Topic) {
         let recordID = topic.recordID ?? CKRecordID(recordName: UUID().uuidString)
-        self.init(recordType: "Q&A", recordID: recordID)
+        self.init(recordType: "Topic", recordID: recordID)
         self.setValue(topic.name, forKey: Topic.nameKey)
         self.setValue(topic.codeGenerator, forKey: Topic.codeGeneratorKey)
-        self.setValue(topic.questions, forKey: Topic.questionsKey)
         self.setValue(topic.blockedUsers, forKey: Topic.blockedUsersKey)
         self.setValue(topic.readyCheck, forKey: Topic.readyCheckKey)
         self.setValue(topic.topicOwner, forKey: Topic.topicOwnerKey)

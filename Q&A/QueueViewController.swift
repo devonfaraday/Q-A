@@ -9,9 +9,13 @@
 import UIKit
 import CloudKit
 
-class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
-    var topic: Topic?
+    var topic: Topic? {
+        didSet {
+            updateView()
+        }
+    }
     
     // MARK: - IBOutlets
     
@@ -24,13 +28,28 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var readyButton: UIButton!
     
-
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let topicName = topicNameTextField.text {
+        TopicController.shared.createTopic(name: topicName) { (topic) in
+            self.topicNameTextField.borderStyle = .none
+            self.topicNameTextField.isEnabled = false
+            self.topic = topic
+            
+        }
+         self.topicNameTextField.resignFirstResponder()
+    }
+        return true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewTypeSetup()
         showTopicNumber()
         questionTableView.reloadData()
     }
     
+    func updateView() {
+      
+    }
     // MARK: - Data Source Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,12 +73,16 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    
     func viewTypeSetup() {
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
-        if topic.topicOwner == currentUser.recordID {
-            print ("True")
+        if topic.topicOwner.recordID == currentUser.recordID {
+            readyButton.isHidden = true
+            askQuestionButton.isHidden = true
         } else {
-            print ("FUCK")
+            blockButton.isHidden = true
+            readyCheckButton.isHidden = true
+            clearButton.isHidden = true
         }
     }
     
