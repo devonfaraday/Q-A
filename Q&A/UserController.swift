@@ -37,7 +37,14 @@ class UserController {
     
     func toggleReadyCheck(completion: @escaping() -> Void) {
         guard let user = loggedInUser else { return }
-        user.
+        user.readyCheck = !user.readyCheck
+        let record = CKRecord(user: user)
+        cloudKitManager.publicDatabase.save(record) { (record, error) in
+            if let error = error {
+                NSLog(error.localizedDescription)
+                return
+            }
+        }
         
     }
     
