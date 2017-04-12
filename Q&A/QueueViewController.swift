@@ -12,6 +12,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var topic: Topic?
     
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var topicNameTextField: UITextField!
     @IBOutlet weak var questionTableView: UITableView!
     @IBOutlet weak var blockButton: UIButton!
@@ -21,16 +23,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var readyButton: UIButton!
     
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         questionTableView.reloadData()
     }
     
+    // MARK: - Data Source Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return QuestionController.shared.questions.count
@@ -42,6 +42,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.question = question
         return cell
     }
+    
+    // MARK: - View Control Functions
+    
+   
     
     // MARK: - IBActions
     
