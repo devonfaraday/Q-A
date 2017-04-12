@@ -27,6 +27,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        showTopicNumber()
         questionTableView.reloadData()
     }
     
@@ -47,14 +48,18 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // MARK: - View Control Functions
     
-    func currentUserCheck() -> Bool {
-        guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return false}
+    func showTopicNumber() {
+        if let topic = topic {
+            codeLabel.text = "\(topic.codeGenerator)"
+        }
+    }
+    
+    func viewTypeSetup() {
+        guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
         if topic.topicOwner == currentUser.recordID {
             print ("True")
-            return true
         } else {
             print ("FUCK")
-        return false
         }
     }
     
