@@ -33,6 +33,23 @@ class QuestionController {
         }
     }
     
+    func deleteQuestion(withRecordID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
+        cloudKitManager.publicDatabase.delete(withRecordID: recordID) { (recordID, error) in
+            if let error = error {
+                print("There was an error deleting from CloudKit: \(error.localizedDescription)")
+                completion(recordID, error)
+            }
+        }
+    }
+    
+    func clearAllQuestions() {
+        let publicDatabase: CKDatabase = CKContainer.default().publicCloudDatabase
+        var recordIDArray = questions.flatMap({ $0})
+        
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIDArray)
+        
+    }
+    
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
         let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
