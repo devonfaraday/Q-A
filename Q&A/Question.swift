@@ -21,6 +21,7 @@ class Question {
     var topicRef: CKReference
     var vote: Int
     let questionOwner: String
+    var cloudKitRecordID: CKRecordID?
     
     init(question: String, vote: Int = 0, questionOwner: String, topicRef: CKReference) {
         self.question = question
@@ -29,12 +30,16 @@ class Question {
         self.topicRef = topicRef
     }
     
-     convenience init?(cloudKitRecord: CKRecord) {
+    init?(cloudKitRecord: CKRecord) {
         guard let question = cloudKitRecord[Question.questionKey] as? String,
             let vote = cloudKitRecord[Question.voteKey] as? Int,
             let owner = cloudKitRecord[Question.ownerKey] as? String,
             let topicRef = cloudKitRecord[Question.topicReferenceKey] as? CKReference else { return nil }
-        self.init(question: question, vote: vote, questionOwner: owner, topicRef: topicRef)
+        self.question = question
+        self.vote = vote
+        self.questionOwner = owner
+        self.topicRef = topicRef
+        self.cloudKitRecordID = cloudKitRecord.recordID
     }
     
     var cloudKitRecord: CKRecord {
@@ -46,3 +51,15 @@ class Question {
         return record
     }
 }
+
+extension CKRecord {
+    convenience init(question: Question) {
+        let recordID = question.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
+        self.init(recordType: "Question", recordID: recordID)
+        self.setValue(question.question, forKey: Question.questionKey)
+        self.setValue(question.topicRef, forKey: Question.topicReferenceKey)
+        self.setValue(question.vote, forKey: Question.voteKey)
+        self.setValue(question.questionOwner, forKey: Question.ownerKey)
+    }
+}
+
