@@ -15,8 +15,10 @@ class TopicController {
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
     var currentUser: User? = UserController.shared.loggedInUser
+    var userTopics: [Topic] = []
+    var TopicUsers: [User] = []
     
-    func createTopic(name: String, recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
+    func createTopic(name: String, completion: @escaping (Topic?) -> Void) {
         let randomNum = randomNumGenerator()
         guard let recordID = currentUser?.recordID else { completion(nil); return }
         let userRef = CKReference(recordID: recordID, action: .deleteSelf)
@@ -24,8 +26,8 @@ class TopicController {
         let record = CKRecord(topic: topic)
         cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
             if let error = error {
-                print("There was an error saving to CloudKit. TopicController: createTopic()")
-                completion(error)
+                print("There was an error saving to CloudKit. TopicController: createTopic(): \(error.localizedDescription)")
+                completion(nil)
                 return
             }
             print("Record successfully saved to CloudKit")
@@ -42,14 +44,13 @@ class TopicController {
                 }
                 completion(nil)
             })
-            completion(nil)
+            completion(topic)
         }
     }
     
     func fetchTopicFromCloudKit(completion: @escaping ([Topic]) -> Void) {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Topic", predicate: predicate)
-        
         cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
             guard let records = records
                 else { return }
@@ -59,23 +60,45 @@ class TopicController {
         }
     }
     
-    //==============================================================
-    // MARK: - Fix Predicate for this fetch function
-    //==============================================================
     func fetchTopicsForUser(completion: @escaping([Topic]) -> Void) {
-        guard let topicRecordID = topics.last?.recordID else { completion([]); return }
+        guard let user = currentUser else { completion([]); return }
+        var topicIDs = [CKRecordID]()
+        var topics = [Topic]()
+        guard let topicRefs = user.topic else { completion([]); return }
+        for topic in topicRefs {
+            let topicID = topic.recordID
+            topicIDs.append(topicID)
+        }
+        let group = DispatchGroup()
+        for id in topicIDs {
+            group.enter()
+            cloudKitManager.publicDatabase.fetch(withRecordID: id, completionHandler: { (record, error) in
+                guard let record = record else { completion([]); return }
+                guard let topic = Topic(record: record) else { completion([]); return }
+                topics.append(topic)
+                group.leave()
+            })
+        }
+        group.notify(queue: DispatchQueue.main) {
+            self.userTopics = topics
+            completion(topics)
+        }
+    }
+    
+    func fetchUsersForTopic(topic: Topic, completion: @escaping() -> Void) {
+        guard let topicRecordID = topic.recordID else { completion(); return }
         let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
         let predicate = NSPredicate(format: "topicReferences CONTAINS %@", topicRef)
-        let query = CKQuery(recordType: "Topic", predicate: predicate)
-        cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
+        cloudKitManager.fetchRecordsWithType("User", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
             if let error = error {
-                print("Error with fetching topics for User: \(error.localizedDescription)")
-                completion([])
+                print("Error with fetching users for Topic: \(error.localizedDescription)")
+                completion()
                 return
             }
-            guard let records = records else { completion([]); return }
-            let topics = records.flatMap({ Topic(record: $0) })
-            completion(topics)
+            guard let records = records else { completion(); return }
+            let users = records.flatMap({ User(record: $0) })
+            self.TopicUsers = users
+            completion()
         }
     }
     
