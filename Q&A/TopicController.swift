@@ -21,8 +21,8 @@ class TopicController {
     func createTopic(name: String, completion: @escaping (Topic?) -> Void) {
         let randomNum = randomNumGenerator()
         guard let recordID = currentUser?.recordID else { completion(nil); return }
-        let userRef = CKReference(recordID: recordID, action: .deleteSelf)
-        let topic = Topic(name: name, codeGenerator: randomNum, recordID: recordID, topicOwner: userRef)
+        let userRef = CKReference(recordID: recordID, action: .none)
+        let topic = Topic(name: name, codeGenerator: randomNum, topicOwner: userRef)
         let record = CKRecord(topic: topic)
         cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
             if let error = error {
@@ -122,5 +122,25 @@ class TopicController {
             randomInt = randomNum
         }
         return randomInt
+    }
+    
+    func modifyTopic(topic: Topic, completion: @escaping () -> Void) {
+        let record = CKRecord(topic: topic)
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
+    }
+    
+    func blockUsers(user: User, topic: Topic) {
+        guard let recordID = user.recordID else { return }
+        
+        let userRef = CKReference(recordID: recordID, action: .deleteSelf)
+        topic.blockedUsers.append(userRef)
+        
+        modifyTopic(topic: topic) {
+        }
     }
 }
