@@ -26,7 +26,7 @@ class UserController {
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(); return }
         let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
-        let user = User(firstName: firstName, lastName: lastName, recordID: appleUserRecordID, appleUserRef: userRef)
+        let user = User(firstName: firstName, lastName: lastName, profileImageData: imageData, appleUserRef: userRef)
         let record = CKRecord(user: user)
         cloudKitManager.saveRecord(record) { (savedUserRecord, error) in
             if let error = error {
