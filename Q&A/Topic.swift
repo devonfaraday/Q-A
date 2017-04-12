@@ -16,32 +16,37 @@ class Topic: Equatable {
     static let codeGeneratorKey = "codeGenerator"
     static let questionsKey = "questions"
     static let blockedUsersKey = "blockedUsers"
+    static let readyCheckKey = "readyCheck"
     
     let name: String
     let codeGenerator: Int
     let questions: [Question]
     var blockedUsers: [CKReference]
     let recordID: CKRecordID?
+    var readyCheck: Bool
     
-    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID) {
+    init(name: String, codeGenerator: Int, questions: [Question] = [], recordID: CKRecordID, readyCheck: Bool = false) {
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
         self.recordID = recordID
         self.blockedUsers = []
+        self.readyCheck = readyCheck
     }
     
     init?(record: CKRecord) {
         guard let name = record[Topic.nameKey] as? String,
             let codeGenerator = record[Topic.codeGeneratorKey] as? Int,
             let questions = record[Topic.questionsKey] as? [Question],
-            let blockedUsers = record[Topic.blockedUsersKey] as? [CKReference]
+            let blockedUsers = record[Topic.blockedUsersKey] as? [CKReference],
+            let readyCheck = record[Topic.readyCheckKey] as? Bool
             else { return nil }
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
         self.blockedUsers = blockedUsers
         self.recordID = record.recordID
+        self.readyCheck = readyCheck
     }
 }
 
@@ -53,6 +58,7 @@ extension CKRecord {
         self.setValue(topic.codeGenerator, forKey: Topic.codeGeneratorKey)
         self.setValue(topic.questions, forKey: Topic.questionsKey)
         self.setValue(topic.blockedUsers, forKey: Topic.blockedUsersKey)
+        self.setValue(topic.readyCheck, forKey: Topic.readyCheckKey)
     }
 }
 
