@@ -14,34 +14,34 @@ class User: Equatable {
     static let firstNameKey = "firstName"
     static let lastNameKey = "lastName"
     static let profileImageDataKey = "profileImageData"
-    static let recordIDKey = "recordID"
+    static let recordIDKey = "userRecordID"
     static let readyCheckKey = "readyCheck"
     static let topicKey = "topic"
     static let appleUserRefKey = "appleUserRef"
     
     let firstName: String
     let lastName: String
-    let profileImageData: Data?
+    let profileImageData: Data
     let recordID: CKRecordID?
     let readyCheck: Bool
-    let topic: [CKReference]
+    var topic: [CKReference]
     let appleUserRef: CKReference
     
     fileprivate var temporaryPhotoURL: URL {
         let tempDir = NSTemporaryDirectory()
         let tempURL = URL(fileURLWithPath: tempDir)
         let fileURL = tempURL.appendingPathComponent(UUID().uuidString).appendingPathExtension("png")
-        try? profileImageData?.write(to: fileURL, options: [.atomic])
+        try? profileImageData.write(to: fileURL, options: [.atomic])
         return fileURL
     }
     
     var profileImage: UIImage {
-        guard let imageData = profileImageData,
-            let image = UIImage(data: imageData) else { return UIImage() }
+        let imageData = profileImageData
+        guard let image = UIImage(data: imageData) else { return UIImage() }
         return image
     }
     
-    init(firstName: String, lastName: String, profileImageData: Data? = nil, recordID: CKRecordID?, readyCheck: Bool = false, topic: [CKReference] = [], appleUserRef: CKReference) {
+    init(firstName: String, lastName: String, profileImageData: Data, recordID: CKRecordID?, readyCheck: Bool = false, topic: [CKReference] = [], appleUserRef: CKReference) {
         
         self.firstName = firstName
         self.lastName = lastName
@@ -65,7 +65,8 @@ class User: Equatable {
         self.recordID = record.recordID
         self.readyCheck = readyCheck
         self.topic = topic
-        let imageData = try? Data(contentsOf: photoAsset.fileURL)
+        let imageDataOpt = try? Data(contentsOf: photoAsset.fileURL)
+        guard let imageData = imageDataOpt else { return nil }
         self.profileImageData = imageData
         self.appleUserRef = appleUserRef
     }
