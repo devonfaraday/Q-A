@@ -16,15 +16,15 @@ class User: Equatable {
     static let profileImageDataKey = "profileImageData"
     static let recordIDKey = "userRecordID"
     static let readyCheckKey = "readyCheck"
-    static let topicKey = "topic"
+    static let topicKey = "topicReferences"
     static let appleUserRefKey = "appleUserRef"
     
-    let firstName: String
-    let lastName: String
-    let profileImageData: Data
-    let recordID: CKRecordID?
-    let readyCheck: Bool
-    var topic: [CKReference]
+    var firstName: String
+    var lastName: String
+    var profileImageData: Data
+    var recordID: CKRecordID?
+    var readyCheck: Bool
+    var topic: [CKReference]?
     let appleUserRef: CKReference
     
     fileprivate var temporaryPhotoURL: URL {
@@ -41,15 +41,15 @@ class User: Equatable {
         return image
     }
     
-    init(firstName: String, lastName: String, profileImageData: Data, recordID: CKRecordID?, readyCheck: Bool = false, topic: [CKReference] = [], appleUserRef: CKReference) {
+    init(firstName: String, lastName: String, profileImageData: Data, readyCheck: Bool = false, appleUserRef: CKReference) {
         
         self.firstName = firstName
         self.lastName = lastName
         self.profileImageData = profileImageData
-        self.recordID = recordID
         self.readyCheck = readyCheck
-        self.topic = topic
+        self.topic = []
         self.appleUserRef = appleUserRef
+        
     }
     
     init?(record: CKRecord) {
@@ -80,7 +80,6 @@ extension CKRecord {
         self.setValue(user.lastName, forKey: User.lastNameKey)
         let imageAsset = CKAsset(fileURL: user.temporaryPhotoURL)
         self.setValue(imageAsset, forKey: User.profileImageDataKey)
-        self.setValue(user.recordID, forKey: User.recordIDKey)
         self.setValue(user.readyCheck, forKey: User.readyCheckKey)
         self.setValue(user.topic, forKey: User.topicKey)
         self.setValue(user.appleUserRef, forKey: User.appleUserRefKey)

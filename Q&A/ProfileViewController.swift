@@ -20,7 +20,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var addPhotoButton: UIButton!
     
-    var currentUser: User?
+    var currentUser: User? {
+        didSet {
+            if !isViewLoaded {
+                loadViewIfNeeded()
+            }
+            updateView()
+        }
+    }
     
     
     
@@ -30,8 +37,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
+            
         } else {
-            constraintsWithoutUser()
+//            constraintsWithoutUser()
         }
         
     }
@@ -40,6 +48,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserController.shared.usersTopics.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -87,9 +96,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let profileImage = profileImageView.image  else { return }
         if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
             UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
-                DispatchQueue.main.async {
-                    self.constraintsAfterSave()
-                }
+//                DispatchQueue.main.async {
+//                    self.constraintsAfterSave()
+//                }
             })
         }
     }
@@ -150,6 +159,20 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         actionController.addAction(cancelAction)
         
         present(actionController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Helper Function
+    
+    func updateView() {
+        guard let currentUser = currentUser else { return }
+        firstNameTextField.text = currentUser.firstName
+        lastNameTextField.text = currentUser.lastName
+        profileImageView.image = currentUser.profileImage
+        firstNameTextField.borderStyle = .none
+        firstNameTextField.isEnabled = false
+        lastNameTextField.borderStyle = .none
+        lastNameTextField.isEnabled = false
+        addPhotoButton.isHidden = true
     }
     
     // MARK: - functions for upload or camera

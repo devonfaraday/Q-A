@@ -33,7 +33,7 @@ class TopicController {
             guard let topic = Topic(record: savedTopicRecord) else { completion(nil); return }
             self.topics.append(topic)
             let reference = CKReference(recordID: savedTopicRecord.recordID, action: .deleteSelf)
-            self.currentUser?.topic.append(reference)
+            self.currentUser?.topic?.append(reference)
             guard let user = self.currentUser else { completion(nil); return }
             let record = CKRecord(user: user)
             self.cloudKitManager.saveRecord(record, completion: { (_, error) in
