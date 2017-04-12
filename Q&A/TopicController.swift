@@ -136,11 +136,20 @@ class TopicController {
     
     func blockUsers(user: User, topic: Topic) {
         guard let recordID = user.recordID else { return }
-        
         let userRef = CKReference(recordID: recordID, action: .deleteSelf)
         topic.blockedUsers.append(userRef)
-        
         modifyTopic(topic: topic) {
+        }
+    }
+    
+    func blockUserQuestion(user: User, topic: Topic) -> Bool {
+        guard let userRecordID = user.recordID else { return false }
+        let userRef = CKReference(recordID: userRecordID, action: .deleteSelf)
+        let blocked = topic.blockedUsers.contains(userRef)
+        if blocked {
+            return true
+        } else {
+            return false
         }
     }
 }
