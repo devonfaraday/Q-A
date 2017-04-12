@@ -59,7 +59,6 @@ extension CKRecord {
         self.init(recordType: "Topic", recordID: recordID)
         self.setValue(topic.name, forKey: Topic.nameKey)
         self.setValue(topic.codeGenerator, forKey: Topic.codeGeneratorKey)
-        self.setValue(topic.questions, forKey: Topic.questionsKey)
         self.setValue(topic.blockedUsers, forKey: Topic.blockedUsersKey)
         self.setValue(topic.readyCheck, forKey: Topic.readyCheckKey)
         self.setValue(topic.topicOwner, forKey: Topic.topicOwnerKey)
