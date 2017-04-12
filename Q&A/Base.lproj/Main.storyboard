@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DEK-Yp-mVX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,6 +11,36 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Launch Loading View Controller-->
+        <scene sceneID="i5S-5q-8zt">
+            <objects>
+                <viewController id="DEK-Yp-mVX" customClass="LaunchLoadingViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="U1A-fX-ZSx"/>
+                        <viewControllerLayoutGuide type="bottom" id="2SV-rZ-TTQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cuz-uL-FI6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUz-5h-jYU">
+                                <rect key="frame" x="166" y="267" width="61" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="ZYj-4V-8pG" kind="show" identifier="toProfilePage" id="iFO-lr-MXU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="asU-BF-dBs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="263.19999999999999" y="147.97601199400302"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="L8j-eR-gzT">
             <objects>
@@ -61,12 +91,18 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="ZYj-4V-8pG" id="zPs-8f-IKx"/>
+                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GbC-Di-tSR">
                                         <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="ZYj-4V-8pG" id="xyu-mh-iPr"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -81,6 +117,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="ZYj-4V-8pG" id="xef-Jn-VMw"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1FU-6U-nvo">
                                         <rect key="frame" x="175.5" y="0.0" width="167.5" height="30"/>
@@ -163,10 +202,12 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="LzA-sW-Ka2"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addPhotoButton" destination="62l-qG-gC2" id="ZBL-eP-ORz"/>
                         <outlet property="codeTextField" destination="LqJ-dc-Ok3" id="8pp-UR-6jA"/>
                         <outlet property="firstNameTextField" destination="0dz-YH-sai" id="ndV-JZ-wnn"/>
                         <outlet property="lastNameTextField" destination="GbC-Di-tSR" id="LhI-PX-b60"/>
                         <outlet property="profileImageView" destination="RaA-Pb-3JT" id="NLs-Xd-lhQ"/>
+                        <outlet property="submitButton" destination="1FU-6U-nvo" id="VmI-0a-qDw"/>
                         <outlet property="tableView" destination="2cj-K5-Tjt" id="ZhG-oU-hcP"/>
                     </connections>
                 </viewController>
@@ -174,10 +215,10 @@
             </objects>
             <point key="canvasLocation" x="1088.8" y="145.27736131934034"/>
         </scene>
-        <!--View Controller-->
+        <!--Queue View Controller-->
         <scene sceneID="0Q5-Tz-qK3">
             <objects>
-                <viewController id="Q4A-s4-6jR" sceneMemberID="viewController">
+                <viewController id="Q4A-s4-6jR" customClass="QueueViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yIg-md-spx"/>
                         <viewControllerLayoutGuide type="bottom" id="2W9-hQ-GUO"/>
@@ -318,7 +359,7 @@
                                     <constraint firstAttribute="height" constant="273" id="UCj-y7-4qK"/>
                                     <constraint firstAttribute="width" secondItem="4zC-XW-Twv" secondAttribute="height" multiplier="49:39" id="vtu-Tv-DZA"/>
                                 </constraints>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

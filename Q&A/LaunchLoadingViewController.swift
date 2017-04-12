@@ -17,9 +17,10 @@ class LaunchLoadingViewController: UIViewController {
         
         cloudKitManager.fetchCurrentUser { (user) in
             if user != nil {
-                
+                UserController.shared.loggedInUser = user
+                self.performSegue(withIdentifier: "toProfilePage", sender: self)
             } else {
-                
+                self.performSegue(withIdentifier: "toProfilePage", sender: self)
             }
         }
         

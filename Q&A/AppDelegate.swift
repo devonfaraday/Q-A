@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        CKContainer.default().fetchUserRecordID { (recordID, error) in
+            if let error = error {
+                print("Error with fetching recordID. \(error.localizedDescription)")
+                return
+            }
+            guard let recordID = recordID else { return }
+            UserController.shared.appleUserRecordID = recordID
+        }
+
         
         return true
     }

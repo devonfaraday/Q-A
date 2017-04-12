@@ -8,49 +8,188 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
+    // MARK: - Properties
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var codeTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var addPhotoButton: UIButton!
     
-
+    var currentUser: User?
+    
+    
+    
+    // MARK: -  View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        if let currentUser = UserController.shared.loggedInUser {
+            self.currentUser = currentUser
+        } else {
+            constraintsWithoutUser()
+        }
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // MARK: - Table View Data Source
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return UserController.shared.usersTopics.count
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "topicCell", for: indexPath)
+        
+        let topic = UserController.shared.usersTopics[indexPath.row]
+        
+        cell.textLabel?.text = topic.name
+        
+        return cell
+        
     }
-    */
+    
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     
     // MARK: - IBActions
     
     @IBAction func editButtonTapped(_ sender: Any) {
+        
     }
     
     @IBAction func addTopicButtonTapped(_ sender: Any) {
+        
     }
-
+    
     @IBAction func addPhotoButtonTapped(_ sender: Any) {
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
+        addPhotoActionSheet()
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
+        
+        guard let firstName = firstNameTextField.text,
+            let lastName = lastNameTextField.text,
+            let profileImage = profileImageView.image  else { return }
+        if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
+            UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
+                DispatchQueue.main.async {
+                    self.constraintsAfterSave()
+                }
+            })
+        }
+    }
+    
+    // MARK: - Image Picker Delegate Functions
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        profileImageView.image = selectedImage
+        addPhotoButton.setTitle("", for: .normal)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Text Field Delegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: - Constraints
+    
+    func constraintsWithoutUser() {
+        codeTextField.isHidden = true
+        let submitButtonHorizontalContraint = NSLayoutConstraint(item: submitButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        
+        view.addConstraint(submitButtonHorizontalContraint)
+        
+    }
+    
+    func constraintsAfterSave() {
+        codeTextField.isHidden = false
+    }
+    
+    // MARK: - Action Sheet
+    
+    func addPhotoActionSheet() {
+        let actionController = UIAlertController(title: "Upload Photo", message: nil, preferredStyle: .actionSheet)
+        let uploadAction = UIAlertAction(title: "Photo Library", style: .default) { (_) in
+            self.uploadButton()
+        }
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
+            self.cameraButton()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary)  &&  UIImagePickerController.isSourceTypeAvailable(.camera){
+            actionController.addAction(uploadAction)
+            actionController.addAction(cameraAction)
+        } else if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            actionController.addAction(cameraAction)
+        } else if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            actionController.addAction(uploadAction)
+        }
+        actionController.addAction(cancelAction)
+        
+        present(actionController, animated: true, completion: nil)
+    }
+    
+    // MARK: - functions for upload or camera
+    
+    func uploadButton() {
+        
+        
+        
+        let imagePickerController = UIImagePickerController()
+        
+        imagePickerController.sourceType = .photoLibrary
+        
+        imagePickerController.delegate = self
+        
+        present(imagePickerController, animated: true, completion: nil)
+        
+    }
+    
+    func cameraButton() {
+        
+        
+        
+        
+        let imagePickerController = UIImagePickerController()
+        
+        imagePickerController.sourceType = .camera
+        
+        imagePickerController.delegate = self
+        
+        present(imagePickerController, animated: true, completion: nil)
+        
+    }
+    
+    func addPhotoAlert() {
+        let alertController = UIAlertController(title: "WARNING!", message: "Must add photo", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel) { (_) in
+            
+        }
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }

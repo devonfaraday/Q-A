@@ -16,17 +16,12 @@ class UserController {
     var appleUserRecordID: CKRecordID?
     var cloudKitManager = CloudKitManager()
     var loggedInUser: User?
+    var usersTopics = [Topic]()
     
     init() {
-        CKContainer.default().fetchUserRecordID { (recordID, error) in
-            if let error = error {
-                print("Error with fetching recordID. \(error.localizedDescription)")
-                return
-            }
-            guard let recordID = recordID else { return }
-            self.appleUserRecordID = recordID
-        }
-    }
+        
+        
+           }
     
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(); return }
