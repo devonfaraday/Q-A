@@ -34,9 +34,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.topicNameTextField.borderStyle = .none
             self.topicNameTextField.isEnabled = false
             self.topicNameTextField.resignFirstResponder()
-            
+            self.topic = topic
         }
-
+            
     }
         return true
     }
