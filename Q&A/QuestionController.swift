@@ -47,7 +47,7 @@ class QuestionController {
     }
     
     func clearAllQuestions(completion: @escaping () -> Void) {
-        let recordIDArray = questions.flatMap({ $0.recordID })
+        let recordIDArray = questions.flatMap({ $0.cloudKitRecordID })
         
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIDArray)
         operation.completionBlock = {
