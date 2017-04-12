@@ -42,13 +42,17 @@ class QuestionController {
         }
     }
     
-    func clearAllQuestions() {
-        let publicDatabase: CKDatabase = CKContainer.default().publicCloudDatabase
-        var recordIDArray = questions.flatMap({ $0})
+    func clearAllQuestions(completion: @escaping () -> Void) {
+        let recordIDArray = questions.flatMap({ $0.recordID })
         
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIDArray)
-        
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
     }
+    
     
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
