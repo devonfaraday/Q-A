@@ -11,7 +11,6 @@ import CloudKit
 
 class Topic: Equatable {
     
-    static let typeKey = "Q&A"
     static let nameKey = "name"
     static let codeGeneratorKey = "codeGenerator"
     static let questionsKey = "questions"
@@ -58,7 +57,7 @@ class Topic: Equatable {
 extension CKRecord {
     convenience init(topic: Topic) {
         let recordID = topic.recordID ?? CKRecordID(recordName: UUID().uuidString)
-        self.init(recordType: "Q&A", recordID: recordID)
+        self.init(recordType: "Topic", recordID: recordID)
         self.setValue(topic.name, forKey: Topic.nameKey)
         self.setValue(topic.codeGenerator, forKey: Topic.codeGeneratorKey)
         self.setValue(topic.questions, forKey: Topic.questionsKey)
