@@ -18,11 +18,6 @@ class UserController {
     var loggedInUser: User?
     var usersTopics = [Topic]()
     
-    init() {
-        
-        
-           }
-    
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(); return }
         let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
@@ -39,4 +34,19 @@ class UserController {
             completion()
         }
     }
+    
+    func toggleReadyCheck(completion: @escaping() -> Void) {
+        guard let user = loggedInUser else { return }
+        user.
+        
+    }
+    
+    func setAllUsersReadyCheckToFalse() {
+        
+    }
+    
+    func modifyUser() {
+        
+    }
+    
 }

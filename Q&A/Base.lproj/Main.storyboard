@@ -355,6 +355,7 @@
                                 <state key="normal" title="Back"/>
                                 <connections>
                                     <action selector="backButtonTapped:" destination="Q4A-s4-6jR" eventType="touchUpInside" id="jhH-yI-DXW"/>
+                                    <segue destination="ZYj-4V-8pG" kind="show" id="FBz-Rn-wH4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Pn-N1-8xq">
@@ -614,5 +615,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="WS5-wE-SvI"/>
+        <segue reference="FBz-Rn-wH4"/>
     </inferredMetricsTieBreakers>
 </document>
