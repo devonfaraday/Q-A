@@ -14,13 +14,13 @@ class TopicController {
     var topics: [Topic] = []
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
-    var currentTopic: Topic?
+    var currentUser: User? = UserController.shared.loggedInUser
     
-    func createTopic(name: String,  questions: [Question], recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
+    func createTopic(name: String, recordID: CKRecordID, completion: @escaping (Error?) -> Void) {
         let randomNum = randomNumGenerator()
-        let topics = Topic(name: name, codeGenerator: randomNum, questions: questions, recordID: recordID)
+        let topic = Topic(name: name, codeGenerator: randomNum, recordID: recordID)
         
-        let record = CKRecord(topic: topics)
+        let record = CKRecord(topic: topic)
         cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
             
             if let error = error {
@@ -28,11 +28,20 @@ class TopicController {
                 completion(error)
                 return
             }
-                print("Record successfully saved to CloudKit")
+            print("Record successfully saved to CloudKit")
             guard let savedTopicRecord = savedTopicRecord else { completion(nil); return }
             guard let topic = Topic(record: savedTopicRecord) else { completion(nil); return }
             self.topics.append(topic)
-            self.currentTopic = topic
+            let reference = CKReference(recordID: savedTopicRecord.recordID, action: .deleteSelf)
+            self.currentUser?.topic.append(reference)
+            guard let user = self.currentUser else { completion(nil); return }
+            let record = CKRecord(user: user)
+            self.cloudKitManager.saveRecord(record, completion: { (_, error) in
+                if let error = error {
+                    print("Error with updating current User \(error)")
+                }
+                completion(nil)
+            })
             completion(nil)
         }
     }
