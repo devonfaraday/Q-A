@@ -11,11 +11,7 @@ import CloudKit
 
 class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
-    var topic: Topic? {
-        didSet {
-            updateView()
-        }
-    }
+    var topic: Topic?
     
     // MARK: - IBOutlets
     
@@ -37,8 +33,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.codeLabel.text = "\(TopicController.shared.tempGeneratedNumber)"
                 }
                 self.topic = topic
-                
-                
+ 
             }
             self.topicNameTextField.resignFirstResponder()
         }
@@ -57,9 +52,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
     }
     
-    func updateView() {
-        
-    }
     // MARK: - Data Source Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,8 +63,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
         return cell
-        
-        
+   
     }
     
     // MARK: - View Control Functions
@@ -86,10 +77,15 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func viewTypeSetup() {
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
+            topicNameTextField.text = topic.name
+            topicNameTextField.borderStyle = .none
+            topicNameTextField.isEnabled = false
+
         if topic.topicOwner.recordID == currentUser.recordID {
             readyButton.isHidden = true
             askQuestionButton.isHidden = true
         } else {
+            askQuestionButton.isHidden = false
             blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
@@ -100,6 +96,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // MARK: - IBActions
     
     @IBAction func backButtonTapped(_ sender: Any) {
+        let _ = navigationController?.popViewController(animated: true)
     }
     @IBAction func blockButtonTapped(_ sender: Any) {
     }
@@ -110,6 +107,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func askQuestionButtonTapped(_ sender: Any) {
     }
     @IBAction func readyButtonTapped(_ sender: Any) {
+        UserController.shared.toggleReadyCheck {
+           self.readyButton.backgroundColor = UIColor.green
+        }
     }
     
     
