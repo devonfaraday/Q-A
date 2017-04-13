@@ -430,10 +430,10 @@
             </objects>
             <point key="canvasLocation" x="2821.739130434783" y="141.84782608695653"/>
         </scene>
-        <!--View Controller-->
+        <!--Ask Question View Controller-->
         <scene sceneID="sTM-ko-Hd7">
             <objects>
-                <viewController id="XIq-S6-NBc" sceneMemberID="viewController">
+                <viewController id="XIq-S6-NBc" customClass="AskQuestionViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JHB-W0-NAS"/>
                         <viewControllerLayoutGuide type="bottom" id="Noq-OO-O3Q"/>
@@ -449,6 +449,9 @@
                                     <constraint firstAttribute="width" constant="30" id="w8i-Ho-wN6"/>
                                 </constraints>
                                 <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="addButtonTapped:" destination="XIq-S6-NBc" eventType="touchUpInside" id="mfG-lQ-Bwg"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4zC-XW-Twv">
                                 <rect key="frame" x="35.333333333333343" y="76" width="343.33333333333337" height="273"/>
@@ -470,6 +473,9 @@
                                     <constraint firstAttribute="height" constant="30" id="f1p-Iq-S91"/>
                                 </constraints>
                                 <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" destination="XIq-S6-NBc" eventType="touchUpInside" id="n3Y-D0-GB2"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -482,6 +488,9 @@
                             <constraint firstItem="Hec-Sm-PmU" firstAttribute="top" secondItem="JHB-W0-NAS" secondAttribute="bottom" id="k9n-NZ-TL5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="questionTextView" destination="4zC-XW-Twv" id="5mI-su-lM4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QQY-2e-EHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
