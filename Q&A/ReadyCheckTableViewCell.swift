@@ -16,7 +16,7 @@ class ReadyCheckTableViewCell: UITableViewCell {
     
     var user: User? {
         didSet {
-            updateViews()
+            NotificationCenter.default.addObserver(self, selector: #selector(updateViews), name: UserController.userReadyStateChanged, object: nil)
         }
     }
     

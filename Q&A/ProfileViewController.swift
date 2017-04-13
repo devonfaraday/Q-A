@@ -82,6 +82,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let topic = TopicController.shared.userTopics[indexPath.row]
+            guard let topicRecordID = topic.recordID else { return }
+            TopicController.shared.delete(withRecordID: topicRecordID, completion: { 
+            })
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     //==============================================================
     // MARK: - IBActions
     //==============================================================
@@ -113,10 +123,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let lastName = lastNameTextField.text,
                 let profileImage = profileImageView.image  else { return }
             if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
-                UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
-                    //                DispatchQueue.main.async {
-                    //                    self.constraintsAfterSave()
-                    //                }
+                UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (user) in
+                    DispatchQueue.main.async {
+                        self.currentUser = user
+                        self.updateView()
+//                    self.constraintsAfterSave()
+                    }
                 })
             }
         }
