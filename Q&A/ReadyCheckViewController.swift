@@ -60,7 +60,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
                 
             }
             DispatchQueue.main.async {
-                self.readyLabel.text = "\(readyUsers.count)"
+                self.readyLabel.text = "\(self.readyUsers.count)"
                 self.tableView.reloadData()
             }
         }
