@@ -78,7 +78,7 @@ class QuestionController {
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
         let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
-        let predicate = NSPredicate(format: "topicReference", topicRef)
+        let predicate = NSPredicate(format: "topicReference == %@", topicRef)
         let query = CKQuery(recordType: Question.questionRecordType, predicate: predicate)
         cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
             if let error = error {

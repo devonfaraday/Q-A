@@ -56,6 +56,15 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if let topic = topic {
+            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) {
+                DispatchQueue.main.async {
+                    self.questionTableView.reloadData()
+                }
+            }
+        }
+    }
     // MARK: - Data Source Functions
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -70,10 +79,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
    
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destinationViewController = segue.destination as? AskQuestionViewController, let indexPath = questionTableView.indexPathForSelectedRow else {return}
-        let topic = TopicController.shared.userTopics[indexPath.row]
+        guard let destinationViewController = segue.destination as? AskQuestionViewController, let topic = topic else {return}
+        
         destinationViewController.topic = topic
     }
     // MARK: - View Control Functions
@@ -83,8 +91,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             codeLabel.text = "\(topic.codeGenerator)"
         }
     }
-    
-    
+
     func viewTypeSetup() {
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
             topicNameTextField.text = topic.name
