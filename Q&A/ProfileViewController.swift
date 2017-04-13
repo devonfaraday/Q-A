@@ -123,10 +123,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let lastName = lastNameTextField.text,
                 let profileImage = profileImageView.image  else { return }
             if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
-                UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
-                    //                DispatchQueue.main.async {
-                    //                    self.constraintsAfterSave()
-                    //                }
+                UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (user) in
+                    DispatchQueue.main.async {
+                        self.currentUser = user
+                        self.updateView()
+//                    self.constraintsAfterSave()
+                    }
                 })
             }
         }
