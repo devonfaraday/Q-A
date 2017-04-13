@@ -423,11 +423,8 @@ class CloudKitManager {
     
     func subscripeToStudentReadyCheck() {
         
-        guard let currentUser = TopicController.shared.currentUser, let userRecordID = currentUser.recordID else { return }
         
-        let readyCheckStatus = currentUser.readyCheck
-        
-        let predicate = NSPredicate(format: "readyCheck == %@ || %@", "0", "1")
+        let predicate = NSPredicate(value: true)
         
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
         

@@ -34,6 +34,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
+    
+    var cloudKitManager = CloudKitManager()
 
     //==============================================================
     // MARK: - View Life Cycle
@@ -45,6 +47,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
 //            constraintsWithoutUser()
         }
+        cloudKitManager.subscripeToStudentReadyCheck()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,6 +134,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }
                 })
             }
+            cloudKitManager.subscripeToStudentReadyCheck()
         }
     }
     
