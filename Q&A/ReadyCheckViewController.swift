@@ -11,18 +11,21 @@ import CloudKit
 import NotificationCenter
 
 class ReadyCheckViewController: UIViewController, UITableViewDataSource {
-
+    
     @IBOutlet weak var readyLabel: UILabel!
     @IBOutlet weak var notReadyLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     var users = [User]() {
         didSet {
-            
+            NotificationCenter.default.addObserver(self, selector: #selector(performUpdate), name: UserController.userReadyStateChanged, object: nil)
         }
     }
+    var readyUsers = [User]()
+    
     
     override func viewDidLoad() {
-        
+        notReadyLabel.text = "\(users.count)"
+        readyLabel.text = "0"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,5 +52,18 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
         }
         dismiss(animated: true, completion: nil)
     }
-
+    
+    func performUpdate() {
+        for user in users {
+            if user.readyCheck {
+                readyUsers.append(user)
+                
+            }
+            DispatchQueue.main.async {
+                self.readyLabel.text = "\(readyUsers.count)"
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
 }

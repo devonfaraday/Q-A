@@ -12,6 +12,7 @@ import CloudKit
 class UserController {
     
     static let shared = UserController()
+    static let userReadyStateChanged = Notification.Name("userReadyStateChanged")
     
     var appleUserRecordID: CKRecordID?
     var cloudKitManager = CloudKitManager()

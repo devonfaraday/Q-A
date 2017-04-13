@@ -36,11 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if cloudKitNotification.notificationType == CKNotificationType.query {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: <#T##Any?#>)
+                NotificationCenter.default.post(name: UserController.userReadyStateChanged, object: nil)
             }
         }
+        
+        NSLog("Notification received")
     }
-  
-
 }
 
