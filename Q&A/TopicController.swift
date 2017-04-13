@@ -156,4 +156,39 @@ class TopicController {
             return false
         }
     }
+    
+    func addUserToTopic(withCode code: Int, completion: @escaping() -> Void) {
+        let predicate = NSPredicate(format: "codeGenerator == \(code)")
+        cloudKitManager.fetchRecordsWithType("Topic", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
+            if let error = error {
+                print("Error with adding user to topic with code: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            guard let records = records else { completion(); return }
+            guard let recordID = records.first?.recordID else { completion(); return }
+            let topicRef = CKReference(recordID: recordID, action: .deleteSelf)
+            self.currentUser?.topic?.append(topicRef)
+            guard let user = self.currentUser else { completion(); return }
+            let userRecord = CKRecord(user: user)
+            let operation = CKModifyRecordsOperation(recordsToSave: [userRecord], recordIDsToDelete: nil)
+            operation.completionBlock = {
+                completion()
+            }
+            operation.savePolicy = .changedKeys
+            self.cloudKitManager.publicDatabase.add(operation)
+            completion()
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
