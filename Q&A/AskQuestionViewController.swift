@@ -10,6 +10,8 @@ import UIKit
 
 class AskQuestionViewController: UIViewController {
 
+    var topic: Topic?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -66,6 +66,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
    
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationViewController = segue.destination as? AskQuestionViewController, let indexPath = questionTableView.indexPathForSelectedRow else {return}
+        let topic = TopicController.shared.userTopics[indexPath.row]
+        destinationViewController.topic = topic
+    }
     // MARK: - View Control Functions
     
     func showTopicNumber() {
