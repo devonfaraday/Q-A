@@ -10,8 +10,9 @@ import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    // MARK: - Properties
-    
+    //==============================================================
+    // MARK: - IBOutlets
+    //==============================================================
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -20,67 +21,70 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var addPhotoButton: UIButton!
     
+    //==============================================================
+    // MARK: - Properties
+    //==============================================================
     var currentUser: User? {
         didSet {
             if !isViewLoaded {
                 loadViewIfNeeded()
             }
-            updateView()
+            DispatchQueue.main.async {
+                self.updateView()
+            }
         }
     }
 
-    // MARK: -  View Life Cycle
-    
+    //==============================================================
+    // MARK: - View Life Cycle
+    //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
-            
         } else {
 //            constraintsWithoutUser()
         }
-        
     }
     
-    // MARK: - Table View Data Source
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        TopicController.shared.fetchTopicsForUser(completion: { (topics) in
+            if topics.count == 0 {
+                print("No topics was fetched for this user")
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })
+    }
     
+    //==============================================================
+    // MARK: - Data Source Function
+    //==============================================================
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserController.shared.usersTopics.count
-        
+        return TopicController.shared.userTopics.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "topicCell", for: indexPath)
-        
-        let topic = UserController.shared.usersTopics[indexPath.row]
-        
+        let topic = TopicController.shared.userTopics[indexPath.row]
         cell.textLabel?.text = topic.name
-        
         return cell
-        
     }
-    
-    
  
-     // MARK: - Navigation
- 
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "toShowTopic" {
             guard let destinationViewController = segue.destination as? QueueViewController,
                 let indexPath = tableView.indexPathForSelectedRow else {return}
-            let topic = UserController.shared.usersTopics[indexPath.row]
-            
+            let topic = TopicController.shared.userTopics[indexPath.row]
             destinationViewController.topic = topic
-            
         }
-      
     }
     
- 
-    
-    
+    //==============================================================
     // MARK: - IBActions
-    
+    //==============================================================
     @IBAction func editButtonTapped(_ sender: Any) {
         
     }
@@ -96,7 +100,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        
         guard let firstName = firstNameTextField.text,
             let lastName = lastNameTextField.text,
             let profileImage = profileImageView.image  else { return }
@@ -109,8 +112,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    //==============================================================
     // MARK: - Image Picker Delegate Functions
-    
+    //==============================================================
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -122,29 +126,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         dismiss(animated: true, completion: nil)
     }
     
+    //==============================================================
     // MARK: - Text Field Delegate
-    
+    //==============================================================
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
+    //==============================================================
     // MARK: - Constraints
-    
+    //==============================================================
     func constraintsWithoutUser() {
         codeTextField.isHidden = true
         let submitButtonHorizontalContraint = NSLayoutConstraint(item: submitButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        
         view.addConstraint(submitButtonHorizontalContraint)
-        
     }
     
     func constraintsAfterSave() {
         codeTextField.isHidden = false
     }
     
+    //==============================================================
     // MARK: - Action Sheet
-    
+    //==============================================================
     func addPhotoActionSheet() {
         let actionController = UIAlertController(title: "Upload Photo", message: nil, preferredStyle: .actionSheet)
         let uploadAction = UIAlertAction(title: "Photo Library", style: .default) { (_) in
@@ -163,12 +168,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             actionController.addAction(uploadAction)
         }
         actionController.addAction(cancelAction)
-        
         present(actionController, animated: true, completion: nil)
     }
     
+    //==============================================================
     // MARK: - Helper Function
-    
+    //==============================================================
     func updateView() {
         guard let currentUser = currentUser else { return }
         firstNameTextField.text = currentUser.firstName
@@ -181,40 +186,28 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         addPhotoButton.isHidden = true
     }
     
-    // MARK: - functions for upload or camera
-    
+    //==============================================================
+    // MARK: - Functions for uploading image or camera
+    //==============================================================
     func uploadButton() {
-        
         let imagePickerController = UIImagePickerController()
-        
         imagePickerController.sourceType = .photoLibrary
-        
         imagePickerController.delegate = self
-        
         present(imagePickerController, animated: true, completion: nil)
-        
     }
     
     func cameraButton() {
-        
-  
         let imagePickerController = UIImagePickerController()
-        
         imagePickerController.sourceType = .camera
-        
         imagePickerController.delegate = self
-        
         present(imagePickerController, animated: true, completion: nil)
-        
     }
     
     func addPhotoAlert() {
         let alertController = UIAlertController(title: "WARNING!", message: "Must add photo", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .cancel) { (_) in
-            
         }
         alertController.addAction(okAction)
-        
         present(alertController, animated: true, completion: nil)
     }
 }
