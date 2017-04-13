@@ -12,6 +12,7 @@ import CloudKit
 class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     var topic: Topic?
+    let cloudKitManager = CloudKitManager()
     
     // MARK: - IBOutlets
     
@@ -41,6 +42,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let topic = topic {
+            cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
+        }
         readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
