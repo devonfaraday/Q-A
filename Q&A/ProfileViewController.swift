@@ -100,15 +100,25 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        guard let firstName = firstNameTextField.text,
-            let lastName = lastNameTextField.text,
-            let profileImage = profileImageView.image  else { return }
-        if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
-            UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
-//                DispatchQueue.main.async {
-//                    self.constraintsAfterSave()
-//                }
+        if currentUser != nil {
+            guard let codeString = codeTextField.text else { return }
+            guard let code = Int(codeString) else { return }
+            TopicController.shared.addUserToTopic(withCode: code, completion: { 
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             })
+        } else {
+            guard let firstName = firstNameTextField.text,
+                let lastName = lastNameTextField.text,
+                let profileImage = profileImageView.image  else { return }
+            if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
+                UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: {
+                    //                DispatchQueue.main.async {
+                    //                    self.constraintsAfterSave()
+                    //                }
+                })
+            }
         }
     }
     
