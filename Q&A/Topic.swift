@@ -38,14 +38,13 @@ class Topic: Equatable {
     init?(record: CKRecord) {
         guard let name = record[Topic.nameKey] as? String,
             let codeGenerator = record[Topic.codeGeneratorKey] as? Int,
-            let questions = record[Topic.questionsKey] as? [Question],
             let blockedUsers = record[Topic.blockedUsersKey] as? [CKReference],
             let readyCheck = record[Topic.readyCheckKey] as? Bool,
             let topicOwner = record[Topic.topicOwnerKey] as? CKReference
             else { return nil }
         self.name = name
         self.codeGenerator = codeGenerator
-        self.questions = questions
+        self.questions = []
         self.blockedUsers = blockedUsers
         self.recordID = record.recordID
         self.readyCheck = readyCheck
