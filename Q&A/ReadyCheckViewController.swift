@@ -39,7 +39,9 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        
+        UserController.shared.setAllUsersReadyCheckToFalse {
+        }
+        dismiss(animated: true, completion: nil)
     }
 
 }

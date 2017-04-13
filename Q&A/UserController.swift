@@ -48,12 +48,27 @@ class UserController {
         
     }
     
-    func setAllUsersReadyCheckToFalse() {
-        
+    func setAllUsersReadyCheckToFalse(completion: @escaping () -> Void) {
+        var userRecords = [CKRecord]()
+        for user in TopicController.shared.TopicUsers {
+            user.readyCheck = false
+            let record = CKRecord(user: user)
+            userRecords.append(record)
+        }
+        let operation = CKModifyRecordsOperation(recordsToSave: userRecords, recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
     }
-    
-    func modifyUser() {
-        
+    func modifyUser(user: User, completion: @escaping () -> Void) {
+        let record = CKRecord(user: user)
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
     }
-    
 }
