@@ -50,6 +50,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewTypeSetup()
         showTopicNumber()
         questionTableView.reloadData()
+        if let topic = topic {
+            TopicController.shared.fetchUsersForTopic(topic: topic, completion: { 
+            })
+        }
+        
     }
     
     func updateView() {

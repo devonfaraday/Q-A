@@ -25,6 +25,12 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        users = TopicController.shared.TopicUsers
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
