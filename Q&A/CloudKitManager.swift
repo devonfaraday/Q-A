@@ -421,10 +421,11 @@ class CloudKitManager {
     
      // MARK: - Subscriptions
     
-    func subscripeToStudentReadyCheck() {
+    func subscripeToStudentReadyCheck(topic: Topic) {
+        guard let topicID = topic.recordID else { return }
+        let topicRef = CKReference(recordID: topicID, action: .none)
         
-        
-        let predicate = NSPredicate(value: true)
+        let predicate = NSPredicate(format: "\(User.topicKey) CONTAINS %@", topicRef)
         
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
         

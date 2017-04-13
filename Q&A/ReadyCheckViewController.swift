@@ -15,17 +15,14 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var readyLabel: UILabel!
     @IBOutlet weak var notReadyLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    var users = [User]() {
-        didSet {
-            NotificationCenter.default.addObserver(self, selector: #selector(performUpdate), name: UserController.userReadyStateChanged, object: nil)
-        }
-    }
+    var users = [User]()
     var readyUsers = [User]()
     
     
     override func viewDidLoad() {
         notReadyLabel.text = "\(users.count)"
         readyLabel.text = "0"
+        NotificationCenter.default.addObserver(self, selector: #selector(performUpdate), name: UserController.userReadyStateChanged, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +59,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
             DispatchQueue.main.async {
                 self.readyLabel.text = "\(self.readyUsers.count)"
                 self.tableView.reloadData()
+                self.view.layoutSubviews()
             }
         }
     }

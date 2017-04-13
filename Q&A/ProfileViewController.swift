@@ -47,7 +47,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
 //            constraintsWithoutUser()
         }
-        cloudKitManager.subscripeToStudentReadyCheck()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -134,7 +134,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     }
                 })
             }
-            cloudKitManager.subscripeToStudentReadyCheck()
+            
         }
     }
     

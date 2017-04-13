@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         CKContainer.default().fetchUserRecordID { (recordID, error) in
             if let error = error {
                 print("Error with fetching recordID. \(error.localizedDescription)")
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserController.shared.appleUserRecordID = recordID
         }
         
+        UIApplication.shared.registerForRemoteNotifications()
         
         return true
     }
