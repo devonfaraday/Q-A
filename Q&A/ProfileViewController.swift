@@ -82,6 +82,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let topic = TopicController.shared.userTopics[indexPath.row]
+            guard let topicRecordID = topic.recordID else { return }
+            TopicController.shared.delete(withRecordID: topicRecordID, completion: { 
+            })
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     //==============================================================
     // MARK: - IBActions
     //==============================================================
