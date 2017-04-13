@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let recordID = recordID else { return }
             UserController.shared.appleUserRecordID = recordID
         }
-
+        
         
         return true
     }
