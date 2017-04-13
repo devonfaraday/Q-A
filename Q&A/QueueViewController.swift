@@ -41,7 +41,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        askQuestionButton.isHidden = true
+        readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
         questionTableView.reloadData()
@@ -66,6 +66,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
    
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationViewController = segue.destination as? AskQuestionViewController, let indexPath = questionTableView.indexPathForSelectedRow else {return}
+        let topic = TopicController.shared.userTopics[indexPath.row]
+        destinationViewController.topic = topic
+    }
     // MARK: - View Control Functions
     
     func showTopicNumber() {
@@ -82,16 +88,23 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             topicNameTextField.isEnabled = false
 
         if topic.topicOwner.recordID == currentUser.recordID {
-            readyButton.isHidden = true
             askQuestionButton.isHidden = true
         } else {
-            askQuestionButton.isHidden = false
             blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
         }
     }
     
+    func readyCheckConstraint() {
+        readyButton.translatesAutoresizingMaskIntoConstraints = false
+        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
+        view.addConstraint(readyButtonHeightConstraint)
+        view.addConstraint(readyButtonTopConstraint)
+        
+        
+    }
     
     // MARK: - IBActions
     
@@ -108,9 +121,17 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     @IBAction func readyButtonTapped(_ sender: Any) {
         UserController.shared.toggleReadyCheck {
-           self.readyButton.backgroundColor = UIColor.green
+            guard let currentUser = TopicController.shared.currentUser else {return}
+            DispatchQueue.main.async {
+            if currentUser.readyCheck {
+            self.readyButton.setTitle("Ready", for: .normal)
+            self.readyButton.backgroundColor = UIColor.green
+            } else {
+            self.readyButton.setTitle("Not Ready", for: .normal)
+            self.readyButton.backgroundColor = UIColor.red
+            }
+            }
         }
-    }
     
-    
+}
 }
