@@ -20,9 +20,6 @@ class UserController {
     
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping(User?) -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(nil); return }
-        let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
-    func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
-        guard let appleUserRecordID = appleUserRecordID else { completion(); return }
         let userRef = CKReference(recordID: appleUserRecordID, action: .none)
         let user = User(firstName: firstName, lastName: lastName, profileImageData: imageData, appleUserRef: userRef)
         let record = CKRecord(user: user)
