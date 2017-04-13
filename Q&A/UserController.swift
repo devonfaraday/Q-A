@@ -39,14 +39,13 @@ class UserController {
         guard let user = loggedInUser else { return }
         user.readyCheck = !user.readyCheck
         let record = CKRecord(user: user)
-        cloudKitManager.publicDatabase.save(record) { (record, error) in
-            if let error = error {
-                NSLog(error.localizedDescription)
-                return
-            }
+            let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
         }
-        
-    }
+            operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
+        }
     
     func setAllUsersReadyCheckToFalse(completion: @escaping () -> Void) {
         var userRecords = [CKRecord]()
@@ -62,6 +61,7 @@ class UserController {
         operation.savePolicy = .changedKeys
         self.cloudKitManager.publicDatabase.add(operation)
     }
+    
     func modifyUser(user: User, completion: @escaping () -> Void) {
         let record = CKRecord(user: user)
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
