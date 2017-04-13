@@ -30,25 +30,30 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let topicName = topicNameTextField.text {
-        TopicController.shared.createTopic(name: topicName) { (topic) in
-            self.topicNameTextField.borderStyle = .none
-            self.topicNameTextField.isEnabled = false
-            self.topic = topic
-            
+            TopicController.shared.createTopic(name: topicName) { (topic) in
+                DispatchQueue.main.async {
+                    self.topicNameTextField.borderStyle = .none
+                    self.topicNameTextField.isEnabled = false
+                    self.codeLabel.text = "\(TopicController.shared.tempGeneratedNumber)"
+                }
+                self.topic = topic
+                
+                
+            }
+            self.topicNameTextField.resignFirstResponder()
         }
-         self.topicNameTextField.resignFirstResponder()
-    }
         return true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        askQuestionButton.isHidden = true
         viewTypeSetup()
         showTopicNumber()
         questionTableView.reloadData()
     }
     
     func updateView() {
-      
+        
     }
     // MARK: - Data Source Functions
     

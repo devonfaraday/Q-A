@@ -17,9 +17,11 @@ class TopicController {
     var currentUser: User? = UserController.shared.loggedInUser
     var userTopics: [Topic] = []
     var TopicUsers: [User] = []
+    var tempGeneratedNumber: Int = 0
     
     func createTopic(name: String, completion: @escaping (Topic?) -> Void) {
         let randomNum = randomNumGenerator()
+        self.tempGeneratedNumber = randomNum
         guard let recordID = currentUser?.recordID else { completion(nil); return }
         let userRef = CKReference(recordID: recordID, action: .none)
         let topic = Topic(name: name, codeGenerator: randomNum, topicOwner: userRef)
@@ -31,19 +33,21 @@ class TopicController {
                 return
             }
             print("Record successfully saved to CloudKit")
-            guard let savedTopicRecord = savedTopicRecord else { completion(nil); return }
-            guard let topic = Topic(record: savedTopicRecord) else { completion(nil); return }
+            guard let record = savedTopicRecord else { completion(nil); return }
+            let newTopic = Topic(record: record)
+            guard let topic = newTopic else { return }
+            guard let topicID = topic.recordID else { completion(nil); return }
             self.topics.append(topic)
-            let reference = CKReference(recordID: savedTopicRecord.recordID, action: .deleteSelf)
+            let reference = CKReference(recordID: topicID, action: .deleteSelf)
             self.currentUser?.topic?.append(reference)
             guard let user = self.currentUser else { completion(nil); return }
-            let record = CKRecord(user: user)
-            self.cloudKitManager.saveRecord(record, completion: { (_, error) in
-                if let error = error {
-                    print("Error with updating current User \(error)")
-                }
-                completion(nil)
-            })
+            let userRecord = CKRecord(user: user)
+            let operation = CKModifyRecordsOperation(recordsToSave: [userRecord], recordIDsToDelete: nil)
+            operation.completionBlock = {
+                completion(topic)
+            }
+            operation.savePolicy = .changedKeys
+            self.cloudKitManager.publicDatabase.add(operation)
             completion(topic)
         }
     }
@@ -114,7 +118,7 @@ class TopicController {
     func randomNumGenerator() -> Int {
         var randomInt = 0
         let codeGeneratorArray = topics.flatMap({ $0.codeGenerator})
-        let randomNum =  Int(arc4random_uniform(UInt32(99999))) + 10000
+        let randomNum =  Int(arc4random_uniform(UInt32(89999))) + 10000
         let contains = codeGeneratorArray.contains(Int(randomNum))
         if contains {
             let _ = randomNumGenerator()
