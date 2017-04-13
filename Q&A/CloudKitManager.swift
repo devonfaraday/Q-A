@@ -418,4 +418,24 @@ class CloudKitManager {
             })
         }
     }
+    
+     // MARK: - Subscriptions
+    
+    func subscripeToStudentReadyCheck() {
+        
+        guard let currentUser = TopicController.shared.currentUser, let userRecordID = currentUser.recordID else { return }
+        
+        let readyCheckStatus = currentUser.readyCheck
+        
+        let predicate = NSPredicate(format: "readyCheck == %@ || %@", "0", "1")
+        
+        let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
+        
+        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
+            if let error = error {
+                NSLog("Error saving subscription\n\(error.localizedDescription)")
+            }
+        }
+    }
+    
 }

@@ -86,7 +86,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="azM-w0-2rO" userLabel="Full name stack">
                                 <rect key="frame" x="20" y="222" width="374" height="30"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0dz-YH-sai">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0dz-YH-sai">
                                         <rect key="frame" x="0.0" y="0.0" width="183" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -134,7 +134,7 @@
                                     <constraint firstAttribute="height" constant="30" id="0Ab-mO-XVb"/>
                                 </constraints>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RaA-Pb-3JT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RaA-Pb-3JT">
                                 <rect key="frame" x="144.66666666666669" y="72" width="125.00000000000006" height="125"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="125" id="X1E-zq-N6y"/>
@@ -213,7 +213,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ol2-8H-zEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1995.6521739130437" y="145.10869565217394"/>
+            <point key="canvasLocation" x="1932" y="142"/>
         </scene>
         <!--Queue View Controller-->
         <scene sceneID="0Q5-Tz-qK3">
@@ -228,7 +228,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-2B-ruk">
-                                <rect key="frame" x="0.0" y="145" width="414" height="516"/>
+                                <rect key="frame" x="0.0" y="145" width="414" height="524"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" rowHeight="73" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
@@ -407,7 +407,7 @@
                             <constraint firstItem="t7d-Iz-ZCM" firstAttribute="top" secondItem="nRH-Ro-rDt" secondAttribute="bottom" constant="70" id="Xcf-it-1Op"/>
                             <constraint firstItem="Cd9-aq-AAc" firstAttribute="leading" secondItem="12b-Wu-bGa" secondAttribute="leadingMargin" id="ldM-we-Dhs"/>
                             <constraint firstItem="Cd9-aq-AAc" firstAttribute="top" secondItem="nRH-Ro-rDt" secondAttribute="bottom" constant="32" id="ozG-IL-I6j"/>
-                            <constraint firstItem="5Pn-N1-8xq" firstAttribute="top" secondItem="ppv-2B-ruk" secondAttribute="bottom" constant="8" id="p48-jO-jNN"/>
+                            <constraint firstItem="5Pn-N1-8xq" firstAttribute="top" secondItem="ppv-2B-ruk" secondAttribute="bottom" id="p48-jO-jNN"/>
                             <constraint firstAttribute="trailing" secondItem="t7d-Iz-ZCM" secondAttribute="trailing" id="pRV-io-nBp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Cd9-aq-AAc" secondAttribute="trailing" id="pwO-Gi-jKu"/>
                             <constraint firstItem="DrR-4h-w03" firstAttribute="width" secondItem="nRH-Ro-rDt" secondAttribute="width" id="qYW-KG-EsP"/>

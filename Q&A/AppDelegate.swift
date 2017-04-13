@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        
+        let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String: NSObject])
+        
+        if cloudKitNotification.notificationType == CKNotificationType.query {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: <#T##Any?#>)
+            }
+        }
+    }
   
 
 }
