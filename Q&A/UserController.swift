@@ -18,20 +18,21 @@ class UserController {
     var loggedInUser: User?
     var usersTopics = [Topic]()
     
-    func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping() -> Void) {
-        guard let appleUserRecordID = appleUserRecordID else { completion(); return }
-        let userRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+    func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping(User?) -> Void) {
+        guard let appleUserRecordID = appleUserRecordID else { completion(nil); return }
+        let userRef = CKReference(recordID: appleUserRecordID, action: .none)
         let user = User(firstName: firstName, lastName: lastName, profileImageData: imageData, appleUserRef: userRef)
         let record = CKRecord(user: user)
         cloudKitManager.saveRecord(record) { (savedUserRecord, error) in
             if let error = error {
                 print("Error with saving User to cloudkit: \(error.localizedDescription)")
-                completion()
+                completion(nil)
                 return
             }
-            guard let savedUserRecord = savedUserRecord else { completion(); return }
-            self.loggedInUser = User(record: savedUserRecord)
-            completion()
+            guard let savedUserRecord = savedUserRecord else { completion(nil); return }
+            let user = User(record: savedUserRecord)
+            self.loggedInUser = user
+            completion(user)
         }
     }
     
