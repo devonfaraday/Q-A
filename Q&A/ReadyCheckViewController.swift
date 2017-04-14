@@ -16,11 +16,12 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var notReadyLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     var users = [User]()
-    var readyUsers = [User]()
+    var readyUsers = 0
+    var notReadyUsers = TopicController.shared.TopicUsers.count
     
     
     override func viewDidLoad() {
-        notReadyLabel.text = "\(users.count)"
+        notReadyLabel.text = "\(notReadyUsers)"
         readyLabel.text = "0"
         NotificationCenter.default.addObserver(self, selector: #selector(performUpdate), name: UserController.userReadyStateChanged, object: nil)
     }
@@ -53,14 +54,18 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     func performUpdate() {
         guard let topic = TopicController.shared.currentTopic else { return }
         TopicController.shared.fetchUsersForTopic(topic: topic ) {
+            self.readyUsers = 0
+            self.notReadyUsers = TopicController.shared.TopicUsers.count
             for user in self.users {
                 if user.readyCheck {
-                    self.readyUsers.append(user)
+                    self.readyUsers += 1
+                    self.notReadyUsers -= 1
                }
                 
                 DispatchQueue.main.async {
                     self.users = TopicController.shared.TopicUsers
-                    self.readyLabel.text = "\(self.readyUsers.count)"
+                    self.readyLabel.text = "\(self.readyUsers)"
+                    self.notReadyLabel.text = "\(self.notReadyUsers)"
                     self.tableView.reloadData()
                     self.view.layoutSubviews()
                 }

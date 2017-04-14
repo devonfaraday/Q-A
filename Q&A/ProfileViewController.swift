@@ -105,7 +105,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func addTopicButtonTapped(_ sender: Any) {
-        
+        QuestionController.shared.questions = []
     }
     
     @IBAction func addPhotoButtonTapped(_ sender: Any) {
