@@ -455,4 +455,22 @@ class CloudKitManager {
             }
         }
     }
+    
+    func subscripeToQuestionVotesIn(topic: Topic) {
+        let notificationInfo = CKNotificationInfo()
+        guard let topicID = topic.recordID else { return }
+        let questionPredicate = NSPredicate(value: true)
+        let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
+        notificationInfo.shouldSendContentAvailable = true
+        
+        let subscription = CKQuerySubscription(recordType: "Question", predicate: predicates, options: .firesOnRecordUpdate)
+        subscription.notificationInfo = notificationInfo
+        
+        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
+            if let error = error {
+                print("Error saving subscription to question: \(error.localizedDescription)")
+            }
+        }
+    }
 }

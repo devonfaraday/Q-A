@@ -14,8 +14,13 @@ class QuestionController {
     var cloudKitManager = CloudKitManager()
     static var shared = QuestionController()
     let NewQuestionAdded = Notification.Name("NewQuestionAdded")
+    let questionDataRefreshed = Notification.Name("newQuestionData")
     var currentUser: User? = UserController.shared.loggedInUser
-    var questions: [Question] = []
+    var questions: [Question] = [] {
+        didSet {
+            NotificationCenter.default.post(name: questionDataRefreshed, object: nil)
+        }
+    }
     
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }

@@ -42,10 +42,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             TopicController.shared.currentTopic = topic
             cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
             cloudKitManager.subscribeToStudentQuestion(topic: topic)
+            cloudKitManager.subscripeToQuestionVotesIn(topic: topic)
             TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
             })
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.NewQuestionAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,11 +135,15 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func refreshTableView() {
+        DispatchQueue.main.async {
+            self.questionTableView.reloadData()
+        }
+    }
+    
+    func refreshQuestionData() {
         if let topic = topic {
             QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                DispatchQueue.main.async {
-                    self.questionTableView.reloadData()
-                }
+                
             })
         }
     }
