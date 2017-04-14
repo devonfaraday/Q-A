@@ -27,12 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserController.shared.appleUserRecordID = recordID
         }
         
+        
+        
         UIApplication.shared.registerForRemoteNotifications()
         
         return true
     }
-
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String: NSObject])
         
@@ -44,5 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSLog("Notification received")
     }
+
+    
 }
 
