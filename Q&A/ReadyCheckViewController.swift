@@ -51,16 +51,21 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     }
     
     func performUpdate() {
-        for user in users {
-            if user.readyCheck {
-                readyUsers.append(user)
+        guard let topic = TopicController.shared.currentTopic else { return }
+        TopicController.shared.fetchUsersForTopic(topic: topic ) {
+            for user in self.users {
+                if user.readyCheck {
+                    self.readyUsers.append(user)
+               }
                 
+                DispatchQueue.main.async {
+                    self.users = TopicController.shared.TopicUsers
+                    self.readyLabel.text = "\(self.readyUsers.count)"
+                    self.tableView.reloadData()
+                    self.view.layoutSubviews()
+                }
             }
-            DispatchQueue.main.async {
-                self.readyLabel.text = "\(self.readyUsers.count)"
-                self.tableView.reloadData()
-                self.view.layoutSubviews()
-            }
+            
         }
     }
     

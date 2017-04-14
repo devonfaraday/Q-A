@@ -427,8 +427,8 @@ class CloudKitManager {
 //        let topicRef = CKReference(recordID: topicID, action: .none)
         
         let notificationInfo = CKNotificationInfo()
-//        let predicate = NSPredicate(format: "readyCheck == %d", UInt64(1))
-        let predicate = NSPredicate(value: true)
+        let predicate = NSPredicate(format: "readyCheck == %d", 1)
+        notificationInfo.shouldSendContentAvailable = true
         
         
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)

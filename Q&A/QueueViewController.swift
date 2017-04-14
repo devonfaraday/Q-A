@@ -39,6 +39,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         showTopicNumber()
         questionTableView.reloadData()
         if let topic = topic {
+            TopicController.shared.currentTopic = topic
             cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
             TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
             })

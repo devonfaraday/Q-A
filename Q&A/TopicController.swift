@@ -18,6 +18,7 @@ class TopicController {
     var userTopics: [Topic] = []
     var TopicUsers: [User] = []
     var tempGeneratedNumber: Int = 0
+    var currentTopic: Topic?
     
     func createTopic(name: String, completion: @escaping (Topic?) -> Void) {
         let randomNum = randomNumGenerator()
