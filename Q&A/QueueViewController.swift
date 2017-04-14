@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, VoteQueueTableViewCellDelegate {
     
     //==============================================================
     // MARK: - Properties
@@ -86,6 +86,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
+        cell.delegate = self
         return cell
     }
     
@@ -107,6 +108,25 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - View Control Functions
     //==============================================================
+    func completeVoteChanged(sender: QueueTableViewCell, vote: Bool) {
+        guard let topic = self.topic else { return }
+        guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
+        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (questions) in
+            let task = questions[indexPath.row]
+            if vote {
+                QuestionController.shared.upvote(question: task, completion: {
+                    DispatchQueue.main.async {
+                        self.questionTableView.reloadData()
+                    }
+                })
+            } else {
+                QuestionController.shared.downvote(question: task, completion: { 
+                    self.questionTableView.reloadData()
+                })
+            }
+        }
+    }
+    
     func refreshTableView() {
         self.questionTableView.reloadData()
     }
@@ -150,6 +170,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
     }
     @IBAction func clearButtonTapped(_ sender: Any) {
+        QuestionController.shared.clearAllQuestions {
+            self.questionTableView.reloadData()
+        }
     }
     @IBAction func askQuestionButtonTapped(_ sender: Any) {
     }

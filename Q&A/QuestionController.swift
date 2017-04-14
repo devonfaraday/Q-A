@@ -23,13 +23,6 @@ class QuestionController {
         }
     }
     
-    var userUpVote: Bool {
-        return UserDefaults.standard.bool(forKey: "userUpVote")
-    }
-    var userDownVote: Bool {
-        return UserDefaults.standard.bool(forKey: "userDownVote")
-    }
-    
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
         guard let topicID = topic.recordID else { completion(); return }
@@ -91,23 +84,17 @@ class QuestionController {
         self.cloudKitManager.publicDatabase.add(operation)
     }
     
-    func upvote(question: Question) {
-        if userUpVote == false {
-            question.vote += 1
-            UserDefaults.standard.set(true, forKey: "userUpVote")
-            UserDefaults.standard.set(false, forKey: "userDownVote")
-            modifyQuestion(question: question) {
-            }
+    func upvote(question: Question, completion: @escaping() -> Void) {
+        question.vote += 1
+        modifyQuestion(question: question) {
+            completion()
         }
     }
     
-    func downvote(question: Question) {
-        if userDownVote == false {
-            question.vote -= 1
-            UserDefaults.standard.set(true, forKey: "userDownVote")
-            UserDefaults.standard.set(false, forKey: "userUpVote")
-            modifyQuestion(question: question) {
-            }
+    func downvote(question: Question, completion: @escaping() -> Void) {
+        question.vote -= 1
+        modifyQuestion(question: question) {
+            completion()
         }
     }
     
