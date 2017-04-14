@@ -69,13 +69,15 @@ class QuestionController {
     
     func clearAllQuestions(completion: @escaping () -> Void) {
         let recordIDArray = questions.flatMap({ $0.cloudKitRecordID })
-        
-        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIDArray)
-        operation.completionBlock = {
-            completion()
+        self.questions = []
+        cloudKitManager.deleteRecordsWithID(recordIDArray) { (_, _, error) in
+            if let error = error {
+                print("Error with clearing all questions for topic: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            print("Successfully cleared Questions")
         }
-        operation.savePolicy = .changedKeys
-        self.cloudKitManager.publicDatabase.add(operation)
     }
     
     func upvote(question: Question, completion: @escaping() -> Void) {

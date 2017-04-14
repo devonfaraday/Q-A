@@ -112,21 +112,23 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func completeVoteChanged(sender: QueueTableViewCell, vote: Bool) {
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
-        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (questions) in
-            let task = questions[indexPath.row]
-            if vote {
-                QuestionController.shared.upvote(question: task, completion: {
+        let task = QuestionController.shared.questions[indexPath.row]
+        if vote {
+            QuestionController.shared.upvote(question: task, completion: {
+                QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                     DispatchQueue.main.async {
                         self.questionTableView.reloadData()
                     }
                 })
-            } else {
-                QuestionController.shared.downvote(question: task, completion: {
+            })
+        } else {
+            QuestionController.shared.downvote(question: task, completion: {
+                QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                     DispatchQueue.main.async {
                         self.questionTableView.reloadData()
-                    }
+                    }                    
                 })
-            }
+            })
         }
     }
     
@@ -174,17 +176,24 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func backButtonTapped(_ sender: Any) {
         let _ = navigationController?.popViewController(animated: true)
     }
+    
     @IBAction func blockButtonTapped(_ sender: Any) {
     }
+    
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
     }
+    
     @IBAction func clearButtonTapped(_ sender: Any) {
         QuestionController.shared.clearAllQuestions {
-            self.questionTableView.reloadData()
+            DispatchQueue.main.async {
+                self.questionTableView.reloadData()
+            }
         }
     }
+    
     @IBAction func askQuestionButtonTapped(_ sender: Any) {
     }
+    
     @IBAction func readyButtonTapped(_ sender: Any) {
         UserController.shared.toggleReadyCheck {
             guard let currentUser = TopicController.shared.currentUser else {return}
