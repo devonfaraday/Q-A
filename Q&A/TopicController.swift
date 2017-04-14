@@ -187,15 +187,22 @@ class TopicController {
             completion()
         }
     }
+    
+    func toggleIsReadyCheck(topic: Topic, completion: @escaping () -> Void) {
+        topic.readyCheck = !topic.readyCheck
+        saveModifyTopicRecord(topic: topic) {
+            completion()
+        }
+    }
+    
+    func saveModifyTopicRecord(topic: Topic, completion: @escaping () -> Void) {
+        let topicRecord = CKRecord(topic: topic)
+        let operation = CKModifyRecordsOperation(recordsToSave: [topicRecord], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
+        completion()
+    }
 }
-
-
-
-
-
-
-
-
-
-
-

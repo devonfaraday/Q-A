@@ -13,8 +13,22 @@ class QuestionController {
     
     var cloudKitManager = CloudKitManager()
     static var shared = QuestionController()
+    let NewQuestionAdded = Notification.Name("NewQuestionAdded")
     var currentUser: User? = UserController.shared.loggedInUser
-    var questions: [Question] = []
+    var questions: [Question] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: self.NewQuestionAdded, object: self)
+            }
+        }
+    }
+    
+    var userUpVote: Bool {
+        return UserDefaults.standard.bool(forKey: "userUpVote")
+    }
+    var userDownVote: Bool {
+        return UserDefaults.standard.bool(forKey: "userDownVote")
+    }
     
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
@@ -29,7 +43,21 @@ class QuestionController {
                 return
             }
             print("Saved Question to CloudKit")
+            self.questions.append(question)
             completion()
+        }
+    }
+    
+    func delete(withRecordID recordID: CKRecordID, completion: @escaping () -> Void) {
+        guard let questionIndex = questions.index(where: {$0.cloudKitRecordID == recordID }) else { completion(); return }
+        self.questions.remove(at: questionIndex)
+        cloudKitManager.deleteRecordWithID(recordID) { (_, error) in
+            if let error = error {
+                print("Error with deleting question for topic: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            print("Deleted Successfully")
         }
     }
     
@@ -64,33 +92,41 @@ class QuestionController {
     }
     
     func upvote(question: Question) {
-        question.vote += 1
-        modifyQuestion(question: question) {
+        if userUpVote == false {
+            question.vote += 1
+            UserDefaults.standard.set(true, forKey: "userUpVote")
+            UserDefaults.standard.set(false, forKey: "userDownVote")
+            modifyQuestion(question: question) {
+            }
         }
     }
     
     func downvote(question: Question) {
-        question.vote -= 1
-        modifyQuestion(question: question) {
+        if userDownVote == false {
+            question.vote -= 1
+            UserDefaults.standard.set(true, forKey: "userDownVote")
+            UserDefaults.standard.set(false, forKey: "userUpVote")
+            modifyQuestion(question: question) {
+            }
         }
     }
     
-    func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping() -> Void) {
-        guard let topicRecordID = topic.recordID else { completion(); return }
+    func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping([Question]) -> Void) {
+        guard let topicRecordID = topic.recordID else { completion([]); return }
         let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
         let predicate = NSPredicate(format: "topicReference == %@", topicRef)
         let query = CKQuery(recordType: Question.questionRecordType, predicate: predicate)
         cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
             if let error = error {
                 print("Error with fetching questions for this topic: \(error.localizedDescription)")
-                completion()
+                completion([])
                 return
             }
-            guard let records = records else { completion();  return }
+            guard let records = records else { completion([]);  return }
             let questions = records.flatMap({ Question(cloudKitRecord: $0) })
             print("Successfully fetched questions")
             self.questions = questions
-            completion()
+            completion(questions)
         }
     }
 }
