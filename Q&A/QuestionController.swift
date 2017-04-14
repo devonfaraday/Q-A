@@ -112,8 +112,9 @@ class QuestionController {
             guard let records = records else { completion([]);  return }
             let questions = records.flatMap({ Question(cloudKitRecord: $0) })
             print("Successfully fetched questions")
-            self.questions = questions
-            completion(questions)
+            let sortedQuestions = questions.sorted(by: { $0.vote > $1.vote })
+            self.questions = sortedQuestions
+            completion(sortedQuestions)
         }
     }
 }

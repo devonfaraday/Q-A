@@ -120,8 +120,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     }
                 })
             } else {
-                QuestionController.shared.downvote(question: task, completion: { 
-                    self.questionTableView.reloadData()
+                QuestionController.shared.downvote(question: task, completion: {
+                    DispatchQueue.main.async {
+                        self.questionTableView.reloadData()
+                    }
                 })
             }
         }
