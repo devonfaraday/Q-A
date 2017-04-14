@@ -45,7 +45,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
         } else {
-//            constraintsWithoutUser()
+            //            constraintsWithoutUser()
         }
         
     }
@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.textLabel?.text = topic.name
         return cell
     }
- 
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "toShowTopic" {
             guard let destinationViewController = segue.destination as? QueueViewController,
@@ -89,7 +89,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if editingStyle == .delete {
             let topic = TopicController.shared.userTopics[indexPath.row]
             guard let topicRecordID = topic.recordID else { return }
-            TopicController.shared.delete(withRecordID: topicRecordID, completion: { 
+            TopicController.shared.delete(withRecordID: topicRecordID, completion: {
             })
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -100,12 +100,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     @IBAction func editButtonTapped(_ sender: Any) {
         
-        firstNameTextField.borderStyle = .bezel
-        firstNameTextField.isEnabled = true
-        lastNameTextField.borderStyle = .bezel
-        lastNameTextField.isEnabled = true
-        addPhotoButton.isHidden = false
         isEditingProfile = true
+        updateView()
     }
     
     @IBAction func addTopicButtonTapped(_ sender: Any) {
@@ -122,15 +118,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if isEditingProfile  {
             guard let currentUser = currentUser, let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let profileImage = profileImageView.image  else { return }
             if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
-            currentUser.firstName = firstName
-            currentUser.lastName = lastName
-            currentUser.profileImageData = imageData
-            UserController.shared.modifyUser(user: currentUser, completion: {
-            })
-            DispatchQueue.main.async {
-                self.updateView()
-            }
-            isEditingProfile = false
+                currentUser.firstName = firstName
+                currentUser.lastName = lastName
+                currentUser.profileImageData = imageData
+                isEditingProfile = false
+                updateView()
+                UserController.shared.modifyUser(user: currentUser, completion: {
+                })
+                //            DispatchQueue.main.async {
+                //                self.updateView()
+                //            }
             }
         } else if currentUser != nil {
             guard let codeString = codeTextField.text else { return }
@@ -221,16 +218,26 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Helper Function
     //==============================================================
     func updateView() {
-        guard let currentUser = currentUser else { return }
-        firstNameTextField.text = currentUser.firstName
-        lastNameTextField.text = currentUser.lastName
-        profileImageView.image = currentUser.profileImage
-        firstNameTextField.borderStyle = .none
-        firstNameTextField.isEnabled = false
-        lastNameTextField.borderStyle = .none
-        lastNameTextField.isEnabled = false
-        addPhotoButton.isHidden = true
-        
+        if isEditingProfile {
+            firstNameTextField.borderStyle = .roundedRect
+            firstNameTextField.isEnabled = true
+            lastNameTextField.borderStyle = .roundedRect
+            lastNameTextField.isEnabled = true
+            addPhotoButton.isHidden = false
+            addPhotoButton.setTitle("", for: .normal)
+        } else {
+            guard let currentUser = currentUser else { return }
+            firstNameTextField.text = currentUser.firstName
+            lastNameTextField.text = currentUser.lastName
+            profileImageView.image = currentUser.profileImage
+            
+                self.firstNameTextField.borderStyle = .none
+                self.firstNameTextField.isEnabled = false
+                self.lastNameTextField.borderStyle = .none
+                self.lastNameTextField.isEnabled = false
+                self.addPhotoButton.isHidden = true
+            
+        }
     }
     
     //==============================================================
