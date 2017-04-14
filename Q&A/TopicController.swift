@@ -85,10 +85,12 @@ class TopicController {
             })
         }
         group.notify(queue: DispatchQueue.main) {
-            self.userTopics = topics
+            
+            self.userTopics = topics.sorted(by: {$0.name.lowercased() < $1.name.lowercased()})
             completion(topics)
         }
     }
+    
     
     func fetchUsersForTopic(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
