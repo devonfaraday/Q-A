@@ -23,6 +23,13 @@ class QuestionController {
         }
     }
     
+    var userUpVote: Bool {
+        return UserDefaults.standard.bool(forKey: "userUpVote")
+    }
+    var userDownVote: Bool {
+        return UserDefaults.standard.bool(forKey: "userDownVote")
+    }
+    
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
         guard let topicID = topic.recordID else { completion(); return }
@@ -85,14 +92,22 @@ class QuestionController {
     }
     
     func upvote(question: Question) {
-        question.vote += 1
-        modifyQuestion(question: question) {
+        if userUpVote == false {
+            question.vote += 1
+            UserDefaults.standard.set(true, forKey: "userUpVote")
+            UserDefaults.standard.set(false, forKey: "userDownVote")
+            modifyQuestion(question: question) {
+            }
         }
     }
     
     func downvote(question: Question) {
-        question.vote -= 1
-        modifyQuestion(question: question) {
+        if userDownVote == false {
+            question.vote -= 1
+            UserDefaults.standard.set(true, forKey: "userDownVote")
+            UserDefaults.standard.set(false, forKey: "userUpVote")
+            modifyQuestion(question: question) {
+            }
         }
     }
     
