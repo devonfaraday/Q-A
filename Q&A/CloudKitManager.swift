@@ -446,7 +446,7 @@ class CloudKitManager {
         let predicate = NSPredicate(format: "topicReference == %@", topicID)
         notificationInfo.shouldSendContentAvailable = true
         
-        let subscription = CKQuerySubscription(recordType: "Question", predicate: predicate, options: .firesOnRecordUpdate)
+        let subscription = CKQuerySubscription(recordType: "Question", predicate: predicate, options: .firesOnRecordCreation)
         subscription.notificationInfo = notificationInfo
         
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
