@@ -37,6 +37,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
+        questionTableView.estimatedRowHeight = 80
+        questionTableView.autoresizesSubviews = true
         questionTableView.reloadData()
         if let topic = topic {
             TopicController.shared.currentTopic = topic
@@ -155,6 +157,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func viewTypeSetup() {
+        askQuestionButton.isHidden = true
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
             topicNameTextField.text = topic.name
             topicNameTextField.borderStyle = .none
@@ -162,6 +165,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if topic.topicOwner.recordID == currentUser.recordID {
             askQuestionButton.isHidden = true
         } else {
+            askQuestionButton.isHidden = false
             blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
@@ -169,11 +173,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func readyCheckConstraint() {
-        readyButton.translatesAutoresizingMaskIntoConstraints = false
-        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
-        view.addConstraint(readyButtonHeightConstraint)
-        view.addConstraint(readyButtonTopConstraint)
+//        readyButton.translatesAutoresizingMaskIntoConstraints = false
+//        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+//        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
+//        view.addConstraint(readyButtonHeightConstraint)
+//        view.addConstraint(readyButtonTopConstraint)
     }
     
     //==============================================================
@@ -198,6 +202,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func askQuestionButtonTapped(_ sender: Any) {
+        
     }
     
     @IBAction func readyButtonTapped(_ sender: Any) {
