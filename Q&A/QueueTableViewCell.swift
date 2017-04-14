@@ -12,10 +12,10 @@ class QueueTableViewCell: UITableViewCell {
 
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var ownerLabel: UILabel!
-    
     @IBOutlet weak var voteCountLabel: UILabel!
     @IBOutlet weak var voteDownButton: UIButton!
     @IBOutlet weak var voteUpButton: UIButton!
+    weak var delegate: VoteQueueTableViewCellDelegate?
     var question: Question? {
         didSet {
             updateView()
@@ -30,10 +30,14 @@ class QueueTableViewCell: UITableViewCell {
     }
 
     @IBAction func voteUpButtonTapped(_ sender: Any) {
+        delegate?.completeVoteChanged(sender: self, vote: true)
     }
     
     @IBAction func voteDownButtonTapped(_ sender: Any) {
+        delegate?.completeVoteChanged(sender: self, vote: false)
     }
-    
-    
+}
+
+protocol VoteQueueTableViewCellDelegate: class {
+    func completeVoteChanged(sender: QueueTableViewCell, vote: Bool)
 }

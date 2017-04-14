@@ -9,13 +9,17 @@
 import UIKit
 import CloudKit
 
-class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, VoteQueueTableViewCellDelegate {
     
+    //==============================================================
+    // MARK: - Properties
+    //==============================================================
     var topic: Topic?
     let cloudKitManager = CloudKitManager()
     
+    //==============================================================
     // MARK: - IBOutlets
-    
+    //==============================================================
     @IBOutlet weak var topicNameTextField: UITextField!
     @IBOutlet weak var questionTableView: UITableView!
     @IBOutlet weak var blockButton: UIButton!
@@ -25,6 +29,37 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var readyButton: UIButton!
     
+    //==============================================================
+    // MARK: - Life Cycle
+    //==============================================================
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        readyCheckConstraint()
+        viewTypeSetup()
+        showTopicNumber()
+        questionTableView.reloadData()
+        if let topic = topic {
+            TopicController.shared.currentTopic = topic
+            cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
+            TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
+            })
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.NewQuestionAdded, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let topic = self.topic else { return }
+        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (questions) in
+            DispatchQueue.main.async {
+                self.questionTableView.reloadData()
+            }
+        }
+    }
+
+    //==============================================================
+    // MARK: - Text Field Delegate Function
+    //==============================================================
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let topicName = topicNameTextField.text {
             TopicController.shared.createTopic(name: topicName) { (topic) in
@@ -34,39 +69,15 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.codeLabel.text = "\(TopicController.shared.tempGeneratedNumber)"
                 }
                 self.topic = topic
- 
             }
             self.topicNameTextField.resignFirstResponder()
         }
         return true
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let topic = topic {
-            cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
-        }
-        readyCheckConstraint()
-        viewTypeSetup()
-        showTopicNumber()
-        questionTableView.reloadData()
-        if let topic = topic {
-            TopicController.shared.fetchUsersForTopic(topic: topic, completion: { 
-            })
-        }
-        
-    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        if let topic = topic {
-            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) {
-                DispatchQueue.main.async {
-                    self.questionTableView.reloadData()
-                }
-            }
-        }
-    }
-    // MARK: - Data Source Functions
-    
+    //==============================================================
+    // MARK: - Data Source functions
+    //==============================================================
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return QuestionController.shared.questions.count
     }
@@ -75,16 +86,52 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
+        cell.delegate = self
         return cell
-   
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let question = QuestionController.shared.questions[indexPath.row]
+            guard let recordID = question.cloudKitRecordID else { return }
+            QuestionController.shared.delete(withRecordID: recordID, completion: {
+            })
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let destinationViewController = segue.destination as? AskQuestionViewController, let topic = topic else {return}
-        
         destinationViewController.topic = topic
     }
+    
+    //==============================================================
     // MARK: - View Control Functions
+    //==============================================================
+    func completeVoteChanged(sender: QueueTableViewCell, vote: Bool) {
+        guard let topic = self.topic else { return }
+        guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
+        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (questions) in
+            let task = questions[indexPath.row]
+            if vote {
+                QuestionController.shared.upvote(question: task, completion: {
+                    DispatchQueue.main.async {
+                        self.questionTableView.reloadData()
+                    }
+                })
+            } else {
+                QuestionController.shared.downvote(question: task, completion: {
+                    DispatchQueue.main.async {
+                        self.questionTableView.reloadData()
+                    }
+                })
+            }
+        }
+    }
+    
+    func refreshTableView() {
+        self.questionTableView.reloadData()
+    }
     
     func showTopicNumber() {
         if let topic = topic {
@@ -97,7 +144,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             topicNameTextField.text = topic.name
             topicNameTextField.borderStyle = .none
             topicNameTextField.isEnabled = false
-
         if topic.topicOwner.recordID == currentUser.recordID {
             askQuestionButton.isHidden = true
         } else {
@@ -113,12 +159,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
         view.addConstraint(readyButtonHeightConstraint)
         view.addConstraint(readyButtonTopConstraint)
-        
-        
     }
     
+    //==============================================================
     // MARK: - IBActions
-    
+    //==============================================================
     @IBAction func backButtonTapped(_ sender: Any) {
         let _ = navigationController?.popViewController(animated: true)
     }
@@ -127,6 +172,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
     }
     @IBAction func clearButtonTapped(_ sender: Any) {
+        QuestionController.shared.clearAllQuestions {
+            self.questionTableView.reloadData()
+        }
     }
     @IBAction func askQuestionButtonTapped(_ sender: Any) {
     }
@@ -134,15 +182,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         UserController.shared.toggleReadyCheck {
             guard let currentUser = TopicController.shared.currentUser else {return}
             DispatchQueue.main.async {
-            if currentUser.readyCheck {
-            self.readyButton.setTitle("Ready", for: .normal)
-            self.readyButton.backgroundColor = UIColor.green
-            } else {
-            self.readyButton.setTitle("Not Ready", for: .normal)
-            self.readyButton.backgroundColor = UIColor.red
-            }
+                if currentUser.readyCheck {
+                    self.readyButton.setTitle("Ready", for: .normal)
+                    self.readyButton.backgroundColor = UIColor.green
+                } else {
+                    self.readyButton.setTitle("Not Ready", for: .normal)
+                    self.readyButton.backgroundColor = UIColor.red
+                }
             }
         }
-    
-}
+    }
 }

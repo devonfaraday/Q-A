@@ -17,9 +17,19 @@ class ReadyCheckTableViewCell: UITableViewCell {
     var user: User? {
         didSet {
             updateViews()
-            NotificationCenter.default.addObserver(self, selector: #selector(updateViews), name: UserController.userReadyStateChanged, object: nil)
+//            NotificationCenter.default.addObserver(self, selector: #selector(updateViewsWithNotification), name: UserController.userReadyStateChanged, object: nil)
         }
     }
+    
+//    func updateViewsWithNotification() {
+//        guard let topic = TopicController.shared.currentTopic else { return }
+//        TopicController.shared.fetchUsersForTopic(topic: topic) { 
+//            DispatchQueue.main.async {
+//                self.updateViews()
+//            }
+//        }
+//        
+//    }
     
     func updateViews() {
         guard let user = user else { return }

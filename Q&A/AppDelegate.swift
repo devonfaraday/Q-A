@@ -1,4 +1,4 @@
-//
+        //
 //  AppDelegate.swift
 //  Q&A
 //
@@ -26,13 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let recordID = recordID else { return }
             UserController.shared.appleUserRecordID = recordID
         }
+        let unc = UNUserNotificationCenter.current()
+        unc.requestAuthorization(options: [.alert, .badge, .sound]) { (success, error) in
+            if let error = error {
+                NSLog("Error requesting authorization for notifications: \(error)")
+                return
+            }
+        }
+        
         
         UIApplication.shared.registerForRemoteNotifications()
         
         return true
     }
-
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String: NSObject])
         
@@ -41,8 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NotificationCenter.default.post(name: UserController.userReadyStateChanged, object: nil)
             }
         }
-        
         NSLog("Notification received")
+        completionHandler(.newData)
     }
+
+    
 }
 

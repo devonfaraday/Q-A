@@ -422,16 +422,21 @@ class CloudKitManager {
      // MARK: - Subscriptions
     
     func subscripeToStudentReadyCheck(topic: Topic) {
-        guard let topicID = topic.recordID else { return }
-        let topicRef = CKReference(recordID: topicID, action: .none)
+//        guard let topicID = topic.recordID else { return }
+//        guard let currentUser = TopicController.shared.currentUser else { return }
+//        let topicRef = CKReference(recordID: topicID, action: .none)
         
-        let predicate = NSPredicate(format: "\(User.topicKey) CONTAINS %@", topicRef)
+        let notificationInfo = CKNotificationInfo()
+        let predicate = NSPredicate(format: "readyCheck == %d", 1)
+        notificationInfo.shouldSendContentAvailable = true
+        
         
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
+        subscription.notificationInfo = notificationInfo
         
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
             if let error = error {
-                NSLog("Error saving subscription\n\(error.localizedDescription)")
+                NSLog("Error saving subscription\n\(error)")
             }
         }
     }
