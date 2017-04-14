@@ -230,7 +230,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             firstNameTextField.text = currentUser.firstName
             lastNameTextField.text = currentUser.lastName
             profileImageView.image = currentUser.profileImage
-            
                 self.firstNameTextField.borderStyle = .none
                 self.firstNameTextField.isEnabled = false
                 self.lastNameTextField.borderStyle = .none

@@ -429,6 +429,7 @@ class CloudKitManager {
         let notificationInfo = CKNotificationInfo()
         let predicate = NSPredicate(format: "readyCheck == %d", 1)
         notificationInfo.shouldSendContentAvailable = true
+        //  TODO: - create another predicate to check that user has that field.
         
         
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
