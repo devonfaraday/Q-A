@@ -41,6 +41,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if let topic = topic {
             TopicController.shared.currentTopic = topic
             cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
+            cloudKitManager.subscribeToStudentQuestion(topic: topic)
             TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
             })
         }
@@ -132,7 +133,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func refreshTableView() {
-        self.questionTableView.reloadData()
+        if let topic = topic {
+            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+            })
+            DispatchQueue.main.async {
+                self.questionTableView.reloadData()
+            }
+        }
     }
     
     func showTopicNumber() {
