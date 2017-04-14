@@ -228,15 +228,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-2B-ruk">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-2B-ruk">
                                 <rect key="frame" x="0.0" y="160.33333333333331" width="414" height="508.66666666666669"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" rowHeight="73" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="73"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="questionCell" rowHeight="76" id="fMJ-jb-pnR" customClass="QueueTableViewCell" customModule="Q_A" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fMJ-jb-pnR" id="ewx-qG-hjT">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="73"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snd-bQ-zpf">
@@ -262,7 +262,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Question" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qj3-nY-kE1">
-                                                    <rect key="frame" x="14" y="8" width="334" height="21"/>
+                                                    <rect key="frame" x="14" y="8" width="313" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -272,7 +272,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="SLN-ju-PeF"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -290,14 +290,17 @@
                                                 <constraint firstItem="AcE-Q1-Z34" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="0qa-v1-GUX"/>
                                                 <constraint firstItem="snd-bQ-zpf" firstAttribute="leading" secondItem="l72-uu-fwp" secondAttribute="trailing" constant="6" id="3ba-Jj-fUh"/>
                                                 <constraint firstItem="qj3-nY-kE1" firstAttribute="top" secondItem="ewx-qG-hjT" secondAttribute="topMargin" id="4es-pG-KsX"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="snd-bQ-zpf" secondAttribute="bottom" constant="2.6666666666666714" id="8O6-Z3-42r"/>
                                                 <constraint firstAttribute="trailing" secondItem="AcE-Q1-Z34" secondAttribute="trailing" constant="12" id="CbA-6g-9nU"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="AcE-Q1-Z34" secondAttribute="bottom" constant="2.6666666666666714" id="G9L-Qf-BIG"/>
                                                 <constraint firstItem="djH-Bx-6wY" firstAttribute="top" secondItem="ewx-qG-hjT" secondAttribute="topMargin" id="Hzu-K1-YIu"/>
                                                 <constraint firstItem="qj3-nY-kE1" firstAttribute="leading" secondItem="ewx-qG-hjT" secondAttribute="leadingMargin" constant="6" id="J7e-4G-AGL"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="djH-Bx-6wY" secondAttribute="trailing" constant="40" id="KQa-kA-4Ay"/>
-                                                <constraint firstItem="djH-Bx-6wY" firstAttribute="leading" secondItem="qj3-nY-kE1" secondAttribute="trailing" constant="-24" id="Nn4-pf-Wpd"/>
+                                                <constraint firstItem="djH-Bx-6wY" firstAttribute="leading" secondItem="qj3-nY-kE1" secondAttribute="trailing" constant="-3" id="Nn4-pf-Wpd"/>
                                                 <constraint firstItem="snd-bQ-zpf" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="Qsj-b4-YRk"/>
                                                 <constraint firstItem="l72-uu-fwp" firstAttribute="leading" secondItem="ewx-qG-hjT" secondAttribute="leading" constant="6" id="guQ-gg-fu9"/>
-                                                <constraint firstItem="l72-uu-fwp" firstAttribute="top" secondItem="qj3-nY-kE1" secondAttribute="bottom" constant="6" id="maD-BG-6gP"/>
+                                                <constraint firstItem="AcE-Q1-Z34" firstAttribute="top" secondItem="djH-Bx-6wY" secondAttribute="bottom" constant="6" id="iEl-Qe-EYN"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="l72-uu-fwp" secondAttribute="bottom" constant="2.6666666666666714" id="l5O-xe-o4X"/>
                                                 <constraint firstItem="AcE-Q1-Z34" firstAttribute="leading" secondItem="snd-bQ-zpf" secondAttribute="trailing" constant="6" id="pRd-gw-WNo"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -674,6 +677,6 @@
         <image name="american-flag-1459201553ppe" width="828" height="1472"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="BhD-gG-JnP"/>
+        <segue reference="WS5-wE-SvI"/>
     </inferredMetricsTieBreakers>
 </document>

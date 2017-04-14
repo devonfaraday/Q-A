@@ -38,7 +38,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
-        questionTableView.autoresizesSubviews = true
+        
+        
         questionTableView.reloadData()
         if let topic = topic {
             TopicController.shared.currentTopic = topic
@@ -103,6 +104,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             })
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
