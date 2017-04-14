@@ -36,7 +36,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     var cloudKitManager = CloudKitManager()
-
+    var isEditingProfile = false
     //==============================================================
     // MARK: - View Life Cycle
     //==============================================================
@@ -100,6 +100,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     @IBAction func editButtonTapped(_ sender: Any) {
         
+        firstNameTextField.borderStyle = .bezel
+        firstNameTextField.isEnabled = true
+        lastNameTextField.borderStyle = .bezel
+        lastNameTextField.isEnabled = true
+        addPhotoButton.isHidden = false
+        isEditingProfile = true
     }
     
     @IBAction func addTopicButtonTapped(_ sender: Any) {
@@ -113,10 +119,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        if currentUser != nil {
+        if isEditingProfile  {
+            guard let currentUser = currentUser, let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let profileImage = profileImageView.image  else { return }
+            if let imageData = UIImageJPEGRepresentation(profileImage, 1.0) {
+            currentUser.firstName = firstName
+            currentUser.lastName = lastName
+            currentUser.profileImageData = imageData
+            UserController.shared.modifyUser(user: currentUser, completion: {
+            })
+            DispatchQueue.main.async {
+                self.updateView()
+            }
+            isEditingProfile = false
+            }
+        } else if currentUser != nil {
             guard let codeString = codeTextField.text else { return }
             guard let code = Int(codeString) else { return }
-            TopicController.shared.addUserToTopic(withCode: code, completion: { 
+            TopicController.shared.addUserToTopic(withCode: code, completion: {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -130,12 +149,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     DispatchQueue.main.async {
                         self.currentUser = user
                         self.updateView()
-//                    self.constraintsAfterSave()
+                        //                    self.constraintsAfterSave()
                     }
                 })
             }
             
         }
+        
     }
     
     //==============================================================
@@ -210,6 +230,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         lastNameTextField.borderStyle = .none
         lastNameTextField.isEnabled = false
         addPhotoButton.isHidden = true
+        
     }
     
     //==============================================================
