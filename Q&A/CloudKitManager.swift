@@ -422,17 +422,15 @@ class CloudKitManager {
     // MARK: - Subscriptions
     
     func subscripeToStudentReadyCheck(topic: Topic) {
-        //        guard let topicID = topic.recordID else { return }
-        //        guard let currentUser = TopicController.shared.currentUser else { return }
-        //        let topicRef = CKReference(recordID: topicID, action: .none)
-        
+        guard let topicID = topic.recordID else { return }
         let notificationInfo = CKNotificationInfo()
         let predicate = NSPredicate(format: "readyCheck == %d", 1)
+        let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topicID)
         notificationInfo.shouldSendContentAvailable = true
-        //  TODO: - create another predicate to check that user has that field.
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, topicPredicate])
         
         
-        let subscription = CKQuerySubscription(recordType: "User", predicate: predicate, options: .firesOnRecordUpdate)
+        let subscription = CKQuerySubscription(recordType: "User", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
@@ -445,7 +443,7 @@ class CloudKitManager {
     func subscribeToStudentQuestion(topic: Topic) {
         let notificationInfo = CKNotificationInfo()
         guard let topicID = topic.recordID else { return }
-        let predicate = NSPredicate(format: "topicRef == %@", topicID)
+        let predicate = NSPredicate(format: "topicReference == %@", topicID)
         notificationInfo.shouldSendContentAvailable = true
         
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicate, options: .firesOnRecordUpdate)

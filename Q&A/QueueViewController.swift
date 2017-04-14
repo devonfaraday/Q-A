@@ -133,10 +133,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func refreshTableView() {
         if let topic = topic {
             QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                DispatchQueue.main.async {
+                    self.questionTableView.reloadData()
+                }
             })
-            DispatchQueue.main.async {
-                self.questionTableView.reloadData()
-            }
         }
     }
     

@@ -15,13 +15,7 @@ class QuestionController {
     static var shared = QuestionController()
     let NewQuestionAdded = Notification.Name("NewQuestionAdded")
     var currentUser: User? = UserController.shared.loggedInUser
-    var questions: [Question] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: self.NewQuestionAdded, object: self)
-            }
-        }
-    }
+    var questions: [Question] = []
     
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
