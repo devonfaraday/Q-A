@@ -209,4 +209,5 @@ class TopicController {
         self.cloudKitManager.publicDatabase.add(operation)
         completion()
     }
+
 }

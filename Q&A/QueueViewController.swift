@@ -206,6 +206,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
+        guard let topic = topic else { return }
+        TopicController.shared.toggleIsReadyCheck(topic: topic) { 
+            
+        }
     }
     
     @IBAction func clearButtonTapped(_ sender: Any) {

@@ -48,7 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: UserController.userReadyStateChanged, object: nil)
                 NotificationCenter.default.post(name: QuestionController.shared.NewQuestionAdded, object: nil)
-                if TopicController.shared.currentTopic?.readyCheck {
+                guard let topic = TopicController.shared.currentTopic else { return }
+                if topic.readyCheck {
                     NotificationCenter.default.post(name: TopicController.shared.topicBoolNotificationName, object: nil)
                 }
             }
