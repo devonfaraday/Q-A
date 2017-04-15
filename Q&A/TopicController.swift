@@ -15,6 +15,7 @@ class TopicController {
     static let shared = TopicController()
     let cloudKitManager = CloudKitManager()
     var currentUser: User? = UserController.shared.loggedInUser
+    let topicBoolNotificationName = Notification.Name("topicBoolChanged")
     var userTopics: [Topic] = []
     var TopicUsers: [User] = []
     var tempGeneratedNumber: Int = 0

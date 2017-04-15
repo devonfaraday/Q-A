@@ -34,11 +34,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
-        readyCheckConstraint()
+        readyButton.isHidden = true
+        //        readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
-        
         
         questionTableView.reloadData()
         if let topic = topic {
@@ -46,11 +46,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
             cloudKitManager.subscribeToStudentQuestion(topic: topic)
             cloudKitManager.subscripeToQuestionVotesIn(topic: topic)
+            cloudKitManager.subscribeToTopicBool(topic: topic)
             TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
             })
         }
         NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showReadyButton), name: TopicController.shared.topicBoolNotificationName, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +64,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
     }
-
+    
     //==============================================================
     // MARK: - Text Field Delegate Function
     //==============================================================
@@ -135,9 +137,17 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                     DispatchQueue.main.async {
                         self.questionTableView.reloadData()
-                    }                    
+                    }
                 })
             })
+        }
+    }
+    
+    func showReadyButton() {
+        if TopicController.shared.currentUser?.recordID != topic?.topicOwner.recordID {
+            DispatchQueue.main.async {
+                self.readyButton.isHidden = false
+            }
         }
     }
     
@@ -160,13 +170,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             codeLabel.text = "\(topic.codeGenerator)"
         }
     }
-
+    
     func viewTypeSetup() {
         askQuestionButton.isHidden = true
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
-            topicNameTextField.text = topic.name
-            topicNameTextField.borderStyle = .none
-            topicNameTextField.isEnabled = false
+        topicNameTextField.text = topic.name
+        topicNameTextField.borderStyle = .none
+        topicNameTextField.isEnabled = false
         if topic.topicOwner.recordID == currentUser.recordID {
             askQuestionButton.isHidden = true
         } else {
@@ -177,13 +187,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    func readyCheckConstraint() {
-//        readyButton.translatesAutoresizingMaskIntoConstraints = false
-//        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-//        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
-//        view.addConstraint(readyButtonHeightConstraint)
-//        view.addConstraint(readyButtonTopConstraint)
-    }
+    //    func readyCheckConstraint() {
+    //        readyButton.translatesAutoresizingMaskIntoConstraints = false
+    //        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+    //        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
+    //        view.addConstraint(readyButtonHeightConstraint)
+    //        view.addConstraint(readyButtonTopConstraint)
+    //    }
     
     //==============================================================
     // MARK: - IBActions

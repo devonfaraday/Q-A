@@ -469,8 +469,27 @@ class CloudKitManager {
         
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
             if let error = error {
-                print("Error saving subscription to question: \(error.localizedDescription)")
+                print("Error saving subscription to votes: \(error.localizedDescription)")
             }
         }
     }
+    
+    func subscribeToTopicBool(topic: Topic) {
+        let notificationInfo = CKNotificationInfo()
+        guard let topicID = topic.recordID else { return }
+        
+        let readyCheckPredicate = NSPredicate(format: "readyCheck == %d", 1)
+        let topicIDPredicate = NSPredicate(format: "recordID == %@", topicID)
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [readyCheckPredicate, topicIDPredicate])
+        notificationInfo.shouldSendContentAvailable = true
+        
+        let subscription = CKQuerySubscription(recordType: "Topic", predicate: predicates, options: .firesOnRecordUpdate)
+        subscription.notificationInfo = notificationInfo
+        
+        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
+            if let error = error {
+                print("Error saving subscription to topic ready check: \(error.localizedDescription)")
+            }
+        }
+}
 }

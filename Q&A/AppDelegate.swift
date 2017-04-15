@@ -48,12 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: UserController.userReadyStateChanged, object: nil)
                 NotificationCenter.default.post(name: QuestionController.shared.NewQuestionAdded, object: nil)
+                if TopicController.shared.currentTopic?.readyCheck {
+                    NotificationCenter.default.post(name: TopicController.shared.topicBoolNotificationName, object: nil)
+                }
             }
         }
         NSLog("Notification received")
         completionHandler(.newData)
     }
-
-    
 }
 
