@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillAppear(animated)
         TopicController.shared.fetchTopicsForUser(completion: { (topics) in
             if topics.count == 0 {
-                print("No topics was fetched for this user")
+                print("No topics were fetched for this user")
             }
             DispatchQueue.main.async {
                 self.tableView.reloadData()

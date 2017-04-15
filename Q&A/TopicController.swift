@@ -40,7 +40,7 @@ class TopicController {
             guard let topic = newTopic else { return }
             guard let topicID = topic.recordID else { completion(nil); return }
             self.topics.append(topic)
-            let reference = CKReference(recordID: topicID, action: .deleteSelf)
+            let reference = CKReference(recordID: topicID, action: .none)
             self.currentUser?.topic?.append(reference)
             guard let user = self.currentUser else { completion(nil); return }
             let userRecord = CKRecord(user: user)
