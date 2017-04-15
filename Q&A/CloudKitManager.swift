@@ -402,7 +402,7 @@ class CloudKitManager {
             
             guard let appleUserRecordID = appleUserRecordID else { return }
             
-            let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+            let appleUserRef = CKReference(recordID: appleUserRecordID, action: .none)
             
             let preditcate = NSPredicate(format: "appleUserRef == %@", appleUserRef)
             

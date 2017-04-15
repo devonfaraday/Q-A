@@ -25,7 +25,7 @@ class QuestionController {
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
         guard let topicID = topic.recordID else { completion(); return }
-        let topicRef = CKReference(recordID: topicID, action: .deleteSelf)
+        let topicRef = CKReference(recordID: topicID, action: .none)
         let question = Question(question: question, questionOwner: owner, topicRef: topicRef)
         let record = question.cloudKitRecord
         cloudKitManager.saveRecord(record) { (_, error) in
@@ -101,7 +101,7 @@ class QuestionController {
     
     func fetchQuestionsWithTopicRef(topic: Topic, completion: @escaping([Question]) -> Void) {
         guard let topicRecordID = topic.recordID else { completion([]); return }
-        let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
+        let topicRef = CKReference(recordID: topicRecordID, action: .none)
         let predicate = NSPredicate(format: "topicReference == %@", topicRef)
         let query = CKQuery(recordType: Question.questionRecordType, predicate: predicate)
         cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in

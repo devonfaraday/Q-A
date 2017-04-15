@@ -144,12 +144,17 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func showReadyButton() {
-        if TopicController.shared.currentUser?.recordID != topic?.topicOwner.recordID {
-            DispatchQueue.main.async {
-                self.readyButton.isHidden = false
-            }
+        
+            guard let topic = TopicController.shared.currentTopic else { return }
+            TopicController.shared.fetchTopic(topic: topic, completion: { 
+                print("fetched topic")
+                DispatchQueue.main.async {
+                    self.readyButton.isHidden = false
+                }
+            })
+            
         }
-    }
+    
     
     func refreshTableView() {
         DispatchQueue.main.async {

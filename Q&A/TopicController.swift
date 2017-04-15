@@ -95,7 +95,7 @@ class TopicController {
     
     func fetchUsersForTopic(topic: Topic, completion: @escaping() -> Void) {
         guard let topicRecordID = topic.recordID else { completion(); return }
-        let topicRef = CKReference(recordID: topicRecordID, action: .deleteSelf)
+        let topicRef = CKReference(recordID: topicRecordID, action: .none)
         let predicate = NSPredicate(format: "topicReferences CONTAINS %@", topicRef)
         cloudKitManager.fetchRecordsWithType("User", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
             if let error = error {
@@ -148,7 +148,7 @@ class TopicController {
     
     func blockUsers(user: User, topic: Topic) {
         guard let recordID = user.recordID else { return }
-        let userRef = CKReference(recordID: recordID, action: .deleteSelf)
+        let userRef = CKReference(recordID: recordID, action: .none)
         topic.blockedUsers.append(userRef)
         modifyTopic(topic: topic) {
         }
@@ -156,7 +156,7 @@ class TopicController {
     
     func blockUserQuestion(user: User, topic: Topic) -> Bool {
         guard let userRecordID = user.recordID else { return false }
-        let userRef = CKReference(recordID: userRecordID, action: .deleteSelf)
+        let userRef = CKReference(recordID: userRecordID, action: .none)
         let blocked = topic.blockedUsers.contains(userRef)
         if blocked {
             return true
@@ -178,7 +178,7 @@ class TopicController {
             guard let topic = topics.last else { completion(); return }
             self.userTopics.append(topic)
             guard let recordID = records.first?.recordID else { completion(); return }
-            let topicRef = CKReference(recordID: recordID, action: .deleteSelf)
+            let topicRef = CKReference(recordID: recordID, action: .none)
             self.currentUser?.topic?.append(topicRef)
             guard let user = self.currentUser else { completion(); return }
             let userRecord = CKRecord(user: user)
@@ -195,6 +195,9 @@ class TopicController {
     func toggleIsReadyCheck(topic: Topic, completion: @escaping () -> Void) {
         topic.readyCheck = !topic.readyCheck
         saveModifyTopicRecord(topic: topic) {
+            self.fetchTopic(topic: topic, completion: {
+                print("\(topic.name)'s ready state is \(topic.readyCheck)")
+            })
             completion()
         }
     }
@@ -210,4 +213,14 @@ class TopicController {
         completion()
     }
     
+    func fetchTopic(topic: Topic, completion: @escaping() -> Void) {
+        guard let topicID = topic.recordID else { return }
+        cloudKitManager.fetchRecord(withID: topicID) { (record, _) in
+            guard let record = record else { return }
+            let topic = Topic(record: record)
+            self.currentTopic = topic
+            completion()
+        }
+        
+    }
 }
