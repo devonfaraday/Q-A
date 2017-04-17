@@ -42,6 +42,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
+        pictureFrameCircular()
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
         } else {
@@ -261,5 +262,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func pictureFrameCircular() {
+        profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2
+        profileImageView.layer.borderWidth = 1
+        profileImageView.layer.borderColor = UIColor.clear.cgColor
+        profileImageView.clipsToBounds = true
     }
 }
