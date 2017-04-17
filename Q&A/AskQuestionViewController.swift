@@ -14,6 +14,7 @@ class AskQuestionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.questionTextView.becomeFirstResponder()
     }
     
     //==============================================================

@@ -177,6 +177,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func viewTypeSetup() {
+        self.topicNameTextField.becomeFirstResponder()
         askQuestionButton.isHidden = true
         guard let topic = topic, let currentUser = TopicController.shared.currentUser else {return}
         topicNameTextField.text = topic.name
