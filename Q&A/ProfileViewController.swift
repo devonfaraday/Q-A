@@ -145,6 +145,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (user) in
                     DispatchQueue.main.async {
                         self.currentUser = user
+                        TopicController.shared.currentUser = user
                         self.updateView()
                         //                    self.constraintsAfterSave()
                     }
