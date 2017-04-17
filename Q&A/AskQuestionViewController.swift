@@ -7,14 +7,12 @@
 //
 
 import UIKit
+import NotificationCenter
 
 class AskQuestionViewController: UIViewController {
 
     var topic: Topic?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     //==============================================================
     // MARK: - IBOutlets
@@ -30,9 +28,12 @@ class AskQuestionViewController: UIViewController {
     
     @IBAction func addButtonTapped(_ sender: Any) {
         guard let question = questionTextView.text, !question.isEmpty, let topic = self.topic else { return }
-        QuestionController.shared.saveQuestion(question: question, topic: topic) { 
-            
+        QuestionController.shared.saveQuestion(question: question, topic: topic) {
+        
         }
+        
         dismiss(animated: true, completion: nil)
     }
+    
+  
 }
