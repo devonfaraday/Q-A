@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
         } else {
+            codeTextField.isHidden = true
             //            constraintsWithoutUser()
         }
     }
@@ -145,6 +146,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     DispatchQueue.main.async {
                         self.currentUser = user
                         TopicController.shared.currentUser = user
+                        self.codeTextField.isHidden = false
                         self.updateView()
                         //                    self.constraintsAfterSave()
                     }
