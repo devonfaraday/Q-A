@@ -25,7 +25,7 @@ class QuestionController {
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
         guard let owner = currentUser?.firstName else { completion(); return }
         guard let topicID = topic.recordID else { completion(); return }
-        let topicRef = CKReference(recordID: topicID, action: .none)
+        let topicRef = CKReference(recordID: topicID, action: .deleteSelf)
         let question = Question(question: question, questionOwner: owner, topicRef: topicRef)
         let record = question.cloudKitRecord
         cloudKitManager.saveRecord(record) { (_, error) in
