@@ -67,28 +67,19 @@ class TopicController {
     }
     
     func fetchTopicsForUser(completion: @escaping([Topic]) -> Void) {
-        guard let user = currentUser else { completion([]); return }
-        var topicIDs = [CKRecordID]()
-        var topics = [Topic]()
-        guard let topicRefs = user.topic else { completion([]); return }
-        for topic in topicRefs {
-            let topicID = topic.recordID
-            topicIDs.append(topicID)
-        }
-        let group = DispatchGroup()
-        for id in topicIDs {
-            group.enter()
-            cloudKitManager.publicDatabase.fetch(withRecordID: id, completionHandler: { (record, error) in
-                guard let record = record else { completion([]); return }
-                guard let topic = Topic(record: record) else { completion([]); return }
-                topics.append(topic)
-                group.leave()
-            })
-        }
-        group.notify(queue: DispatchQueue.main) {
+        guard let user = currentUser, let topicReferences = user.topic else { completion([]); return }
+        let predicate = NSPredicate(format: "recordID IN %@", topicReferences)
+        guard topicReferences.count != 0 else { completion([]); return }
+        cloudKitManager.fetchRecordsWithType("Topic", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
+            if let error = error { print(error.localizedDescription); completion([])}
             
-            self.userTopics = topics.sorted(by: {$0.name.lowercased() < $1.name.lowercased()})
-            completion(topics)
+            if let records = records {
+                let topics = records.flatMap { Topic(record: $0) }
+                self.userTopics = topics.sorted(by: {$0.name.lowercased() < $1.name.lowercased()})
+                completion(topics)
+                
+            }
+            completion([])
         }
     }
     

@@ -47,7 +47,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             //            constraintsWithoutUser()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +98,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - IBActions
     //==============================================================
     @IBAction func editButtonTapped(_ sender: Any) {
-        
         isEditingProfile = true
         updateView()
     }
@@ -134,6 +132,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             guard let code = Int(codeString) else { return }
             TopicController.shared.addUserToTopic(withCode: code, completion: {
                 DispatchQueue.main.async {
+                    self.codeTextField.text = ""
                     self.tableView.reloadData()
                 }
             })
@@ -145,14 +144,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (user) in
                     DispatchQueue.main.async {
                         self.currentUser = user
+                        TopicController.shared.currentUser = user
                         self.updateView()
                         //                    self.constraintsAfterSave()
                     }
                 })
             }
-            
         }
-        
     }
     
     //==============================================================
@@ -235,7 +233,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.lastNameTextField.borderStyle = .none
                 self.lastNameTextField.isEnabled = false
                 self.addPhotoButton.isHidden = true
-            
         }
     }
     
