@@ -134,6 +134,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             TopicController.shared.addUserToTopic(withCode: code, completion: {
                 DispatchQueue.main.async {
                     self.codeTextField.text = ""
+                    self.codeTextField.resignFirstResponder()
                     self.tableView.reloadData()
                 }
             })
