@@ -423,9 +423,10 @@ class CloudKitManager {
     
     func subscripeToStudentReadyCheck(topic: Topic) {
         guard let topicID = topic.recordID else { return }
+        let topifRef = CKReference(recordID: topicID, action: .none)
         let notificationInfo = CKNotificationInfo()
 //        let predicate = NSPredicate(format: "readyCheck == %d", 1)
-        let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topicID)
+        let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topifRef)
         notificationInfo.shouldSendContentAvailable = true
         let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicPredicate])
         
