@@ -41,7 +41,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="asU-BF-dBs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="260.625" y="146.83098591549296"/>
+            <point key="canvasLocation" x="361" y="139"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="L8j-eR-gzT">
@@ -219,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ol2-8H-zEc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1931.8840579710147" y="141.84782608695653"/>
+            <point key="canvasLocation" x="1990" y="140"/>
         </scene>
         <!--Queue View Controller-->
         <scene sceneID="0Q5-Tz-qK3">
@@ -513,7 +513,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QQY-2e-EHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2821.875" y="926.4084507042254"/>
+            <point key="canvasLocation" x="2819" y="883"/>
         </scene>
         <!--Ready Check View Controller-->
         <scene sceneID="21Y-e5-UpK">
@@ -604,15 +604,15 @@
                                                         <constraint firstAttribute="width" secondItem="fVm-Xg-rbB" secondAttribute="height" multiplier="1:1" id="w1t-Iu-L89"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xBC-Kq-W6o">
-                                                    <rect key="frame" x="8" y="16" width="143" height="24"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xBC-Kq-W6o">
+                                                    <rect key="frame" x="8" y="16" width="343" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="fVm-Xg-rbB" firstAttribute="leading" secondItem="xBC-Kq-W6o" secondAttribute="trailing" constant="208" id="25I-D3-erX"/>
+                                                <constraint firstItem="fVm-Xg-rbB" firstAttribute="leading" secondItem="xBC-Kq-W6o" secondAttribute="trailing" constant="8" id="25I-D3-erX"/>
                                                 <constraint firstItem="fVm-Xg-rbB" firstAttribute="top" secondItem="kFK-Kw-chi" secondAttribute="top" constant="5" id="UxU-RD-8R0"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="xBC-Kq-W6o" secondAttribute="bottom" constant="7.5" id="YPc-cZ-duL"/>
                                                 <constraint firstItem="xBC-Kq-W6o" firstAttribute="top" secondItem="kFK-Kw-chi" secondAttribute="topMargin" constant="8" id="e0c-Lc-ezi"/>
@@ -653,7 +653,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AqZ-Kh-ykL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3630" y="141.5492957746479"/>
+            <point key="canvasLocation" x="3638" y="141"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iRy-aO-bDe">
@@ -671,7 +671,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1q5-On-dPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1088.4057971014493" y="145.10869565217394"/>
+            <point key="canvasLocation" x="1196" y="139"/>
         </scene>
     </scenes>
     <resources>
