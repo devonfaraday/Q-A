@@ -423,9 +423,10 @@ class CloudKitManager {
     
     func subscripeToStudentReadyCheck(topic: Topic) {
         guard let topicID = topic.recordID else { return }
+        let topifRef = CKReference(recordID: topicID, action: .none)
         let notificationInfo = CKNotificationInfo()
 //        let predicate = NSPredicate(format: "readyCheck == %d", 1)
-        let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topicID)
+        let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topifRef)
         notificationInfo.shouldSendContentAvailable = true
         let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicPredicate])
         
@@ -459,9 +460,9 @@ class CloudKitManager {
     func subscripeToQuestionVotesIn(topic: Topic) {
         let notificationInfo = CKNotificationInfo()
         guard let topicID = topic.recordID else { return }
-        let questionPredicate = NSPredicate(value: true)
+//        let questionPredicate = NSPredicate(value: true)
         let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
-        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicRefPredicate])
         notificationInfo.shouldSendContentAvailable = true
         
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicates, options: .firesOnRecordUpdate)
