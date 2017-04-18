@@ -183,13 +183,13 @@ class TopicController {
         }
     }
     
-    func toggleIsReadyCheck(topic: Topic, completion: @escaping () -> Void) {
-        topic.readyCheck = !topic.readyCheck
+    func toggleIsReadyCheck(topic: Topic, withReadyCheck readyCheck: Bool, completion: @escaping () -> Void) {
+        topic.readyCheck = readyCheck
         saveModifyTopicRecord(topic: topic) {
             self.fetchTopic(topic: topic, completion: {
                 print("\(topic.name)'s ready state is \(topic.readyCheck)")
+                completion()
             })
-            completion()
         }
     }
     
@@ -201,7 +201,7 @@ class TopicController {
         }
         operation.savePolicy = .changedKeys
         self.cloudKitManager.publicDatabase.add(operation)
-        completion()
+        
     }
     
     func fetchTopic(topic: Topic, completion: @escaping() -> Void) {

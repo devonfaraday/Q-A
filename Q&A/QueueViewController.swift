@@ -161,8 +161,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func checkTopicsReadyCheckBool() {
         guard let topic = topic else { return }
-        TopicController.shared.fetchTopic(topic: topic) { 
-            if (TopicController.shared.currentTopic?.readyCheck)! {
+        TopicController.shared.fetchTopic(topic: topic) {
+            guard let currentTopic = TopicController.shared.currentTopic else { return }
+            if currentTopic.readyCheck && currentTopic.topicOwner.recordID != UserController.shared.loggedInUser?.recordID {
                 DispatchQueue.main.async {
                     self.readyButton.isHidden = false
                     self.readyButton.backgroundColor = UIColor.white
@@ -224,7 +225,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
         guard let topic = topic else { return }
-        TopicController.shared.toggleIsReadyCheck(topic: topic) { 
+        TopicController.shared.toggleIsReadyCheck(topic: topic, withReadyCheck: true) {
             
         }
     }
@@ -242,7 +243,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func readyButtonTapped(_ sender: Any) {
-        UserController.shared.toggleReadyCheck {
+        UserController.shared.toggleReadyCheck() {
             guard let currentUser = TopicController.shared.currentUser else {return}
             DispatchQueue.main.async {
                 if currentUser.readyCheck {
