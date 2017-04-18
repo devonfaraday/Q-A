@@ -22,18 +22,20 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     @IBOutlet weak var topicNameTextField: UITextField!
     @IBOutlet weak var questionTableView: UITableView!
-    @IBOutlet weak var blockButton: UIButton!
+//    @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var readyCheckButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var askQuestionButton: UIButton!
     @IBOutlet weak var codeLabel: UILabel!
     @IBOutlet weak var readyButton: UIButton!
+    @IBOutlet weak var backButtonTapped: UIButton!
     
     //==============================================================
     // MARK: - Life Cycle
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeViewsOnLoad()
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshQuestionData), for: UIControlEvents.valueChanged)
         questionTableView.refreshControl = refreshControl
@@ -97,6 +99,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
+        cell.layer.cornerRadius = 5
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
         cell.delegate = self
@@ -161,8 +166,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func checkTopicsReadyCheckBool() {
         guard let topic = topic else { return }
-        TopicController.shared.fetchTopic(topic: topic) { 
-            if (TopicController.shared.currentTopic?.readyCheck)! {
+        TopicController.shared.fetchTopic(topic: topic) {
+            guard let currentTopic = TopicController.shared.currentTopic else { return }
+            if currentTopic.readyCheck && currentTopic.topicOwner.recordID != UserController.shared.loggedInUser?.recordID {
                 DispatchQueue.main.async {
                     self.readyButton.isHidden = false
                     self.readyButton.backgroundColor = UIColor.white
@@ -203,13 +209,30 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             askQuestionButton.isHidden = true
         } else {
             askQuestionButton.isHidden = false
-            blockButton.isHidden = true
+//            blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
         }
     }
     
-    
+    func changeViewsOnLoad() {
+        self.backButtonTapped.layer.cornerRadius = 5
+        self.backButtonTapped.layer.borderWidth = 1
+        self.backButtonTapped.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        
+        self.askQuestionButton.layer.cornerRadius = 5
+        self.askQuestionButton.layer.borderWidth = 1
+        self.askQuestionButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        
+        self.readyCheckButton.layer.cornerRadius = 5
+        self.readyCheckButton.layer.borderWidth = 1
+        self.readyCheckButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        
+        self.clearButton.layer.cornerRadius = 5
+        self.clearButton.layer.borderWidth = 1
+        self.clearButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+    }
+
     
     
     //==============================================================
@@ -224,7 +247,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
         guard let topic = topic else { return }
-        TopicController.shared.toggleIsReadyCheck(topic: topic) { 
+        TopicController.shared.toggleIsReadyCheck(topic: topic, withReadyCheck: true) {
             
         }
     }
@@ -242,7 +265,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @IBAction func readyButtonTapped(_ sender: Any) {
-        UserController.shared.toggleReadyCheck {
+        UserController.shared.toggleReadyCheck() {
             guard let currentUser = TopicController.shared.currentUser else {return}
             DispatchQueue.main.async {
                 if currentUser.readyCheck {

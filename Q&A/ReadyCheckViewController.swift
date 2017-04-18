@@ -50,7 +50,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
         UserController.shared.setAllUsersReadyCheckToFalse {
         }
         guard let topic = TopicController.shared.currentTopic else { return }
-        TopicController.shared.toggleIsReadyCheck(topic: topic) { 
+        TopicController.shared.toggleIsReadyCheck(topic: topic, withReadyCheck: false) {
             
         }
         dismiss(animated: true, completion: nil)
