@@ -34,6 +34,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshQuestionData), for: UIControlEvents.valueChanged)
+        questionTableView.refreshControl = refreshControl
+        
+        
         readyButton.isHidden = true
         //        readyCheckConstraint()
         viewTypeSetup()
@@ -175,8 +180,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func refreshQuestionData() {
         if let topic = topic {
-            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (questions) in
-                QuestionController.shared.questions = questions
+            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                self.questionTableView.refreshControl?.endRefreshing()
             })
         }
     }
