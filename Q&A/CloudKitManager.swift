@@ -459,9 +459,9 @@ class CloudKitManager {
     func subscripeToQuestionVotesIn(topic: Topic) {
         let notificationInfo = CKNotificationInfo()
         guard let topicID = topic.recordID else { return }
-        let questionPredicate = NSPredicate(value: true)
+//        let questionPredicate = NSPredicate(value: true)
         let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
-        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicRefPredicate])
         notificationInfo.shouldSendContentAvailable = true
         
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicates, options: .firesOnRecordUpdate)

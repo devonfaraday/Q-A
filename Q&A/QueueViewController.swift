@@ -163,8 +163,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func refreshQuestionData() {
         if let topic = topic {
-            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                
+            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (questions) in
+                QuestionController.shared.questions = questions
             })
         }
     }
