@@ -47,7 +47,6 @@ class User: Equatable {
         self.lastName = lastName
         self.profileImageData = profileImageData
         self.readyCheck = readyCheck
-        self.topic = []
         self.appleUserRef = appleUserRef
         
     }
@@ -57,14 +56,13 @@ class User: Equatable {
             let lastName = record[User.lastNameKey] as? String,
             let readyCheck = record[User.readyCheckKey] as? Bool,
             let photoAsset = record[User.profileImageDataKey] as? CKAsset,
-            let topic = record[User.topicKey] as? [CKReference],
             let appleUserRef = record[User.appleUserRefKey] as? CKReference else { return nil }
         
         self.firstName = firstName
         self.lastName = lastName
         self.recordID = record.recordID
         self.readyCheck = readyCheck
-        self.topic = topic
+        self.topic = record[User.topicKey] as? [CKReference]
         let imageDataOpt = try? Data(contentsOf: photoAsset.fileURL)
         guard let imageData = imageDataOpt else { return nil }
         self.profileImageData = imageData

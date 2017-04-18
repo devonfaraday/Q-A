@@ -140,7 +140,7 @@ class TopicController {
     func blockUsers(user: User, topic: Topic) {
         guard let recordID = user.recordID else { return }
         let userRef = CKReference(recordID: recordID, action: .none)
-        topic.blockedUsers.append(userRef)
+        topic.blockedUsers?.append(userRef)
         modifyTopic(topic: topic) {
         }
     }
@@ -148,7 +148,7 @@ class TopicController {
     func blockUserQuestion(user: User, topic: Topic) -> Bool {
         guard let userRecordID = user.recordID else { return false }
         let userRef = CKReference(recordID: userRecordID, action: .none)
-        let blocked = topic.blockedUsers.contains(userRef)
+        guard let blocked = topic.blockedUsers?.contains(userRef) else { return false }
         if blocked {
             return true
         } else {

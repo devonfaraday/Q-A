@@ -55,7 +55,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showReadyButton), name: TopicController.shared.topicBoolNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkTopicsReadyCheckBool), name: TopicController.shared.topicBoolNotificationName, object: nil)
+        
     }
     
     
@@ -151,8 +152,19 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     self.readyButton.isHidden = false
                 }
             })
-            
         }
+    
+    func checkTopicsReadyCheckBool() {
+        guard let topic = topic else { return }
+        TopicController.shared.fetchTopic(topic: topic) { 
+            if (TopicController.shared.currentTopic?.readyCheck)! {
+                DispatchQueue.main.async {
+                    self.readyButton.isHidden = false
+                    self.readyButton.backgroundColor = UIColor.white
+                }
+            }
+        }
+    }
     
     
     func refreshTableView() {
@@ -192,13 +204,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    //    func readyCheckConstraint() {
-    //        readyButton.translatesAutoresizingMaskIntoConstraints = false
-    //        let readyButtonTopConstraint = NSLayoutConstraint(item: readyButton, attribute: .top, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-    //        let readyButtonHeightConstraint = NSLayoutConstraint(item: readyButton, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 1000)
-    //        view.addConstraint(readyButtonHeightConstraint)
-    //        view.addConstraint(readyButtonTopConstraint)
-    //    }
+    
+    
     
     //==============================================================
     // MARK: - IBActions

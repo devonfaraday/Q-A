@@ -21,7 +21,7 @@ class Topic: Equatable {
     let name: String
     let codeGenerator: Int
     let questions: [Question]
-    var blockedUsers: [CKReference]
+    var blockedUsers: [CKReference]?
     var recordID: CKRecordID?
     var readyCheck: Bool
     let topicOwner: CKReference
@@ -30,7 +30,6 @@ class Topic: Equatable {
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = questions
-        self.blockedUsers = []
         self.readyCheck = readyCheck
         self.topicOwner = topicOwner
     }
@@ -38,14 +37,13 @@ class Topic: Equatable {
     init?(record: CKRecord) {
         guard let name = record[Topic.nameKey] as? String,
             let codeGenerator = record[Topic.codeGeneratorKey] as? Int,
-            let blockedUsers = record[Topic.blockedUsersKey] as? [CKReference],
             let readyCheck = record[Topic.readyCheckKey] as? Bool,
             let topicOwner = record[Topic.topicOwnerKey] as? CKReference
             else { return nil }
         self.name = name
         self.codeGenerator = codeGenerator
         self.questions = []
-        self.blockedUsers = blockedUsers
+        self.blockedUsers = record[Topic.blockedUsersKey] as? [CKReference]
         self.recordID = record.recordID
         self.readyCheck = readyCheck
         self.topicOwner = topicOwner
