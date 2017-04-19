@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var addPhotoButton: UIButton!
+    @IBOutlet weak var editButtonTapped: UIButton!
+    @IBOutlet weak var addButtonTapped: UIButton!
     
     //==============================================================
     // MARK: - Properties
@@ -42,6 +44,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeViewsOnLoad()
         pictureFrameCircular()
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
@@ -66,12 +69,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     // MARK: - Data Source Function
     //==============================================================
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TopicController.shared.userTopics.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "topicCell", for: indexPath)
+        cell.layer.cornerRadius = 5
+        cell.layer.borderColor = UIColor(red: 0.0/255.0, green: 81.0/255.0, blue: 116.0/255.0, alpha: 1.0).cgColor
+        cell.layer.borderWidth = 1
         let topic = TopicController.shared.userTopics[indexPath.row]
         cell.textLabel?.text = topic.name
         return cell
@@ -233,11 +243,25 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             lastNameTextField.text = currentUser.lastName
             profileImageView.image = currentUser.profileImage
                 self.firstNameTextField.borderStyle = .none
+                self.firstNameTextField.backgroundColor = UIColor.clear
                 self.firstNameTextField.isEnabled = false
+                self.firstNameTextField.textColor = UIColor.white
                 self.lastNameTextField.borderStyle = .none
+                self.lastNameTextField.backgroundColor = UIColor.clear
+                self.lastNameTextField.textColor = UIColor.white
                 self.lastNameTextField.isEnabled = false
                 self.addPhotoButton.isHidden = true
         }
+    }
+    
+    func changeViewsOnLoad() {
+        self.submitButton.layer.cornerRadius = 5
+        self.submitButton.layer.borderWidth = 1
+        self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        
+        self.editButtonTapped.layer.cornerRadius = 5
+        self.editButtonTapped.layer.borderWidth = 1
+        self.editButtonTapped.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
     
     //==============================================================
