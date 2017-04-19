@@ -69,6 +69,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshTableView()
+        
     }
     
     //==============================================================

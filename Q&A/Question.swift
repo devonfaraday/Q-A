@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class Question {
+class Question: Equatable {
     
     static let questionKey = "question"
     static let questionRecordType = "Question"
@@ -63,6 +63,11 @@ extension CKRecord {
         self.setValue(question.upVote, forKey: Question.upVoteKey)
         self.setValue(question.downVote, forKey: Question.downVoteKey)
         self.setValue(question.questionOwner, forKey: Question.ownerKey)
+        
+        question.cloudKitRecordID = recordID
     }
 }
 
+func ==(lhs: Question, rhs: Question) -> Bool {
+    return lhs === rhs
+}

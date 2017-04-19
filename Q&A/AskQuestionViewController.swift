@@ -35,11 +35,11 @@ class AskQuestionViewController: UIViewController {
     
     @IBAction func addButtonTapped(_ sender: Any) {
         guard let question = questionTextView.text, !question.isEmpty, let topic = self.topic else { return }
+        addButton.isEnabled = false
         QuestionController.shared.saveQuestion(question: question, topic: topic) {
-        
+            self.dismiss(animated: true, completion: nil)
         }
         
-        dismiss(animated: true, completion: nil)
     }
     
     func buttonLayout() {

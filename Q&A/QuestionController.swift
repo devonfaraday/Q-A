@@ -15,12 +15,15 @@ class QuestionController {
     static var shared = QuestionController()
     let NewQuestionAdded = Notification.Name("NewQuestionAdded")
     let questionDataRefreshed = Notification.Name("newQuestionData")
-    var currentUser: User? = UserController.shared.loggedInUser
+    var currentUser: User?
     var questions: [Question] = [] {
         didSet {
             NotificationCenter.default.post(name: questionDataRefreshed, object: nil)
             NSLog("Notification posted \(questionDataRefreshed)")
         }
+    }
+    init() {
+        currentUser = UserController.shared.loggedInUser
     }
     
     func saveQuestion(question: String, topic: Topic, completion: @escaping() -> Void) {
@@ -34,10 +37,11 @@ class QuestionController {
                 print("Error with saveing question to cloudKit: \(error.localizedDescription)")
                 completion()
                 return
+            } else {
+                print("Saved Question to CloudKit")
+               self.questions.append(question)
+                completion()
             }
-            print("Saved Question to CloudKit")
-            self.questions.append(question)
-            completion()
         }
     }
     
@@ -88,32 +92,47 @@ class QuestionController {
     
     func upvote(question: Question, completion: @escaping() -> Void) {
         if checkUserForDuplicatesVotes(question: question, bool: true) {
-            question.vote += 1
             guard let userID = currentUser?.recordID else { completion(); return }
-            question.upVote.append(String(describing: userID))
+            let userIDString = userID.recordName
+            question.vote += 1
+            if question.downVote.contains(userIDString) {
+                guard let downVoteIndex = question.downVote.index(of: userIDString) else { return }
+                question.downVote.remove(at: downVoteIndex)
+            } else {
+                question.upVote.append(userIDString)
+            }
             modifyQuestion(question: question) {
                 completion()
             }
         }
+        completion()
     }
     
     func downvote(question: Question, completion: @escaping() -> Void) {
         if checkUserForDuplicatesVotes(question: question, bool: false) {
-            question.vote -= 1
             guard let userID = currentUser?.recordID else { completion(); return }
-            question.downVote.append(String(describing: userID))
+            let userIDString = userID.recordName
+            question.vote -= 1
+            if question.upVote.contains(userIDString) {
+                guard let upVoteIndex = question.upVote.index(of: userIDString) else { return }
+                question.upVote.remove(at: upVoteIndex)
+            } else {
+                question.downVote.append(userIDString)
+            }
             modifyQuestion(question: question) {
                 completion()
-            }            
+            }
         }
+        completion()
     }
     
     func checkUserForDuplicatesVotes(question: Question, bool: Bool) -> Bool {
         guard let userID = currentUser?.recordID else { return true }
+        let userIDString = userID.recordName
         if bool {
-            return question.upVote.contains(String(describing: userID))
+            return !question.upVote.contains(userIDString)
         } else {
-            return question.downVote.contains(String(describing: userID))
+            return !question.downVote.contains(userIDString)
         }
     }
     
