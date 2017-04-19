@@ -15,12 +15,17 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var readyLabel: UILabel!
     @IBOutlet weak var notReadyLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var doneButton: UIButton!
     var users = [User]()
     var readyUsers = 0
     var notReadyUsers = TopicController.shared.TopicUsers.count
     
     
     override func viewDidLoad() {
+        self.doneButton.layer.cornerRadius = 5
+        self.doneButton.layer.borderWidth = 1
+        self.doneButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+
         notReadyLabel.text = "\(notReadyUsers)"
         readyLabel.text = "0"
         NotificationCenter.default.addObserver(self, selector: #selector(performUpdate), name: UserController.userReadyStateChanged, object: nil)
@@ -39,6 +44,9 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "readyCheckCell", for: indexPath) as? ReadyCheckTableViewCell else { return ReadyCheckTableViewCell() }
         let user = users[indexPath.row]
+        cell.layer.cornerRadius = 5
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 1
         
         cell.user = user
         
@@ -62,7 +70,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
             self.readyUsers = 0
             self.notReadyUsers = TopicController.shared.TopicUsers.count
             
-            for user in self.users {
+            for user in TopicController.shared.TopicUsers {
                 if user.readyCheck {
                     self.readyUsers += 1
                     self.notReadyUsers -= 1
@@ -73,7 +81,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
                     self.readyLabel.text = "\(self.readyUsers)"
                     self.notReadyLabel.text = "\(self.notReadyUsers)"
                     self.tableView.reloadData()
-//                    self.view.layoutSubviews()
+
                 }
             }
             

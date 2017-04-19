@@ -11,11 +11,14 @@ import NotificationCenter
 
 class AskQuestionViewController: UIViewController {
 
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     var topic: Topic?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.questionTextView.becomeFirstResponder()
+        buttonLayout()
     }
     
     //==============================================================
@@ -38,6 +41,17 @@ class AskQuestionViewController: UIViewController {
         
         dismiss(animated: true, completion: nil)
     }
+    
+    func buttonLayout() {
+        self.addButton.layer.cornerRadius = 5
+        self.addButton.layer.borderWidth = 1
+        self.addButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+   
+        self.cancelButton.layer.cornerRadius = 5
+        self.cancelButton.layer.borderWidth = 1
+        self.cancelButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+    }
+    
     
   
 }
