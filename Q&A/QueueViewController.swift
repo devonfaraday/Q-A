@@ -22,7 +22,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     @IBOutlet weak var topicNameTextField: UITextField!
     @IBOutlet weak var questionTableView: UITableView!
-//    @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var readyCheckButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var askQuestionButton: UIButton!
@@ -215,7 +214,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             askQuestionButton.isHidden = true
         } else {
             askQuestionButton.isHidden = false
-            blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
         }

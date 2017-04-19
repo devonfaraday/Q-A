@@ -112,21 +112,34 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textLabel?.text = topic.name
             cell.textLabel?.numberOfLines = 0
         }
-        
         return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "toShowTopic" {
-            guard let destinationViewController = segue.destination as? QueueViewController,
-                let indexPath = tableView.indexPathForSelectedRow else {return}
-            let topic = TopicController.shared.userTopics[indexPath.row]
-            destinationViewController.topic = topic
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            if indexPath.section == 0 {
+                guard let destinationViewController = segue.destination as? QueueViewController else {return}
+                let topic = TopicController.shared.userTopicsOwner[indexPath.row]
+                destinationViewController.topic = topic
+            }
+            if indexPath.section == 1 {
+                guard let destinationViewController = segue.destination as? QueueViewController else {return}
+                let topic = TopicController.shared.userTopics[indexPath.row]
+                destinationViewController.topic = topic
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+        if indexPath.section == 0 {
+            let topic = TopicController.shared.userTopicsOwner[indexPath.row]
+            guard let topicRecordID = topic.recordID else { return }
+            TopicController.shared.delete(withRecordID: topicRecordID, completion: {
+            })
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        if indexPath.section == 1 {
             let topic = TopicController.shared.userTopics[indexPath.row]
             guard let topicRecordID = topic.recordID else { return }
             TopicController.shared.delete(withRecordID: topicRecordID, completion: {
@@ -287,7 +300,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.submitButton.layer.cornerRadius = 5
         self.submitButton.layer.borderWidth = 1
         self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
-        
         self.editButtonTapped.layer.cornerRadius = 5
         self.editButtonTapped.layer.borderWidth = 1
         self.editButtonTapped.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
