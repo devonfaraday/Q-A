@@ -28,7 +28,7 @@ class QuestionController {
         guard let topicID = topic.recordID else { completion(); return }
         let topicRef = CKReference(recordID: topicID, action: .deleteSelf)
         let question = Question(question: question, questionOwner: owner, topicRef: topicRef)
-        let record = question.cloudKitRecord
+        let record = CKRecord(question: question)
         cloudKitManager.saveRecord(record) { (_, error) in
             if let error = error {
                 print("Error with saveing question to cloudKit: \(error.localizedDescription)")
@@ -87,16 +87,33 @@ class QuestionController {
     }
     
     func upvote(question: Question, completion: @escaping() -> Void) {
-        question.vote += 1
-        modifyQuestion(question: question) {
-            completion()
+        if checkUserForDuplicatesVotes(question: question, bool: true) {
+            question.vote += 1
+            guard let userID = currentUser?.recordID else { completion(); return }
+            question.upVote.append(String(describing: userID))
+            modifyQuestion(question: question) {
+                completion()
+            }
         }
     }
     
     func downvote(question: Question, completion: @escaping() -> Void) {
-        question.vote -= 1
-        modifyQuestion(question: question) {
-            completion()
+        if checkUserForDuplicatesVotes(question: question, bool: false) {
+            question.vote -= 1
+            guard let userID = currentUser?.recordID else { completion(); return }
+            question.downVote.append(String(describing: userID))
+            modifyQuestion(question: question) {
+                completion()
+            }            
+        }
+    }
+    
+    func checkUserForDuplicatesVotes(question: Question, bool: Bool) -> Bool {
+        guard let userID = currentUser?.recordID else { return true }
+        if bool {
+            return question.upVote.contains(String(describing: userID))
+        } else {
+            return question.downVote.contains(String(describing: userID))
         }
     }
     
