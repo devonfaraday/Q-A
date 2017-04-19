@@ -11,20 +11,13 @@ import UIKit
 class HolderView: UIView {
     weak var delegate: HolderViewDelegate?
     var parentFrame: CGRect = CGRect.zero
-    
     let blueRectangleLayer = RectangleLayer()
     
     func expandView() {
-        // 1
-        backgroundColor = UIColor.blue
-        // 2
+        backgroundColor = UIColor(red: 40.0/255.0, green: 40.0/255.0, blue: 40.0/255.0, alpha: 1)
         frame = CGRect(x: frame.origin.x - blueRectangleLayer.lineWidth, y: frame.origin.y - blueRectangleLayer.lineWidth, width: blueRectangleLayer.lineWidth * 2, height: blueRectangleLayer.lineWidth * 2)
-        
-        // 3
         layer.sublayers = nil
-        
-        // 4
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut,
+        UIView.animate(withDuration: 0.9, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut,
                        animations: { self.frame = self.parentFrame
         }, completion: { finished in
             self.addLabel()
@@ -34,7 +27,6 @@ class HolderView: UIView {
     func addLabel() {
         delegate?.animateLabel()
     }
-
 }
 
 protocol HolderViewDelegate: class {
