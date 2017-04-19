@@ -13,12 +13,39 @@ class AskQuestionViewController: UIViewController {
 
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet weak var buttonStack: UIStackView!
+    @IBOutlet weak var bottomStackBottomConstraint: NSLayoutConstraint!
     var topic: Topic?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.questionTextView.becomeFirstResponder()
         buttonLayout()
+        questionTextView.layer.cornerRadius = 6
+        questionLabel.font = UIFont(name: "cochin", size: 27.0)
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            let buttonStackBottomConstraint = NSLayoutConstraint(item: buttonStack, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: keyboardSize.height)
+            bottomStackBottomConstraint.constant = bottomStackBottomConstraint.constant + keyboardSize.height
+            let questionLabelTopConstraint = NSLayoutConstraint(item: questionLabel, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 16)
+            view.addConstraints([questionLabelTopConstraint])
+            
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
     
     //==============================================================
