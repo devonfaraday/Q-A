@@ -80,6 +80,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             TopicController.shared.createTopic(name: topicName) { (topic) in
                 DispatchQueue.main.async {
                     self.topicNameTextField.borderStyle = .none
+                    self.topicNameTextField.textColor = UIColor.white
                     self.topicNameTextField.isEnabled = false
                     self.codeLabel.text = "\(TopicController.shared.tempGeneratedNumber)"
                 }
@@ -205,6 +206,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         topicNameTextField.text = topic.name
         topicNameTextField.borderStyle = .none
         topicNameTextField.isEnabled = false
+        topicNameTextField.textColor = UIColor.white
         if topic.topicOwner.recordID == currentUser.recordID {
             askQuestionButton.isHidden = true
         } else {

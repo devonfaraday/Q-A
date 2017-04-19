@@ -245,8 +245,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.firstNameTextField.borderStyle = .none
                 self.firstNameTextField.backgroundColor = UIColor.clear
                 self.firstNameTextField.isEnabled = false
+                self.firstNameTextField.textColor = UIColor.white
                 self.lastNameTextField.borderStyle = .none
                 self.lastNameTextField.backgroundColor = UIColor.clear
+                self.lastNameTextField.textColor = UIColor.white
                 self.lastNameTextField.isEnabled = false
                 self.addPhotoButton.isHidden = true
         }
