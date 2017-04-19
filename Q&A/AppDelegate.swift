@@ -44,18 +44,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String: NSObject])
         
-        if cloudKitNotification.subscriptionID == "2D1F5FC7-895C-48D7-B841-0C3C92989334" {
+        if cloudKitNotification.subscriptionID == "Topic" {
             
             NotificationCenter.default.post(name: TopicController.shared.topicBoolNotificationName, object: nil)
             NSLog("Notification posted: \(TopicController.shared.topicBoolNotificationName)")
             
         }
-        if cloudKitNotification.subscriptionID == "CC8302F5-0905-411D-BA6F-87234FAFD63F" || cloudKitNotification.subscriptionID == "8A0DA4BD-9ACB-4D2B-B338-B6338F10E661" {
+        if cloudKitNotification.subscriptionID == "NewQuestion" || cloudKitNotification.subscriptionID == "QuestionVote" {
             
             NotificationCenter.default.post(name: QuestionController.shared.NewQuestionAdded, object: nil)
             NSLog("Notification posted: \(QuestionController.shared.NewQuestionAdded)")
         }
-        if cloudKitNotification.subscriptionID == "D6E35C37-F12F-42DD-B945-C45C553B27C1" {
+        if cloudKitNotification.subscriptionID == "studentReadyCheck" {
 
             
                 NotificationCenter.default.post(name: UserController.userReadyStateChanged, object: nil)

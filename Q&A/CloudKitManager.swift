@@ -433,12 +433,10 @@ class CloudKitManager {
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
-        
-        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
-            if let error = error {
-//                NSLog("Error saving subscription\n\(error)")
-            }
+        subscribe("User", predicate: predicates, subscriptionID: "studentReadyCheck", contentAvailable: true, options: .firesOnRecordUpdate) { (_, _) in
+            
         }
+        
     }
     
     func subscribeToStudentQuestion(topic: Topic) {
@@ -450,12 +448,10 @@ class CloudKitManager {
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicate, options: .firesOnRecordCreation)
         subscription.notificationInfo = notificationInfo
         
-        
-        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
-            if let error = error {
-//                print("Error saving subscription to question: \(error.localizedDescription)")
-            }
+        subscribe("Question", predicate: predicate, subscriptionID: "NewQuestion", contentAvailable: true, options: .firesOnRecordCreation) { (_, _) in
+            
         }
+        
     }
     
     func subscripeToQuestionVotesIn(topic: Topic) {
@@ -470,10 +466,8 @@ class CloudKitManager {
         subscription.notificationInfo = notificationInfo
         
         
-        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
-            if let error = error {
-//                print("Error saving subscription to votes: \(error.localizedDescription)")
-            }
+        subscribe("Question", predicate: predicates, subscriptionID: "QuestionVote", contentAvailable: true, options: .firesOnRecordUpdate) { (_, _) in
+            
         }
     }
     
@@ -487,10 +481,7 @@ class CloudKitManager {
         let subscription = CKQuerySubscription(recordType: "Topic", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
-        CKContainer.default().publicCloudDatabase.save(subscription) { (subscription, error) in
-            if let error = error {
-//                print("Error saving subscription to topic ready check: \(error.localizedDescription)")
-            }
+        subscribe("Topic", predicate: predicates, subscriptionID: "Topic", contentAvailable: true, options: .firesOnRecordUpdate) { (_, _) in
             
         }
     }
