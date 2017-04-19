@@ -61,13 +61,12 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
         TopicController.shared.fetchUsersForTopic(topic: topic ) {
             self.readyUsers = 0
             self.notReadyUsers = TopicController.shared.TopicUsers.count
+            
             for user in self.users {
                 if user.readyCheck {
-                    DispatchQueue.main.async {
                     self.readyUsers += 1
                     self.notReadyUsers -= 1
-                    }
-               }
+            }
                 
                 DispatchQueue.main.async {
                     self.users = TopicController.shared.TopicUsers
