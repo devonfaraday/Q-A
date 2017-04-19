@@ -93,6 +93,22 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - Data Source functions
     //==============================================================
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.backgroundColor = UIColor(red: 50.0/255.0, green: 50.0/255.0, blue: 50.0/255.0, alpha: 1)
+        label.textColor = UIColor.white
+        label.text = "Q U E S T I O N S"
+        label.textAlignment = .center
+        
+        return label
+        
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return QuestionController.shared.questions.count
     }
