@@ -215,7 +215,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             askQuestionButton.isHidden = true
         } else {
             askQuestionButton.isHidden = false
-//            blockButton.isHidden = true
+            blockButton.isHidden = true
             readyCheckButton.isHidden = true
             clearButton.isHidden = true
         }
