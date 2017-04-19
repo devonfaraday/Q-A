@@ -77,6 +77,26 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 70
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.backgroundColor = UIColor(red: 50.0/255.0, green: 50.0/255.0, blue: 50.0/255.0, alpha: 1)
+        label.textColor = UIColor.white
+        label.text = "O W N E R"
+        label.textAlignment = .center
+        
+        let label2 = UILabel()
+        label2.backgroundColor = UIColor(red: 50.0/255.0, green: 50.0/255.0, blue: 50.0/255.0, alpha: 1)
+        label2.textColor = UIColor.white
+        label2.text = "J O I N E D"
+        label2.textAlignment = .center
+        
+        if section == 0 {
+            return label
+        } else {
+            return label2
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
