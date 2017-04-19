@@ -17,7 +17,7 @@ class HolderView: UIView {
         backgroundColor = UIColor(red: 40.0/255.0, green: 40.0/255.0, blue: 40.0/255.0, alpha: 1)
         frame = CGRect(x: frame.origin.x - blueRectangleLayer.lineWidth, y: frame.origin.y - blueRectangleLayer.lineWidth, width: blueRectangleLayer.lineWidth * 2, height: blueRectangleLayer.lineWidth * 2)
         layer.sublayers = nil
-        UIView.animate(withDuration: 0.9, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut,
+        UIView.animate(withDuration: 1.1, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut,
                        animations: { self.frame = self.parentFrame
         }, completion: { finished in
             self.addLabel()
