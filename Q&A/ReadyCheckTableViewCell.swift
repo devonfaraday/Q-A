@@ -9,7 +9,7 @@
 import UIKit
 
 class ReadyCheckTableViewCell: UITableViewCell {
-
+    
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var readyCheckImageView: UIImageView!
@@ -23,24 +23,26 @@ class ReadyCheckTableViewCell: UITableViewCell {
     
     func updateViewsWithNotification() {
         guard let topic = TopicController.shared.currentTopic else { return }
-        TopicController.shared.fetchUsersForTopic(topic: topic) { 
-            DispatchQueue.main.async {
-                self.updateViews()
-            }
+        TopicController.shared.fetchUsersForTopic(topic: topic) {
+            
+            self.updateViews()
+            
         }
         
     }
     
     func updateViews() {
-        guard let user = user else { return }
-        nameLabel.text = "\(user.firstName) \(user.lastName)"
-        if user.readyCheck {
-            readyCheckImageView.image = #imageLiteral(resourceName: "GreenButton2x")
-        } else {
-            readyCheckImageView.image = #imageLiteral(resourceName: "RedButton2x")
+        DispatchQueue.main.async {
+            guard let user = self.user else { return }
+            self.nameLabel.text = "\(user.firstName) \(user.lastName)"
+            if user.readyCheck{
+                self.readyCheckImageView.image = #imageLiteral(resourceName: "GreenButton2x")
+            } else {
+                self.readyCheckImageView.image = #imageLiteral(resourceName: "RedButton2x")
+            }
         }
     }
     
-    // notification observer that will change the image of readyCheckImageView
-
+    
+    
 }

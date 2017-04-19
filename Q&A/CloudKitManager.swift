@@ -425,7 +425,6 @@ class CloudKitManager {
         guard let topicID = topic.recordID else { return }
         let topifRef = CKReference(recordID: topicID, action: .none)
         let notificationInfo = CKNotificationInfo()
-//        let predicate = NSPredicate(format: "readyCheck == %d", 1)
         let topicPredicate = NSPredicate(format: "topicReferences CONTAINS %@", topifRef)
         notificationInfo.shouldSendContentAvailable = true
         let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicPredicate])
@@ -434,9 +433,10 @@ class CloudKitManager {
         let subscription = CKQuerySubscription(recordType: "User", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
+        
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
             if let error = error {
-                NSLog("Error saving subscription\n\(error)")
+//                NSLog("Error saving subscription\n\(error)")
             }
         }
     }
@@ -450,9 +450,10 @@ class CloudKitManager {
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicate, options: .firesOnRecordCreation)
         subscription.notificationInfo = notificationInfo
         
+        
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
             if let error = error {
-                print("Error saving subscription to question: \(error.localizedDescription)")
+//                print("Error saving subscription to question: \(error.localizedDescription)")
             }
         }
     }
@@ -460,37 +461,37 @@ class CloudKitManager {
     func subscripeToQuestionVotesIn(topic: Topic) {
         let notificationInfo = CKNotificationInfo()
         guard let topicID = topic.recordID else { return }
-//        let questionPredicate = NSPredicate(value: true)
+        let questionPredicate = NSPredicate(value: true)
         let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
-        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicRefPredicate])
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
         notificationInfo.shouldSendContentAvailable = true
         
         let subscription = CKQuerySubscription(recordType: "Question", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
+        
         CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
             if let error = error {
-                print("Error saving subscription to votes: \(error.localizedDescription)")
+//                print("Error saving subscription to votes: \(error.localizedDescription)")
             }
         }
     }
     
     func subscribeToTopicBool(topic: Topic) {
         let notificationInfo = CKNotificationInfo()
+        
         guard let topicID = topic.recordID else { return }
-        
-        let readyCheckPredicate = NSPredicate(format: "readyCheck == %d", 1)
         let topicIDPredicate = NSPredicate(format: "recordID == %@", topicID)
-        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [readyCheckPredicate, topicIDPredicate])
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [topicIDPredicate])
         notificationInfo.shouldSendContentAvailable = true
-        
         let subscription = CKQuerySubscription(recordType: "Topic", predicate: predicates, options: .firesOnRecordUpdate)
         subscription.notificationInfo = notificationInfo
         
-        CKContainer.default().publicCloudDatabase.save(subscription) { (_, error) in
+        CKContainer.default().publicCloudDatabase.save(subscription) { (subscription, error) in
             if let error = error {
-                print("Error saving subscription to topic ready check: \(error.localizedDescription)")
+//                print("Error saving subscription to topic ready check: \(error.localizedDescription)")
             }
+            
         }
-}
+    }
 }

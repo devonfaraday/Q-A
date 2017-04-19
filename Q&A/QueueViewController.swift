@@ -166,7 +166,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if currentTopic.readyCheck && currentTopic.topicOwner.recordID != UserController.shared.loggedInUser?.recordID {
                 DispatchQueue.main.async {
                     self.readyButton.isHidden = false
-                    self.readyButton.backgroundColor = UIColor.white
+                    self.readyButton.backgroundColor = UIColor.red
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.readyButton.isHidden = true
                 }
             }
         }

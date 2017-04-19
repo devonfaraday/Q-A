@@ -19,6 +19,7 @@ class QuestionController {
     var questions: [Question] = [] {
         didSet {
             NotificationCenter.default.post(name: questionDataRefreshed, object: nil)
+            NSLog("Notification posted \(questionDataRefreshed)")
         }
     }
     

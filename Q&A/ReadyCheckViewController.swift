@@ -63,8 +63,10 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
             self.notReadyUsers = TopicController.shared.TopicUsers.count
             for user in self.users {
                 if user.readyCheck {
+                    DispatchQueue.main.async {
                     self.readyUsers += 1
                     self.notReadyUsers -= 1
+                    }
                }
                 
                 DispatchQueue.main.async {
@@ -72,7 +74,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
                     self.readyLabel.text = "\(self.readyUsers)"
                     self.notReadyLabel.text = "\(self.notReadyUsers)"
                     self.tableView.reloadData()
-                    self.view.layoutSubviews()
+//                    self.view.layoutSubviews()
                 }
             }
             
