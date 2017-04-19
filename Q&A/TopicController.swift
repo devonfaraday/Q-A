@@ -102,15 +102,25 @@ class TopicController {
     }
     
     func delete(withRecordID recordID: CKRecordID, completion: @escaping () -> Void) {
-        guard let topicIndex = userTopics.index(where: {$0.recordID == recordID }) else { completion(); return }
-        self.userTopics.remove(at: topicIndex)
-        cloudKitManager.deleteRecordWithID(recordID) { (_, error) in
-            if let error = error {
-                print("Error with deleting topic for user: \(error.localizedDescription)")
-                completion()
-                return
+        if currentTopic?.topicOwner.recordID == currentUser?.recordID {
+           cloudKitManager.deleteRecordWithID(recordID) { (_, error) in
+                if let error = error {
+                    print("Error with deleting topic for user: \(error.localizedDescription)")
+                    completion()
+                    return
+                }
+                print("Deleted Successfully")
             }
-            print("Deleted Successfully")
+        } else {
+            guard let topicIndex = userTopics.index(where: {$0.recordID == recordID }) else { completion(); return }
+            self.userTopics.remove(at: topicIndex)
+            let topicIDs = self.userTopics.flatMap { $0.recordID }
+            let topicRefs = topicIDs.flatMap { CKReference(recordID: $0, action: .none)}
+            currentUser?.topic = topicRefs
+            guard let user = currentUser else { return }
+            UserController.shared.modifyUser(user: user, completion: {
+                
+            })
         }
     }
     
