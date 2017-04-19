@@ -154,15 +154,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let topic = TopicController.shared.userTopicsOwner[indexPath.row]
+            guard let index = TopicController.shared.userTopicsOwner.index(of: topic) else { return }
+            TopicController.shared.userTopicsOwner.remove(at: index)
             guard let topicRecordID = topic.recordID else { return }
-            TopicController.shared.delete(withRecordID: topicRecordID, completion: {
+            TopicController.shared.delete(topic: topic, withRecordID: topicRecordID, completion: {
             })
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
         if indexPath.section == 1 {
             let topic = TopicController.shared.userTopics[indexPath.row]
             guard let topicRecordID = topic.recordID else { return }
-            TopicController.shared.delete(withRecordID: topicRecordID, completion: {
+            TopicController.shared.delete(topic: topic, withRecordID: topicRecordID, completion: {
             })
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

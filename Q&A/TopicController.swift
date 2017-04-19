@@ -109,8 +109,8 @@ class TopicController {
         }
     }
     
-    func delete(withRecordID recordID: CKRecordID, completion: @escaping () -> Void) {
-        if currentTopic?.topicOwner.recordID == currentUser?.recordID {
+    func delete(topic: Topic, withRecordID recordID: CKRecordID, completion: @escaping () -> Void) {
+        if topic.topicOwner.recordID == currentUser?.recordID {
            cloudKitManager.deleteRecordWithID(recordID) { (_, error) in
                 if let error = error {
                     print("Error with deleting topic for user: \(error.localizedDescription)")
