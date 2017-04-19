@@ -17,6 +17,7 @@ class TopicController {
     var currentUser: User? = UserController.shared.loggedInUser
     let topicBoolNotificationName = Notification.Name("topicBoolChanged")
     var userTopics: [Topic] = []
+    var userTopicsOwner: [Topic] = []
     var TopicUsers: [User] = []
     var tempGeneratedNumber: Int = 0
     var currentTopic: Topic?
@@ -38,19 +39,25 @@ class TopicController {
             guard let record = savedTopicRecord else { completion(nil); return }
             let newTopic = Topic(record: record)
             guard let topic = newTopic else { return }
-            guard let topicID = topic.recordID else { completion(nil); return }
             self.topics.append(topic)
-            let reference = CKReference(recordID: topicID, action: .none)
-            self.currentUser?.topic?.append(reference)
-            guard let user = self.currentUser else { completion(nil); return }
-            let userRecord = CKRecord(user: user)
-            let operation = CKModifyRecordsOperation(recordsToSave: [userRecord], recordIDsToDelete: nil)
-            operation.completionBlock = {
-                completion(topic)
-            }
-            operation.savePolicy = .changedKeys
-            self.cloudKitManager.publicDatabase.add(operation)
             completion(topic)
+        }
+    }
+    
+    func fetchTopicsForTopicOwner(completion: @escaping () -> Void) {
+        guard let userRecordID = currentUser?.recordID else { return }
+        let userRef = CKReference(recordID: userRecordID, action: .none)
+        let predicate = NSPredicate(format: "topicOwner == %@", userRef)
+        cloudKitManager.fetchRecordsWithType("Topic", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                completion()
+                return
+            }
+            guard let records = records else { return }
+            let topics = records.flatMap({ Topic(record: $0)})
+            self.userTopicsOwner = topics
+            completion()
         }
     }
     
@@ -75,7 +82,8 @@ class TopicController {
             
             if let records = records {
                 let topics = records.flatMap { Topic(record: $0) }
-                self.userTopics = topics.sorted(by: {$0.name.lowercased() < $1.name.lowercased()})
+                let sortedTopics = topics.sorted(by: {$0.name.lowercased() < $1.name.lowercased()})
+                self.userTopics = sortedTopics
                 completion(topics)
                 
             }

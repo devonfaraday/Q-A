@@ -60,8 +60,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             if topics.count == 0 {
                 print("No topics were fetched for this user")
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+            TopicController.shared.fetchTopicsForTopicOwner {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         })
     }
@@ -69,12 +71,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     // MARK: - Data Source Function
     //==============================================================
+    var sections = ["Owner", "Joined"]
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "\(sections[0])"
+        } else {
+            return "\(sections[1])"
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TopicController.shared.userTopics.count
+        if section == 0 {
+            return TopicController.shared.userTopicsOwner.count
+        } else {
+            return TopicController.shared.userTopics.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,8 +102,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.layer.cornerRadius = 5
         cell.layer.borderColor = UIColor(red: 0.0/255.0, green: 81.0/255.0, blue: 116.0/255.0, alpha: 1.0).cgColor
         cell.layer.borderWidth = 1
-        let topic = TopicController.shared.userTopics[indexPath.row]
-        cell.textLabel?.text = topic.name
+        if indexPath.section == 0 {
+            let topicOwner = TopicController.shared.userTopicsOwner[indexPath.row]
+            cell.textLabel?.text = topicOwner.name
+            cell.textLabel?.numberOfLines = 0
+            
+        } else {
+            let topic = TopicController.shared.userTopics[indexPath.row]
+            cell.textLabel?.text = topic.name
+            cell.textLabel?.numberOfLines = 0
+        }
+        
         return cell
     }
     
