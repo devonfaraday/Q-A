@@ -17,7 +17,6 @@ class LaunchLoadingViewController: UIViewController, HolderViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         addHolderView()
-        
         cloudKitManager.fetchCurrentUser { (user) in
             DispatchQueue.main.async {
                 self.user = user
@@ -25,6 +24,7 @@ class LaunchLoadingViewController: UIViewController, HolderViewDelegate {
             }
         }
     }
+    
     func segueToProfile() {
         if user != nil {
             UserController.shared.loggedInUser = user
@@ -60,7 +60,7 @@ class LaunchLoadingViewController: UIViewController, HolderViewDelegate {
         label.text = "Q"
         label.transform = label.transform.scaledBy(x: 0.25, y: 0.25)
         view.addSubview(label)
-        UIView.animate(withDuration: 0.4, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveEaseInOut, animations: ({ label.transform = label.transform.scaledBy(x: 4.0, y: 4.0) }), completion: { finished in
+        UIView.animate(withDuration: 0.9, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1, options: UIViewAnimationOptions.curveLinear, animations: ({ label.transform = label.transform.scaledBy(x: 4.0, y: 4.0) }), completion: { finished in
         })
     }
 }
