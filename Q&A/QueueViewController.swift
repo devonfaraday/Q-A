@@ -36,6 +36,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         changeViewsOnLoad()
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.white
+        refreshControl.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
         refreshControl.addTarget(self, action: #selector(refreshQuestionData), for: UIControlEvents.valueChanged)
         questionTableView.refreshControl = refreshControl
         
@@ -69,6 +71,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshTableView()
+        
     }
     
     //==============================================================
