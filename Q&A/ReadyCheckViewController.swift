@@ -62,7 +62,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
             self.readyUsers = 0
             self.notReadyUsers = TopicController.shared.TopicUsers.count
             
-            for user in self.users {
+            for user in TopicController.shared.TopicUsers {
                 if user.readyCheck {
                     self.readyUsers += 1
                     self.notReadyUsers -= 1
@@ -73,7 +73,7 @@ class ReadyCheckViewController: UIViewController, UITableViewDataSource {
                     self.readyLabel.text = "\(self.readyUsers)"
                     self.notReadyLabel.text = "\(self.notReadyUsers)"
                     self.tableView.reloadData()
-//                    self.view.layoutSubviews()
+
                 }
             }
             
