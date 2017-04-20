@@ -74,7 +74,7 @@ class TopicController {
     }
     
     func fetchTopicsForUser(completion: @escaping([Topic]) -> Void) {
-        guard let user = currentUser, let topicReferences = user.topic else { completion([]); return }
+        guard let user = currentUser, let topicReferences = user.topicRefs else { completion([]); return }
         let predicate = NSPredicate(format: "recordID IN %@", topicReferences)
         guard topicReferences.count != 0 else { completion([]); return }
         cloudKitManager.fetchRecordsWithType("Topic", predicate: predicate, recordFetchedBlock: nil) { (records, error) in
@@ -124,7 +124,7 @@ class TopicController {
             self.userTopics.remove(at: topicIndex)
             let topicIDs = self.userTopics.flatMap { $0.recordID }
             let topicRefs = topicIDs.flatMap { CKReference(recordID: $0, action: .none)}
-            currentUser?.topic = topicRefs
+            currentUser?.topicRefs = topicRefs
             guard let user = currentUser else { return }
             UserController.shared.modifyUser(user: user, completion: {
                 
@@ -188,7 +188,11 @@ class TopicController {
             self.userTopics.append(topic)
             guard let recordID = records.first?.recordID else { completion(); return }
             let topicRef = CKReference(recordID: recordID, action: .none)
-            self.currentUser?.topic?.append(topicRef)
+            if self.currentUser?.topicRefs == nil {
+                self.currentUser?.topicRefs = [topicRef]
+            } else {
+                self.currentUser?.topicRefs?.append(topicRef)
+            }
             guard let user = self.currentUser else { completion(); return }
             let userRecord = CKRecord(user: user)
             let operation = CKModifyRecordsOperation(recordsToSave: [userRecord], recordIDsToDelete: nil)
