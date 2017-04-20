@@ -41,14 +41,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         refreshControl.addTarget(self, action: #selector(refreshQuestionData), for: UIControlEvents.valueChanged)
         questionTableView.refreshControl = refreshControl
         
-        
         readyButton.isHidden = true
         //        readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
-        
         questionTableView.reloadData()
+       
         if let topic = topic {
             TopicController.shared.currentTopic = topic
             cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
@@ -64,9 +63,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkTopicsReadyCheckBool), name: TopicController.shared.topicBoolNotificationName, object: nil)
-        
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -107,7 +104,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return label
         
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
@@ -174,14 +171,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func showReadyButton() {
         
-            guard let topic = TopicController.shared.currentTopic else { return }
-            TopicController.shared.fetchTopic(topic: topic, completion: { 
-                print("fetched topic")
-                DispatchQueue.main.async {
-                    self.readyButton.isHidden = false
-                }
-            })
-        }
+        guard let topic = TopicController.shared.currentTopic else { return }
+        TopicController.shared.fetchTopic(topic: topic, completion: {
+            print("fetched topic")
+            DispatchQueue.main.async {
+                self.readyButton.isHidden = false
+            }
+        })
+    }
     
     func checkTopicsReadyCheckBool() {
         guard let topic = topic else { return }
@@ -200,7 +197,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    
     func refreshTableView() {
         DispatchQueue.main.async {
             self.questionTableView.reloadData()
@@ -210,7 +206,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func refreshQuestionData() {
         if let topic = topic {
             QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                self.questionTableView.refreshControl?.endRefreshing()
+                DispatchQueue.main.async {
+                    self.questionTableView.refreshControl?.endRefreshing()
+                }
             })
         }
     }
@@ -255,8 +253,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.clearButton.layer.borderWidth = 1
         self.clearButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
-
-    
     
     //==============================================================
     // MARK: - IBActions
