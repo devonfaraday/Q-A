@@ -56,6 +56,7 @@ class AskQuestionViewController: UIViewController {
     // MARK: - IBActions
     //==============================================================
     @IBAction func cancelButtonTapped(_ sender: Any) {
+        questionTextView.resignFirstResponder()
         dismiss(animated: true, completion: nil)
     }
     
