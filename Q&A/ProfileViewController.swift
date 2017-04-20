@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var addPhotoButton: UIButton!
     @IBOutlet weak var editButtonTapped: UIButton!
     @IBOutlet weak var addButtonTapped: UIButton!
+    @IBOutlet var swipeGesture: UISwipeGestureRecognizer!
     
     //==============================================================
     // MARK: - Properties
@@ -44,6 +45,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         changeViewsOnLoad()
         pictureFrameCircular()
         if let currentUser = UserController.shared.loggedInUser {
@@ -66,6 +68,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         })
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     //==============================================================
@@ -173,6 +179,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     // MARK: - IBActions
     //==============================================================
+    
+    
     @IBAction func editButtonTapped(_ sender: Any) {
         isEditingProfile = true
         updateView()
@@ -199,9 +207,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 updateView()
                 UserController.shared.modifyUser(user: currentUser, completion: {
                 })
-                //            DispatchQueue.main.async {
-                //                self.updateView()
-                //            }
             }
         } else if currentUser != nil {
             guard let codeString = codeTextField.text else { return }
@@ -224,7 +229,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                         TopicController.shared.currentUser = user
                         self.codeTextField.isHidden = false
                         self.updateView()
-                        //                    self.constraintsAfterSave()
                     }
                 })
             }
@@ -234,6 +238,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     //==============================================================
     // MARK: - Image Picker Delegate Functions
     //==============================================================
+    
+    
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -249,7 +256,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Text Field Delegate
     //==============================================================
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        
+        if firstNameTextField.isFirstResponder {
+            lastNameTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
         return true
     }
     
@@ -306,15 +318,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             firstNameTextField.text = currentUser.firstName
             lastNameTextField.text = currentUser.lastName
             profileImageView.image = currentUser.profileImage
-                self.firstNameTextField.borderStyle = .none
-                self.firstNameTextField.backgroundColor = UIColor.clear
-                self.firstNameTextField.isEnabled = false
-                self.firstNameTextField.textColor = UIColor.white
-                self.lastNameTextField.borderStyle = .none
-                self.lastNameTextField.backgroundColor = UIColor.clear
-                self.lastNameTextField.textColor = UIColor.white
-                self.lastNameTextField.isEnabled = false
-                self.addPhotoButton.isHidden = true
+            self.firstNameTextField.borderStyle = .none
+            self.firstNameTextField.backgroundColor = UIColor.clear
+            self.firstNameTextField.isEnabled = false
+            self.firstNameTextField.textColor = UIColor.white
+            self.lastNameTextField.borderStyle = .none
+            self.lastNameTextField.backgroundColor = UIColor.clear
+            self.lastNameTextField.textColor = UIColor.white
+            self.lastNameTextField.isEnabled = false
+            self.addPhotoButton.isHidden = true
         }
     }
     

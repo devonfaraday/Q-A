@@ -32,9 +32,8 @@ class AskQuestionViewController: UIViewController {
     func keyboardWillShow(notification: NSNotification) {
         
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            let buttonStackBottomConstraint = NSLayoutConstraint(item: buttonStack, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: keyboardSize.height)
             bottomStackBottomConstraint.constant = bottomStackBottomConstraint.constant + keyboardSize.height
-            let questionLabelTopConstraint = NSLayoutConstraint(item: questionLabel, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 16)
+            let questionLabelTopConstraint = NSLayoutConstraint(item: questionLabel, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 32)
             view.addConstraints([questionLabelTopConstraint])
             
         }

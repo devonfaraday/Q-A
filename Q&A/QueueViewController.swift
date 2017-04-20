@@ -46,6 +46,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
+        questionTableView.rowHeight = 95
         questionTableView.reloadData()
        
         if let topic = topic {
@@ -131,6 +132,15 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             QuestionController.shared.delete(withRecordID: recordID, completion: {
             })
             tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        guard let topic = topic else { return .none }
+        if topic.topicOwner.recordID == UserController.shared.loggedInUser?.recordID {
+            return .delete
+        } else {
+            return .none
         }
     }
     
