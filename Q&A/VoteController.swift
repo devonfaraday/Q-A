@@ -14,10 +14,12 @@ class VoteController {
     static let shared = VoteController()
     private let cloudKitManager = CloudKitManager()
     
-    func voteOnQuestion(_ question: Question, completion: @escaping(Error?) -> Void) {
-        guard let questionID = question.cloudKitRecordID else { return }
+    func voteOnQuestion(question: Question, completion: @escaping(Error?) -> Void) {
+        guard let questionID = question.cloudKitRecordID,
+            let userID = UserController.shared.loggedInUser?.recordID else { return }
         let questionRef = CKReference(recordID: questionID, action: .deleteSelf)
-        let vote = Vote(questionReference: questionRef)
+        let userRef = CKReference(recordID: userID, action: .deleteSelf)
+        let vote = Vote(questionReference: questionRef, userReference: userRef)
         
         let voteRecord = CKRecord(vote: vote)
         
