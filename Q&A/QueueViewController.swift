@@ -116,8 +116,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
-        cell.layer.cornerRadius = 7
         let question = QuestionController.shared.questions[indexPath.row]
+        cell.layer.cornerRadius = 7
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = #colorLiteral(red: 0.1777849495, green: 0.1777901053, blue: 0.1777873635, alpha: 1).cgColor
         cell.question = question
         cell.delegate = self
         return cell
