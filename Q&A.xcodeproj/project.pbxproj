@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		810EEC0B1EAAB969005286A6 /* TopicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 810EEC091EAAB969005286A6 /* TopicList.storyboard */; };
+		810EEC0D1EAABDE7005286A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */; };
 		81D8492B1E9C0E9100A38BFD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492A1E9C0E9100A38BFD /* User.swift */; };
 		81D8492D1E9C0E9D00A38BFD /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492C1E9C0E9D00A38BFD /* Question.swift */; };
 		81D8492F1E9C0EA800A38BFD /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492E1E9C0EA800A38BFD /* Topic.swift */; };
@@ -16,7 +17,7 @@
 		81D849351E9C0ED400A38BFD /* TopicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849341E9C0ED400A38BFD /* TopicController.swift */; };
 		81D849371E9C0EF000A38BFD /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849361E9C0EF000A38BFD /* CloudKitManager.swift */; };
 		81D849391E9C0F5100A38BFD /* QueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849381E9C0F5100A38BFD /* QueueViewController.swift */; };
-		81D8493B1E9C0F6600A38BFD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8493A1E9C0F6600A38BFD /* ProfileViewController.swift */; };
+		81D8493B1E9C0F6600A38BFD /* TopicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8493A1E9C0F6600A38BFD /* TopicViewController.swift */; };
 		81D849411E9DBC5300A38BFD /* QueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849401E9DBC5300A38BFD /* QueueTableViewCell.swift */; };
 		81D849431E9DBC6200A38BFD /* ReadyCheckTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849421E9DBC6200A38BFD /* ReadyCheckTableViewCell.swift */; };
 		81D849451E9DBC8300A38BFD /* ReadyCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		810EEC0A1EAAB969005286A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TopicList.storyboard; sourceTree = "<group>"; };
+		810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		81D8492A1E9C0E9100A38BFD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		81D8492C1E9C0E9D00A38BFD /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		81D8492E1E9C0EA800A38BFD /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
@@ -42,7 +44,7 @@
 		81D849341E9C0ED400A38BFD /* TopicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicController.swift; sourceTree = "<group>"; };
 		81D849361E9C0EF000A38BFD /* CloudKitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		81D849381E9C0F5100A38BFD /* QueueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueViewController.swift; sourceTree = "<group>"; };
-		81D8493A1E9C0F6600A38BFD /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		81D8493A1E9C0F6600A38BFD /* TopicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicViewController.swift; sourceTree = "<group>"; };
 		81D849401E9DBC5300A38BFD /* QueueTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueueTableViewCell.swift; sourceTree = "<group>"; };
 		81D849421E9DBC6200A38BFD /* ReadyCheckTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadyCheckTableViewCell.swift; sourceTree = "<group>"; };
 		81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadyCheckViewController.swift; sourceTree = "<group>"; };
@@ -87,11 +89,12 @@
 		81D849241E9C0DD900A38BFD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				81D849381E9C0F5100A38BFD /* QueueViewController.swift */,
-				81D8493A1E9C0F6600A38BFD /* ProfileViewController.swift */,
 				FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */,
-				81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */,
+				810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */,
+				81D8493A1E9C0F6600A38BFD /* TopicViewController.swift */,
+				81D849381E9C0F5100A38BFD /* QueueViewController.swift */,
 				81D849461EA0072100A38BFD /* AskQuestionViewController.swift */,
+				81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -270,13 +273,14 @@
 			files = (
 				81D8492D1E9C0E9D00A38BFD /* Question.swift in Sources */,
 				81D8492F1E9C0EA800A38BFD /* Topic.swift in Sources */,
-				81D8493B1E9C0F6600A38BFD /* ProfileViewController.swift in Sources */,
+				81D8493B1E9C0F6600A38BFD /* TopicViewController.swift in Sources */,
 				81D849451E9DBC8300A38BFD /* ReadyCheckViewController.swift in Sources */,
 				EFDC221C1EA6D0880039068C /* HolderView.swift in Sources */,
 				81D849411E9DBC5300A38BFD /* QueueTableViewCell.swift in Sources */,
 				81D849431E9DBC6200A38BFD /* ReadyCheckTableViewCell.swift in Sources */,
 				81D849371E9C0EF000A38BFD /* CloudKitManager.swift in Sources */,
 				81D849311E9C0EB700A38BFD /* UserController.swift in Sources */,
+				810EEC0D1EAABDE7005286A6 /* ProfileViewController.swift in Sources */,
 				81D849471EA0072100A38BFD /* AskQuestionViewController.swift in Sources */,
 				81D8492B1E9C0E9100A38BFD /* User.swift in Sources */,
 				FD5D4AB91EAA834B00B51249 /* Vote.swift in Sources */,
