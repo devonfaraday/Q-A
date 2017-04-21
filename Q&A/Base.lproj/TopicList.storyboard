@@ -12,7 +12,7 @@
         <!--Profile View Controller-->
         <scene sceneID="iVK-iK-bjp">
             <objects>
-                <viewController id="cZx-mD-UjH" customClass="ProfileViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="cZx-mD-UjH" customClass="ProfileViewController" customModule="Q_A" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jOq-pV-rQc"/>
                         <viewControllerLayoutGuide type="bottom" id="Uug-N5-e4K"/>
@@ -21,9 +21,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-zC-rP1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-zC-rP1">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                             </imageView>
@@ -76,6 +75,12 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Uug-N5-e4K" firstAttribute="top" secondItem="ULd-zC-rP1" secondAttribute="bottom" id="EnK-fE-sVE"/>
+                            <constraint firstAttribute="trailing" secondItem="ULd-zC-rP1" secondAttribute="trailing" id="Ilx-Mf-pr8"/>
+                            <constraint firstItem="ULd-zC-rP1" firstAttribute="top" secondItem="6DS-CF-3Js" secondAttribute="top" id="NWD-oX-aNz"/>
+                            <constraint firstItem="ULd-zC-rP1" firstAttribute="leading" secondItem="6DS-CF-3Js" secondAttribute="leading" id="ZaP-WS-1hq"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="addProfileImage" destination="62l-qG-gC2" id="82A-Rd-2uB"/>
@@ -86,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aLD-bc-CZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1989.5999999999999" y="-533.88305847076469"/>
+            <point key="canvasLocation" x="1990" y="931"/>
         </scene>
         <!--Topic View Controller-->
         <scene sceneID="L8j-eR-gzT">
@@ -100,9 +105,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MYj-rq-3TY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MYj-rq-3TY">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2cj-K5-Tjt">
@@ -167,8 +171,23 @@
                                     <action selector="submitButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="QZm-rm-gMj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFD-hi-PDR">
+                                <rect key="frame" x="25" y="32" width="42" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Image"/>
+                                <connections>
+                                    <action selector="profileImageButtonTapped:" destination="ZYj-4V-8pG" eventType="touchUpInside" id="HTX-Ii-UHH"/>
+                                    <segue destination="cZx-mD-UjH" kind="presentation" id="4sg-zR-qgF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="E6i-IH-uvy" firstAttribute="top" secondItem="MYj-rq-3TY" secondAttribute="bottom" id="0RG-WQ-hdh"/>
+                            <constraint firstItem="MYj-rq-3TY" firstAttribute="top" secondItem="dGq-Lh-Kjg" secondAttribute="top" id="3xE-Lx-aaY"/>
+                            <constraint firstAttribute="trailing" secondItem="MYj-rq-3TY" secondAttribute="trailing" id="F9p-GF-pEg"/>
+                            <constraint firstItem="MYj-rq-3TY" firstAttribute="leading" secondItem="dGq-Lh-Kjg" secondAttribute="leading" id="dIn-nT-aGv"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="nz3-bs-JGZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="LzA-sW-Ka2"/>

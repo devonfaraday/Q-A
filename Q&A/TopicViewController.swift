@@ -8,36 +8,24 @@
 
 import UIKit
 
-class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UITextFieldDelegate {
     
     //==============================================================
     // MARK: - IBOutlets
     //==============================================================
-
     @IBOutlet weak var codeTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var addPhotoButton: UIButton!
-    @IBOutlet weak var editButtonTapped: UIButton!
     @IBOutlet weak var addButtonTapped: UIButton!
     @IBOutlet var swipeGesture: UISwipeGestureRecognizer!
     
     //==============================================================
     // MARK: - Properties
     //==============================================================
-    var currentUser: User? {
-        didSet {
-            if !isViewLoaded {
-                loadViewIfNeeded()
-            }
-            DispatchQueue.main.async {
-                self.updateView()
-            }
-        }
-    }
-    
+    var currentUser: User?
     var cloudKitManager = CloudKitManager()
-    var isEditingProfile = false
+    
     //==============================================================
     // MARK: - View Life Cycle
     //==============================================================
@@ -45,7 +33,6 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         
         changeViewsOnLoad()
-        pictureFrameCircular()
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
         } else {
@@ -177,38 +164,24 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - IBActions
     //==============================================================
-    
-    
-    @IBAction func editButtonTapped(_ sender: Any) {
-        isEditingProfile = true
-        updateView()
+    @IBAction func profileImageButtonTapped(_ sender: Any) {
+        
     }
     
     @IBAction func addTopicButtonTapped(_ sender: Any) {
         QuestionController.shared.questions = []
     }
     
-    @IBAction func addPhotoButtonTapped(_ sender: Any) {
-        firstNameTextField.resignFirstResponder()
-        lastNameTextField.resignFirstResponder()
-        addPhotoActionSheet()
-    }
-    
     @IBAction func submitButtonTapped(_ sender: Any) {
-        if isEditingProfile  {
-            guard let currentUser = currentUser, let firstName = firstNameTextField.text, let lastName = lastNameTextField.text, let profileImage = profileImageView.image  else { return }
-            
-        } else if currentUser != nil {
-            guard let codeString = codeTextField.text else { return }
-            guard let code = Int(codeString) else { return }
-            TopicController.shared.addUserToTopic(withCode: code, completion: {
-                DispatchQueue.main.async {
-                    self.codeTextField.text = ""
-                    self.codeTextField.resignFirstResponder()
-                    self.tableView.reloadData()
-                }
-            })
-        }
+        guard let codeString = codeTextField.text else { return }
+        guard let code = Int(codeString) else { return }
+        TopicController.shared.addUserToTopic(withCode: code, completion: {
+            DispatchQueue.main.async {
+                self.codeTextField.text = ""
+                self.codeTextField.resignFirstResponder()
+                self.tableView.reloadData()
+            }
+        })
     }
     
     //==============================================================
@@ -227,13 +200,9 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - Helper Function
     //==============================================================
-    
     func changeViewsOnLoad() {
         self.submitButton.layer.cornerRadius = 5
         self.submitButton.layer.borderWidth = 1
         self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
-        self.editButtonTapped.layer.cornerRadius = 5
-        self.editButtonTapped.layer.borderWidth = 1
-        self.editButtonTapped.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
 }

@@ -8,22 +8,41 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    //==============================================================
+    // MARK: - Properties
+    //==============================================================
+    var isEditingProfile = false
+    var currentUser: User?
+    
+    //==============================================================
+    // MARK: - IBOutlets
+    //==============================================================
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var addProfileImage: UIButton!
+    
+    //==============================================================
+    // MARK: - IBActions
+    //==============================================================
     @IBAction func addProfileImageButtonTapped(_ sender: Any) {
-    }
-    @IBAction func editButtonTapped(_ sender: Any) {
-    }
-    @IBAction func doneButtonTapped(_ sender: Any) {
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
+        addPhotoActionSheet()
     }
     
+    @IBAction func editButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     func updateView() {
         if isEditingProfile {
@@ -31,13 +50,13 @@ class ProfileViewController: UIViewController {
             firstNameTextField.isEnabled = true
             lastNameTextField.borderStyle = .roundedRect
             lastNameTextField.isEnabled = true
-            addPhotoButton.isHidden = false
-            addPhotoButton.setTitle("", for: .normal)
+            addProfileImage.isHidden = false
+            addProfileImage.setTitle("", for: .normal)
         } else {
             guard let currentUser = currentUser else { return }
             firstNameTextField.text = currentUser.firstName
             lastNameTextField.text = currentUser.lastName
-            profileImageView.image = currentUser.profileImage
+            profileImage.image = currentUser.profileImage
             self.firstNameTextField.borderStyle = .none
             self.firstNameTextField.backgroundColor = UIColor.clear
             self.firstNameTextField.isEnabled = false
@@ -46,7 +65,7 @@ class ProfileViewController: UIViewController {
             self.lastNameTextField.backgroundColor = UIColor.clear
             self.lastNameTextField.textColor = UIColor.white
             self.lastNameTextField.isEnabled = false
-            self.addPhotoButton.isHidden = true
+            self.addProfileImage.isHidden = true
         }
     }
     
@@ -61,7 +80,7 @@ class ProfileViewController: UIViewController {
     }
     
     //==============================================================
-    // MARK: - Functions for uploading image or camera
+    // MARK: - Upload Image Functions
     //==============================================================
     func uploadButton() {
         let imagePickerController = UIImagePickerController()
@@ -86,10 +105,10 @@ class ProfileViewController: UIViewController {
     }
     
     func pictureFrameCircular() {
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2
-        profileImageView.layer.borderWidth = 1
-        profileImageView.layer.borderColor = UIColor.clear.cgColor
-        profileImageView.clipsToBounds = true
+        profileImage.layer.cornerRadius = profileImage.frame.size.height / 2
+        profileImage.layer.borderWidth = 1
+        profileImage.layer.borderColor = UIColor.clear.cgColor
+        profileImage.clipsToBounds = true
     }
     
     func addPhotoActionSheet() {
@@ -119,8 +138,8 @@ class ProfileViewController: UIViewController {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-        profileImageView.image = selectedImage
-        addPhotoButton.setTitle("", for: .normal)
+        profileImage.image = selectedImage
+        addProfileImage.setTitle("", for: .normal)
         dismiss(animated: true, completion: nil)
     }
 }
