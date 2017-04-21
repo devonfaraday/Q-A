@@ -157,26 +157,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     // MARK: - View Control Functions
     //==============================================================
     func completeVoteChanged(sender: QueueTableViewCell) {
-        guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
-        let task = QuestionController.shared.questions[indexPath.row]
-        guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
-        if !task.upVote.contains(recordName) {
-            QuestionController.shared.upvote(question: task, completion: {
-                QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                    DispatchQueue.main.async {
-                        self.questionTableView.reloadData()
-                    }
-                })
-            })
-        } else {
-            QuestionController.shared.downvote(question: task, completion: {
-                QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                    DispatchQueue.main.async {
-                        self.questionTableView.reloadData()
-                    }
-                })
-            })
+        let questionPressed = QuestionController.shared.questions[indexPath.row]
+        VoteController.shared.voteOnQuestion(questionPressed) { (error) in
+            if let error = error {
+                print("Error with creating vote record: \(error)")
+            }
         }
     }
     

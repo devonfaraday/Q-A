@@ -14,7 +14,7 @@ class VoteController {
     static let shared = VoteController()
     private let cloudKitManager = CloudKitManager()
     
-    func voteOnQuestion(question: Question, completion: @escaping(Error?) -> Void) {
+    func voteOnQuestion(_ question: Question, completion: @escaping(Error?) -> Void) {
         guard let questionID = question.cloudKitRecordID else { return }
         let questionRef = CKReference(recordID: questionID, action: .deleteSelf)
         let vote = Vote(questionReference: questionRef)
