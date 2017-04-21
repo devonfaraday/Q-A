@@ -21,7 +21,9 @@
 		81D849451E9DBC8300A38BFD /* ReadyCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */; };
 		81D849471EA0072100A38BFD /* AskQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849461EA0072100A38BFD /* AskQuestionViewController.swift */; };
 		EFDC221C1EA6D0880039068C /* HolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC221B1EA6D0880039068C /* HolderView.swift */; };
+		FD5D4AB91EAA834B00B51249 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5D4AB81EAA834B00B51249 /* Vote.swift */; };
 		FD87F6451E9D674D00A4CD14 /* LaunchLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */; };
+		FDAB4F271EAA865A001F5EC1 /* VoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB4F261EAA865A001F5EC1 /* VoteController.swift */; };
 		FDF2C2601E9C032E005419C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF2C25F1E9C032E005419C3 /* AppDelegate.swift */; };
 		FDF2C2651E9C032E005419C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDF2C2631E9C032E005419C3 /* Main.storyboard */; };
 		FDF2C2671E9C032E005419C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDF2C2661E9C032E005419C3 /* Assets.xcassets */; };
@@ -44,7 +46,9 @@
 		81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadyCheckViewController.swift; sourceTree = "<group>"; };
 		81D849461EA0072100A38BFD /* AskQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskQuestionViewController.swift; sourceTree = "<group>"; };
 		EFDC221B1EA6D0880039068C /* HolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolderView.swift; sourceTree = "<group>"; };
+		FD5D4AB81EAA834B00B51249 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchLoadingViewController.swift; sourceTree = "<group>"; };
+		FDAB4F261EAA865A001F5EC1 /* VoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteController.swift; sourceTree = "<group>"; };
 		FDF2C25C1E9C032E005419C3 /* Q&A.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Q&A.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF2C25F1E9C032E005419C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDF2C2641E9C032E005419C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				81D849301E9C0EB700A38BFD /* UserController.swift */,
 				81D849321E9C0EC500A38BFD /* QuestionController.swift */,
 				81D849341E9C0ED400A38BFD /* TopicController.swift */,
+				FDAB4F261EAA865A001F5EC1 /* VoteController.swift */,
 			);
 			name = ModelControllers;
 			sourceTree = "<group>";
@@ -113,6 +118,7 @@
 				81D8492A1E9C0E9100A38BFD /* User.swift */,
 				81D8492C1E9C0E9D00A38BFD /* Question.swift */,
 				81D8492E1E9C0EA800A38BFD /* Topic.swift */,
+				FD5D4AB81EAA834B00B51249 /* Vote.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -269,9 +275,11 @@
 				81D849311E9C0EB700A38BFD /* UserController.swift in Sources */,
 				81D849471EA0072100A38BFD /* AskQuestionViewController.swift in Sources */,
 				81D8492B1E9C0E9100A38BFD /* User.swift in Sources */,
+				FD5D4AB91EAA834B00B51249 /* Vote.swift in Sources */,
 				FD87F6451E9D674D00A4CD14 /* LaunchLoadingViewController.swift in Sources */,
 				FDF2C2601E9C032E005419C3 /* AppDelegate.swift in Sources */,
 				81D849351E9C0ED400A38BFD /* TopicController.swift in Sources */,
+				FDAB4F271EAA865A001F5EC1 /* VoteController.swift in Sources */,
 				81D849331E9C0EC500A38BFD /* QuestionController.swift in Sources */,
 				81D849391E9C0F5100A38BFD /* QueueViewController.swift in Sources */,
 			);
