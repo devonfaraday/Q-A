@@ -116,9 +116,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
-        cell.layer.cornerRadius = 5
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 7
         let question = QuestionController.shared.questions[indexPath.row]
         cell.question = question
         cell.delegate = self
@@ -156,11 +154,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - View Control Functions
     //==============================================================
-    func completeVoteChanged(sender: QueueTableViewCell, vote: Bool) {
+    func completeVoteChanged(sender: QueueTableViewCell) {
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         let task = QuestionController.shared.questions[indexPath.row]
-        if vote {
+        if task.vote == 0 {
             QuestionController.shared.upvote(question: task, completion: {
                 QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                     DispatchQueue.main.async {
@@ -269,9 +267,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     @IBAction func backButtonTapped(_ sender: Any) {
         let _ = navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func blockButtonTapped(_ sender: Any) {
     }
     
     @IBAction func readyCheckButtonTapped(_ sender: Any) {
