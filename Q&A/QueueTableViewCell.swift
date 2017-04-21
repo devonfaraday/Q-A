@@ -24,11 +24,14 @@ class QueueTableViewCell: UITableViewCell {
     }
     
     func updateView() {
-        guard let question = question else {return}
-        if question.vote == 0 {
-            likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
-        } else {
+        guard let question = question else { return }
+        guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
+        if question.upVote.contains(recordName) {
+            // filled Heart
             likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
+        } else {
+            // Empty Heart
+            likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
         }
         questionLabel.text = question.question
         ownerLabel.text = question.questionOwner

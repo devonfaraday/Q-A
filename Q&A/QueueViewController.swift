@@ -158,7 +158,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         let task = QuestionController.shared.questions[indexPath.row]
-        if task.vote == 0 {
+        guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
+        if !task.upVote.contains(recordName) {
             QuestionController.shared.upvote(question: task, completion: {
                 QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                     DispatchQueue.main.async {
