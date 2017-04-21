@@ -31,10 +31,36 @@ class VoteController {
     }
     
     func delete(vote: Vote, completion: @escaping() -> Void) {
-        
+        guard let voteID = vote.recordID else { return }
+        cloudKitManager.deleteRecordWithID(voteID) { (_, error) in
+            if let error = error {
+                NSLog("Error deleting vote with reference to \(vote.questionReference):\n\(error.localizedDescription)")
+                completion(error)
+                return
+            }
+        }
     }
     
     func fetchVotesFor(question: Question, completion: @escaping([Vote]) -> Void) {
-        
+        guard let questionID = question.cloudKitRecordID else { return }
+        let questionRef = CKReference(recordID: questionID, action: .none)
+        let predicate = NSPredicate(format: "\(Vote.questionReferenceKey) == %@", questionRef)
+        let query = CKQuery(recordType: Vote.voteRecordType, predicate: predicate)
+        cloudKitManager.publicDatabase.perform(query, inZoneWith: nil) { (records, error) in
+            if let error = error {
+                NSLog("Error fetching votes for question: \(question.question)\n\(error.localizedDescription)")
+                completion([])
+                return
+            } else {
+                guard let records = records else { completion([]); return }
+                let votes = records.flatMap { Vote(cloudKitRecord: $0) }
+                completion(votes)
+            }
+        }
     }
 }
+
+
+
+
+
