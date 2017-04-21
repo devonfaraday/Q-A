@@ -22,7 +22,7 @@ class Vote: Equatable {
     }
     
     init?(cloudKitRecord: CKRecord) {
-        guard let reference  = questionReference as? CKReference else { return }
+        guard let reference  = cloudKitRecord[Vote.questionReferenceKey] as? CKReference else { return nil }
         self.questionReference = reference
         self.recordID = cloudKitRecord.recordID
     }

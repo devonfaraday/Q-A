@@ -35,7 +35,7 @@ class VoteController {
         cloudKitManager.deleteRecordWithID(voteID) { (_, error) in
             if let error = error {
                 NSLog("Error deleting vote with reference to \(vote.questionReference):\n\(error.localizedDescription)")
-                completion(error)
+                completion()
                 return
             }
         }
