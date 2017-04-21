@@ -16,6 +16,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     var topic: Topic?
     let cloudKitManager = CloudKitManager()
+    var votes = [Vote]()
     
     //==============================================================
     // MARK: - IBOutlets
@@ -42,7 +43,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         questionTableView.refreshControl = refreshControl
         
         readyButton.isHidden = true
-        //        readyCheckConstraint()
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
@@ -117,11 +117,17 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
         let question = QuestionController.shared.questions[indexPath.row]
+        VoteController.shared.fetchVotesFor(question: question) { (votes) in
+            self.votes = votes
+            DispatchQueue.main.async {
         cell.layer.cornerRadius = 7
         cell.layer.borderWidth = 1
         cell.layer.borderColor = #colorLiteral(red: 0.1777849495, green: 0.1777901053, blue: 0.1777873635, alpha: 1).cgColor
-        cell.question = question
-        cell.delegate = self
+                cell.question = question
+                cell.votes = self.votes
+                cell.delegate = self
+            }
+        }
         return cell
     }
     
@@ -159,12 +165,35 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func completeVoteChanged(sender: QueueTableViewCell) {
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         let questionPressed = QuestionController.shared.questions[indexPath.row]
+        if sender.votes.isEmpty {
         VoteController.shared.voteOnQuestion(questionPressed) { (error) in
             if let error = error {
                 print("Error with creating vote record: \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    self.questionTableView.reloadData()
+                }
             }
         }
-    }
+        } else {
+            for vote in sender.votes {
+                if vote.userReference.recordID == UserController.shared.loggedInUser?.recordID {
+                    VoteController.shared.delete(vote: vote, completion: { 
+                        
+                    })
+                } else {
+                    VoteController.shared.voteOnQuestion(questionPressed) { (error) in
+                        if let error = error {
+                            print("Error with creating vote record: \(error)")
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self.questionTableView.reloadData()
+            }
+        }
+}
     
     func showReadyButton() {
         

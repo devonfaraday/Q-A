@@ -9,37 +9,52 @@
 import UIKit
 
 class QueueTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var ownerLabel: UILabel!
     @IBOutlet weak var voteCountLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton!
-
-
+    
+    
     weak var delegate: VoteQueueTableViewCellDelegate?
     var question: Question? {
         didSet {
             updateView()
         }
     }
+    var votes = [Vote]()
+    
     
     func updateView() {
         guard let question = question else { return }
-        guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
-        if question.upVote.contains(recordName) {
-            // filled Heart
-            likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
-        } else {
-            // Empty Heart
-            likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+        guard let recordID = UserController.shared.loggedInUser?.recordID else { return }
+        DispatchQueue.main.async {
+            if !self.votes.isEmpty {
+                for vote in self.votes {
+                    if vote.userReference.recordID == recordID {
+                        // filled heart
+                        self.likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
+                        
+                    } else {
+                        // empty heart
+                        self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+                    }
+                }
+            } else {
+                
+                self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+                
+            }
+            
+            self.questionLabel.text = question.question
+            self.ownerLabel.text = question.questionOwner
+            self.voteCountLabel.text = "\(self.votes.count)"
         }
-        questionLabel.text = question.question
-        ownerLabel.text = question.questionOwner
-        voteCountLabel.text = "\(question.vote)"
     }
     
     @IBAction func likeButtonTapped(_ sender: Any) {
         delegate?.completeVoteChanged(sender: self)
+    
     }
 }
 
