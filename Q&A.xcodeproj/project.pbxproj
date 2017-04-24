@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		810EEC0B1EAAB969005286A6 /* TopicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 810EEC091EAAB969005286A6 /* TopicList.storyboard */; };
 		810EEC0D1EAABDE7005286A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */; };
+		817FFB181EAE52C200262C8C /* pageView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 817FFB161EAE52C200262C8C /* pageView.storyboard */; };
 		81D8492B1E9C0E9100A38BFD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492A1E9C0E9100A38BFD /* User.swift */; };
 		81D8492D1E9C0E9D00A38BFD /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492C1E9C0E9D00A38BFD /* Question.swift */; };
 		81D8492F1E9C0EA800A38BFD /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D8492E1E9C0EA800A38BFD /* Topic.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		810EEC0A1EAAB969005286A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TopicList.storyboard; sourceTree = "<group>"; };
 		810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		817FFB171EAE52C200262C8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/pageView.storyboard; sourceTree = "<group>"; };
 		81D8492A1E9C0E9100A38BFD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		81D8492C1E9C0E9D00A38BFD /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		81D8492E1E9C0EA800A38BFD /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			children = (
 				FDF2C2681E9C032E005419C3 /* LaunchScreen.storyboard */,
 				FDF2C2631E9C032E005419C3 /* Main.storyboard */,
+				817FFB161EAE52C200262C8C /* pageView.storyboard */,
 				810EEC091EAAB969005286A6 /* TopicList.storyboard */,
 			);
 			name = Storyboards;
@@ -260,6 +263,7 @@
 				FDF2C26A1E9C032E005419C3 /* LaunchScreen.storyboard in Resources */,
 				FDF2C2671E9C032E005419C3 /* Assets.xcassets in Resources */,
 				810EEC0B1EAAB969005286A6 /* TopicList.storyboard in Resources */,
+				817FFB181EAE52C200262C8C /* pageView.storyboard in Resources */,
 				FDF2C2651E9C032E005419C3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +306,14 @@
 				810EEC0A1EAAB969005286A6 /* Base */,
 			);
 			name = TopicList.storyboard;
+			sourceTree = "<group>";
+		};
+		817FFB161EAE52C200262C8C /* pageView.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				817FFB171EAE52C200262C8C /* Base */,
+			);
+			name = pageView.storyboard;
 			sourceTree = "<group>";
 		};
 		FDF2C2631E9C032E005419C3 /* Main.storyboard */ = {
