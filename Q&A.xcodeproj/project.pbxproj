@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D9B50AA1EAE5D890001E13A /* TutorialPageViewControllerRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B50A91EAE5D890001E13A /* TutorialPageViewControllerRoot.swift */; };
+		5D9B50AC1EAE5DD10001E13A /* TutorialDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B50AB1EAE5DD10001E13A /* TutorialDataViewController.swift */; };
+		5D9B50AE1EAE60320001E13A /* TutorialDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B50AD1EAE60320001E13A /* TutorialDataController.swift */; };
 		810EEC0B1EAAB969005286A6 /* TopicList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 810EEC091EAAB969005286A6 /* TopicList.storyboard */; };
 		810EEC0D1EAABDE7005286A6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */; };
 		817FFB181EAE52C200262C8C /* pageView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 817FFB161EAE52C200262C8C /* pageView.storyboard */; };
@@ -35,6 +38,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D9B50A91EAE5D890001E13A /* TutorialPageViewControllerRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialPageViewControllerRoot.swift; sourceTree = "<group>"; };
+		5D9B50AB1EAE5DD10001E13A /* TutorialDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialDataViewController.swift; sourceTree = "<group>"; };
+		5D9B50AD1EAE60320001E13A /* TutorialDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialDataController.swift; sourceTree = "<group>"; };
 		810EEC0A1EAAB969005286A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TopicList.storyboard; sourceTree = "<group>"; };
 		810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		817FFB171EAE52C200262C8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/pageView.storyboard; sourceTree = "<group>"; };
@@ -91,6 +97,8 @@
 		81D849241E9C0DD900A38BFD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5D9B50A91EAE5D890001E13A /* TutorialPageViewControllerRoot.swift */,
+				5D9B50AB1EAE5DD10001E13A /* TutorialDataViewController.swift */,
 				FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */,
 				810EEC0C1EAABDE7005286A6 /* ProfileViewController.swift */,
 				81D8493A1E9C0F6600A38BFD /* TopicViewController.swift */,
@@ -135,6 +143,7 @@
 		81D849281E9C0E1B00A38BFD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5D9B50AD1EAE60320001E13A /* TutorialDataController.swift */,
 				81D849361E9C0EF000A38BFD /* CloudKitManager.swift */,
 				EFDC221B1EA6D0880039068C /* HolderView.swift */,
 			);
@@ -278,10 +287,12 @@
 				81D8492D1E9C0E9D00A38BFD /* Question.swift in Sources */,
 				81D8492F1E9C0EA800A38BFD /* Topic.swift in Sources */,
 				81D8493B1E9C0F6600A38BFD /* TopicViewController.swift in Sources */,
+				5D9B50AE1EAE60320001E13A /* TutorialDataController.swift in Sources */,
 				81D849451E9DBC8300A38BFD /* ReadyCheckViewController.swift in Sources */,
 				EFDC221C1EA6D0880039068C /* HolderView.swift in Sources */,
 				81D849411E9DBC5300A38BFD /* QueueTableViewCell.swift in Sources */,
 				81D849431E9DBC6200A38BFD /* ReadyCheckTableViewCell.swift in Sources */,
+				5D9B50AA1EAE5D890001E13A /* TutorialPageViewControllerRoot.swift in Sources */,
 				81D849371E9C0EF000A38BFD /* CloudKitManager.swift in Sources */,
 				81D849311E9C0EB700A38BFD /* UserController.swift in Sources */,
 				810EEC0D1EAABDE7005286A6 /* ProfileViewController.swift in Sources */,
@@ -292,6 +303,7 @@
 				FDF2C2601E9C032E005419C3 /* AppDelegate.swift in Sources */,
 				81D849351E9C0ED400A38BFD /* TopicController.swift in Sources */,
 				FDAB4F271EAA865A001F5EC1 /* VoteController.swift in Sources */,
+				5D9B50AC1EAE5DD10001E13A /* TutorialDataViewController.swift in Sources */,
 				81D849331E9C0EC500A38BFD /* QuestionController.swift in Sources */,
 				81D849391E9C0F5100A38BFD /* QueueViewController.swift in Sources */,
 			);
