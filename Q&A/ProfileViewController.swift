@@ -12,13 +12,20 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let currentUser = UserController.shared.loggedInUser {
+            self.currentUser = currentUser
+        }
     }
     
     //==============================================================
     // MARK: - Properties
     //==============================================================
     var isEditingProfile = false
-    var currentUser: User?
+    var currentUser: User? {
+        didSet {
+            updateView()
+        }
+    }
     
     //==============================================================
     // MARK: - IBOutlets
@@ -37,40 +44,32 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         addPhotoActionSheet()
     }
     
-    @IBAction func editButtonTapped(_ sender: Any) {
-    }
-    
     @IBAction func doneButtonTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func updateView() {
-        if isEditingProfile {
-            firstNameTextField.borderStyle = .roundedRect
-            firstNameTextField.isEnabled = true
-            lastNameTextField.borderStyle = .roundedRect
-            lastNameTextField.isEnabled = true
-            addProfileImage.isHidden = false
-            addProfileImage.setTitle("", for: .normal)
-        } else {
-            guard let currentUser = currentUser else { return }
-            firstNameTextField.text = currentUser.firstName
-            lastNameTextField.text = currentUser.lastName
-            profileImage.image = currentUser.profileImage
-            self.firstNameTextField.borderStyle = .none
-            self.firstNameTextField.backgroundColor = UIColor.clear
-            self.firstNameTextField.isEnabled = false
-            self.firstNameTextField.textColor = UIColor.white
-            self.lastNameTextField.borderStyle = .none
-            self.lastNameTextField.backgroundColor = UIColor.clear
-            self.lastNameTextField.textColor = UIColor.white
-            self.lastNameTextField.isEnabled = false
-            self.addProfileImage.isHidden = true
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
+        guard let firstname = self.firstNameTextField.text, let lastname = lastNameTextField.text, let image = profileImage.image else { return }
+        if let imageData = UIImageJPEGRepresentation(image, 1.0) {
+            UserController.shared.saveUser(firstName: firstname, lastName: lastname, imageData: imageData, completion: { (_) in
+                self.dismiss(animated: true, completion: nil)
+            })
         }
     }
     
+    //==============================================================
+    // MARK: - View Functions
+    //==============================================================
+    func updateView() {
+        guard let currentUser = currentUser else { return }
+        firstNameTextField.text = currentUser.firstName
+        lastNameTextField.text = currentUser.lastName
+        profileImage.image = currentUser.profileImage
+        profileImage.layer.cornerRadius = profileImage.frame.size.height / 2
+        profileImage.layer.borderWidth = 1
+        profileImage.layer.borderColor = UIColor.clear.cgColor
+        profileImage.clipsToBounds = true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         if firstNameTextField.isFirstResponder {
             lastNameTextField.becomeFirstResponder()
         } else {
@@ -102,13 +101,6 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
-    }
-    
-    func pictureFrameCircular() {
-        profileImage.layer.cornerRadius = profileImage.frame.size.height / 2
-        profileImage.layer.borderWidth = 1
-        profileImage.layer.borderColor = UIColor.clear.cgColor
-        profileImage.clipsToBounds = true
     }
     
     func addPhotoActionSheet() {

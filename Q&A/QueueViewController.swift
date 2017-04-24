@@ -159,7 +159,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func completeVoteChanged(sender: QueueTableViewCell) {
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         let questionPressed = QuestionController.shared.questions[indexPath.row]
-        VoteController.shared.voteOnQuestion(questionPressed) { (error) in
+        VoteController.shared.voteOnQuestion(question: questionPressed) { (error) in
             if let error = error {
                 print("Error with creating vote record: \(error)")
             }
