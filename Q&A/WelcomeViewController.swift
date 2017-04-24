@@ -50,7 +50,7 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
             else { addPhotoAlert(); return }
         if let imageData = UIImageJPEGRepresentation(image, 1.0) {
             UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (_) in
-                self.dismiss(animated: true, completion: nil)
+                print("Done Saving")
             })
         }
     }
