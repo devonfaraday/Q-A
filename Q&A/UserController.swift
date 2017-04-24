@@ -19,6 +19,7 @@ class UserController {
     var loggedInUser: User?
     var usersTopics = [Topic]()
     
+    
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping(User?) -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(nil); return }
         let userRef = CKReference(recordID: appleUserRecordID, action: .none)
@@ -87,3 +88,7 @@ class UserController {
         self.cloudKitManager.publicDatabase.add(operation)
     }
 }
+
+
+// UserID 2847CBAB-70FF-4A9E-B02C-EA7B1518BFF5
+// questionID  6B33AA0D-2FB8-4DA0-AA77-2A72FC974F0F

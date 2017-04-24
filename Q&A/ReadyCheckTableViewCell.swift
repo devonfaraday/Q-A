@@ -28,7 +28,6 @@ class ReadyCheckTableViewCell: UITableViewCell {
             self.updateViews()
             
         }
-        
     }
     
     func updateViews() {
@@ -42,7 +41,4 @@ class ReadyCheckTableViewCell: UITableViewCell {
             }
         }
     }
-    
-    
-    
 }
