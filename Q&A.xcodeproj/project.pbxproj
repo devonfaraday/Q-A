@@ -27,6 +27,7 @@
 		81D849451E9DBC8300A38BFD /* ReadyCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */; };
 		81D849471EA0072100A38BFD /* AskQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D849461EA0072100A38BFD /* AskQuestionViewController.swift */; };
 		EFDC221C1EA6D0880039068C /* HolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC221B1EA6D0880039068C /* HolderView.swift */; };
+		EFF658FD1EAE5BF10042B858 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF658FC1EAE5BF10042B858 /* WelcomeViewController.swift */; };
 		FD5D4AB91EAA834B00B51249 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5D4AB81EAA834B00B51249 /* Vote.swift */; };
 		FD87F6451E9D674D00A4CD14 /* LaunchLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */; };
 		FDAB4F271EAA865A001F5EC1 /* VoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAB4F261EAA865A001F5EC1 /* VoteController.swift */; };
@@ -58,6 +59,7 @@
 		81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadyCheckViewController.swift; sourceTree = "<group>"; };
 		81D849461EA0072100A38BFD /* AskQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AskQuestionViewController.swift; sourceTree = "<group>"; };
 		EFDC221B1EA6D0880039068C /* HolderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HolderView.swift; sourceTree = "<group>"; };
+		EFF658FC1EAE5BF10042B858 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		FD5D4AB81EAA834B00B51249 /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 		FD87F6441E9D674D00A4CD14 /* LaunchLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchLoadingViewController.swift; sourceTree = "<group>"; };
 		FDAB4F261EAA865A001F5EC1 /* VoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				81D849381E9C0F5100A38BFD /* QueueViewController.swift */,
 				81D849461EA0072100A38BFD /* AskQuestionViewController.swift */,
 				81D849441E9DBC8300A38BFD /* ReadyCheckViewController.swift */,
+				EFF658FC1EAE5BF10042B858 /* WelcomeViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81D8492D1E9C0E9D00A38BFD /* Question.swift in Sources */,
+				EFF658FD1EAE5BF10042B858 /* WelcomeViewController.swift in Sources */,
 				81D8492F1E9C0EA800A38BFD /* Topic.swift in Sources */,
 				81D8493B1E9C0F6600A38BFD /* TopicViewController.swift in Sources */,
 				5D9B50AE1EAE60320001E13A /* TutorialDataController.swift in Sources */,

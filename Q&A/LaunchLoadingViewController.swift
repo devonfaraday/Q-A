@@ -29,14 +29,12 @@ class LaunchLoadingViewController: UIViewController, HolderViewDelegate {
         if user != nil {
             UserController.shared.loggedInUser = user
             if user?.firstName != nil && user?.lastName != nil && user?.profileImage != nil {
-    
-            self.performSegue(withIdentifier: "toProfilePage", sender: self)
+                
+                self.performSegue(withIdentifier: "toProfilePage", sender: self)
             } else {
                 // Show onboarding views
-//                self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
+                self.performSegue(withIdentifier: "toProfileSetUpVC", sender: self)
             }
-        } else {
-            self.performSegue(withIdentifier: "toProfilePage", sender: self)
         }
     }
     
