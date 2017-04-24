@@ -23,7 +23,14 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     // MARK: - Properties
     //==============================================================
-    var currentUser: User?
+    var currentUser: User? {
+        didSet{
+            if !isViewLoaded {
+                loadViewIfNeeded()
+            }
+            self.changeViewsOnLoad()
+        }
+    }
     var cloudKitManager = CloudKitManager()
     
     //==============================================================
@@ -31,9 +38,8 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        changeViewsOnLoad()
         if let currentUser = UserController.shared.loggedInUser {
+            
             self.currentUser = currentUser
         } else {
             codeTextField.isHidden = true
@@ -53,10 +59,6 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
             }
         })
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
     
     //==============================================================
@@ -183,26 +185,15 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         })
     }
-    
-    //==============================================================
-    // MARK: - Constraints
-    //==============================================================
-    func constraintsWithoutUser() {
-        codeTextField.isHidden = true
-        let submitButtonHorizontalContraint = NSLayoutConstraint(item: submitButton, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        view.addConstraint(submitButtonHorizontalContraint)
-    }
-    
-    func constraintsAfterSave() {
-        codeTextField.isHidden = false
-    }
 
     //==============================================================
     // MARK: - Helper Function
     //==============================================================
     func changeViewsOnLoad() {
-        self.submitButton.layer.cornerRadius = 5
-        self.submitButton.layer.borderWidth = 1
-        self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        guard let user = currentUser else { return }
+        let image: UIImage = user.profileImage
+        self.addPhotoButton.setImage(image, for: .normal)
+        self.addPhotoButton.layer.cornerRadius = self.addPhotoButton.frame.width/2
+        self.addPhotoButton.layer.masksToBounds = true
     }
 }
