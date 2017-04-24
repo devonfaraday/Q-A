@@ -39,11 +39,7 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         if let currentUser = UserController.shared.loggedInUser {
-            
             self.currentUser = currentUser
-        } else {
-            codeTextField.isHidden = true
-            //            constraintsWithoutUser()
         }
     }
     
@@ -195,5 +191,8 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.addPhotoButton.setImage(image, for: .normal)
         self.addPhotoButton.layer.cornerRadius = self.addPhotoButton.frame.width/2
         self.addPhotoButton.layer.masksToBounds = true
+        self.submitButton.layer.cornerRadius = 5
+        self.submitButton.layer.borderWidth = 1
+        self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
 }

@@ -34,6 +34,9 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var addProfileImage: UIButton!
+    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var updateButton: UIButton!
+
     
     //==============================================================
     // MARK: - IBActions
@@ -45,15 +48,20 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func updateButtonTapped(_ sender: Any) {
         firstNameTextField.resignFirstResponder()
         lastNameTextField.resignFirstResponder()
         guard let firstname = self.firstNameTextField.text, let lastname = lastNameTextField.text, let image = profileImage.image else { return }
         if let imageData = UIImageJPEGRepresentation(image, 1.0) {
-            UserController.shared.saveUser(firstName: firstname, lastName: lastname, imageData: imageData, completion: { (_) in
+            UserController.shared.updateUser(firstname: firstname, lastname: lastname, imageData: imageData, completion: {
                 self.dismiss(animated: true, completion: nil)
             })
         }
     }
+
     
     //==============================================================
     // MARK: - View Functions
@@ -67,6 +75,12 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         profileImage.layer.borderWidth = 1
         profileImage.layer.borderColor = UIColor.clear.cgColor
         profileImage.clipsToBounds = true
+        self.doneButton.layer.cornerRadius = 5
+        self.doneButton.layer.borderWidth = 1
+        self.doneButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+        self.updateButton.layer.cornerRadius = 5
+        self.updateButton.layer.borderWidth = 1
+        self.updateButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
