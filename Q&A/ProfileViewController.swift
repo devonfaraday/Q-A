@@ -37,7 +37,6 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var updateButton: UIButton!
 
-    
     //==============================================================
     // MARK: - IBActions
     //==============================================================
@@ -54,15 +53,16 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     @IBAction func updateButtonTapped(_ sender: Any) {
         firstNameTextField.resignFirstResponder()
         lastNameTextField.resignFirstResponder()
-        guard let firstname = self.firstNameTextField.text, let lastname = lastNameTextField.text, let image = profileImage.image else { return }
-        if let imageData = UIImageJPEGRepresentation(image, 1.0) {
-            UserController.shared.updateUser(firstname: firstname, lastname: lastname, imageData: imageData, completion: {
-                self.dismiss(animated: true, completion: nil)
-            })
+        guard let user = currentUser, let firstname = self.firstNameTextField.text, let lastname = lastNameTextField.text, let image = profileImage.image else { return }
+        user.firstName = firstname
+        user.lastName = lastname
+        guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
+        user.profileImageData = imageData
+        UserController.shared.modifyUser(user: user) {
+           self.dismiss(animated: true, completion: nil)
         }
     }
 
-    
     //==============================================================
     // MARK: - View Functions
     //==============================================================

@@ -15,6 +15,7 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var addProfileImage: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
         lastNameTextField.attributedPlaceholder = NSAttributedString(string: "Last Name:", attributes: [NSForegroundColorAttributeName: UIColor.white])
         firstNameBorderWhite()
         lastNameBoarderWhite()
+        nextButtonBoarderWhite()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -42,7 +44,10 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
         lastNameTextField.resignFirstResponder()
         guard let firstName = self.firstNameTextField.text,
             let lastName = self.lastNameTextField.text,
-            let image = pictureImageView.image else { return }
+            let image = pictureImageView.image,
+        !firstName.isEmpty,
+        !lastName.isEmpty
+            else { addPhotoAlert(); return }
         if let imageData = UIImageJPEGRepresentation(image, 1.0) {
             UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (_) in
                 self.dismiss(animated: true, completion: nil)
@@ -72,7 +77,7 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func addPhotoAlert() {
-        let alertController = UIAlertController(title: "WARNING!", message: "Must add photo", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "WARNING!", message: "Please fill out all sections.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .cancel) { (_) in
         }
         alertController.addAction(okAction)
@@ -132,6 +137,12 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.lastNameTextField.layer.cornerRadius = 5
         self.lastNameTextField.layer.borderWidth = 1
         self.lastNameTextField.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
+    }
+    
+    func nextButtonBoarderWhite() {
+        self.nextButton.layer.cornerRadius = 5
+        self.nextButton.layer.borderWidth = 1
+        self.nextButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
 }
 

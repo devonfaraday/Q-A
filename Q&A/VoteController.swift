@@ -14,7 +14,7 @@ class VoteController {
     static let shared = VoteController()
     private let cloudKitManager = CloudKitManager()
     
-    func voteOnQuestion(question: Question, completion: @escaping(Error?) -> Void) {
+    func voteOnQuestion(_ question: Question, completion: @escaping(Vote?, Error?) -> Void) {
         guard let questionID = question.cloudKitRecordID,
             let userID = UserController.shared.loggedInUser?.recordID else { return }
         let questionRef = CKReference(recordID: questionID, action: .deleteSelf)
@@ -26,9 +26,12 @@ class VoteController {
         cloudKitManager.publicDatabase.save(voteRecord) { (_, error) in
             if let error = error {
                 NSLog("Error saving vote: \(error.localizedDescription)")
-                completion(error)
+                completion(nil, error)
                 return
+            } else {
+                completion(vote, nil)
             }
+            
         }
     }
     
@@ -39,6 +42,8 @@ class VoteController {
                 NSLog("Error deleting vote with reference to \(vote.questionReference):\n\(error.localizedDescription)")
                 completion()
                 return
+            } else {
+                completion()
             }
         }
     }
@@ -61,6 +66,7 @@ class VoteController {
         }
     }
 }
+
 
 
 

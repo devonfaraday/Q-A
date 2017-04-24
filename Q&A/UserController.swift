@@ -19,6 +19,7 @@ class UserController {
     var loggedInUser: User?
     var usersTopics = [Topic]()
     
+    
     func saveUser(firstName: String, lastName: String, imageData: Data, completion: @escaping(User?) -> Void) {
         guard let appleUserRecordID = appleUserRecordID else { completion(nil); return }
         let userRef = CKReference(recordID: appleUserRecordID, action: .none)
@@ -37,19 +38,6 @@ class UserController {
         }
     }
     
-    func updateUser(firstname: String, lastname: String, imageData: Data, completion: @escaping() -> Void) {
-        guard let appleUserRecordID = appleUserRecordID else { completion(); return }
-        let userRef = CKReference(recordID: appleUserRecordID, action: .none)
-        let user = User(firstName: firstname, lastName: lastname, profileImageData: imageData, appleUserRef: userRef)
-        let record = CKRecord(user: user)
-        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-        operation.completionBlock = {
-            completion()
-        }
-        operation.savePolicy = .changedKeys
-        self.cloudKitManager.publicDatabase.add(operation)
-    }
-    
     func toggleReadyCheck(completion: @escaping() -> Void) {
         guard let user = loggedInUser else { return }
         user.readyCheck = !user.readyCheck
@@ -60,7 +48,7 @@ class UserController {
         }
             operation.savePolicy = .changedKeys
         self.cloudKitManager.publicDatabase.add(operation)
-        }
+    }
     
     func setAllUsersReadyCheckToFalse(completion: @escaping () -> Void) {
         var userRecords = [CKRecord]()
@@ -87,3 +75,7 @@ class UserController {
         self.cloudKitManager.publicDatabase.add(operation)
     }
 }
+
+
+// UserID 2847CBAB-70FF-4A9E-B02C-EA7B1518BFF5
+// questionID  6B33AA0D-2FB8-4DA0-AA77-2A72FC974F0F
