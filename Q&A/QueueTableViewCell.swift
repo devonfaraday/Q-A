@@ -22,39 +22,47 @@ class QueueTableViewCell: UITableViewCell {
             updateView()
         }
     }
-    var votes = [Vote]()
+    var votes = [Vote]() {
+        didSet {
+            updateView()
+        }
+    }
     
     
     func updateView() {
         guard let question = question else { return }
         guard let recordID = UserController.shared.loggedInUser?.recordID else { return }
-        DispatchQueue.main.async {
-            if !self.votes.isEmpty {
-                for vote in self.votes {
-                    if vote.userReference.recordID == recordID {
-                        // filled heart
+        
+        if votes.isEmpty {
+            DispatchQueue.main.async {
+                self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
+            }
+        } else {
+            for vote in votes {
+                if vote.userReference.recordID == recordID {
+                    DispatchQueue.main.async {
                         self.likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
-                        
-                    } else {
-                        // empty heart
+                    }
+                } else {
+                    DispatchQueue.main.async {
                         self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
                     }
                 }
-            } else {
-                
-                self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
-                
             }
             
+        }
+        
+        DispatchQueue.main.async {
             self.questionLabel.text = question.question
             self.ownerLabel.text = question.questionOwner
             self.voteCountLabel.text = "\(self.votes.count)"
         }
     }
     
+    
     @IBAction func likeButtonTapped(_ sender: Any) {
         delegate?.completeVoteChanged(sender: self)
-    
+        
     }
 }
 

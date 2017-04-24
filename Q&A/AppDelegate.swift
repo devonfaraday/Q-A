@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSLog("Notification posted: \(TopicController.shared.topicBoolNotificationName)")
             
         }
-        if cloudKitNotification.subscriptionID == "NewQuestion" || cloudKitNotification.subscriptionID == "QuestionVote" {
+        if cloudKitNotification.subscriptionID == "NewQuestion" || cloudKitNotification.subscriptionID == "VoteCreation" || cloudKitNotification.subscriptionID == "VoteDeletion" {
             
             NotificationCenter.default.post(name: QuestionController.shared.NewQuestionAdded, object: nil)
             NSLog("Notification posted: \(QuestionController.shared.NewQuestionAdded)")

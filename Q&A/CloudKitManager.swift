@@ -454,19 +454,18 @@ class CloudKitManager {
         
     }
     
-    func subscripeToQuestionVotesIn(topic: Topic) {
-        let notificationInfo = CKNotificationInfo()
-        guard let topicID = topic.recordID else { return }
-        let questionPredicate = NSPredicate(value: true)
-        let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
-        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
-        notificationInfo.shouldSendContentAvailable = true
-        
-        let subscription = CKQuerySubscription(recordType: "Question", predicate: predicates, options: .firesOnRecordUpdate)
-        subscription.notificationInfo = notificationInfo
+    func subscribeToVotes() {
         
         
-        subscribe("Question", predicate: predicates, subscriptionID: "QuestionVote", contentAvailable: true, options: .firesOnRecordUpdate) { (_, _) in
+        
+        let predicate = NSPredicate(value: true)
+        
+        
+        subscribe("Vote", predicate: predicate, subscriptionID: "VoteCreation", contentAvailable: true, options: .firesOnRecordCreation) { (_, _) in
+            
+        }
+        
+        subscribe("Vote", predicate: predicate, subscriptionID: "VoteDeletion", contentAvailable: true, options: .firesOnRecordDeletion) { (_, _) in
             
         }
     }
