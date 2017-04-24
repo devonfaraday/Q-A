@@ -13,6 +13,7 @@ class TutorialDataViewController: UIViewController {
     @IBOutlet weak var imageOutlet: UIImageView!
     @IBOutlet weak var page: UIPageControl!
     
+   
     var tutorialImage: UIImage?
     
     override func viewDidLoad() {
