@@ -26,18 +26,14 @@ class LaunchLoadingViewController: UIViewController, HolderViewDelegate {
     }
     
     func segueToProfile() {
+        UserController.shared.loggedInUser = user
         if user != nil {
-            UserController.shared.loggedInUser = user
-            if user?.firstName != nil && user?.lastName != nil && user?.profileImage != nil {
-    
             self.performSegue(withIdentifier: "toProfilePage", sender: self)
-            } else {
-                // Show onboarding views
-//                self.performSegue(withIdentifier: <#T##String#>, sender: <#T##Any?#>)
-            }
         } else {
-            self.performSegue(withIdentifier: "toProfilePage", sender: self)
+            // Show onboarding views
+            self.performSegue(withIdentifier: "toProfileSetUpVC", sender: self)
         }
+    
     }
     
     func holtForASec() {
