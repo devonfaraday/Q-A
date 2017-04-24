@@ -37,6 +37,19 @@ class UserController {
         }
     }
     
+    func updateUser(firstname: String, lastname: String, imageData: Data, completion: @escaping() -> Void) {
+        guard let appleUserRecordID = appleUserRecordID else { completion(); return }
+        let userRef = CKReference(recordID: appleUserRecordID, action: .none)
+        let user = User(firstName: firstname, lastName: lastname, profileImageData: imageData, appleUserRef: userRef)
+        let record = CKRecord(user: user)
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.completionBlock = {
+            completion()
+        }
+        operation.savePolicy = .changedKeys
+        self.cloudKitManager.publicDatabase.add(operation)
+    }
+    
     func toggleReadyCheck(completion: @escaping() -> Void) {
         guard let user = loggedInUser else { return }
         user.readyCheck = !user.readyCheck

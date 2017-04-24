@@ -49,13 +49,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="G41-mx-yT1">
                                 <rect key="frame" x="46" y="275" width="228" height="30"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0dz-YH-sai">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0dz-YH-sai">
                                         <rect key="frame" x="0.0" y="0.0" width="106.5" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="0.79714255136986301" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" returnKeyType="next"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GbC-Di-tSR">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GbC-Di-tSR">
                                         <rect key="frame" x="121.5" y="0.0" width="106.5" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="0.79858732876712324" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -76,10 +76,24 @@
                                     <action selector="doneButtonTapped:" destination="cZx-mD-UjH" eventType="touchUpInside" id="7a2-sg-rUP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPB-QU-2eV">
+                                <rect key="frame" x="121.5" y="320" width="77" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="7Rl-vf-pvc"/>
+                                    <constraint firstAttribute="width" constant="77" id="F8G-1z-hvX"/>
+                                </constraints>
+                                <state key="normal" title="UPDATE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="updateButtonTapped:" destination="cZx-mD-UjH" eventType="touchUpInside" id="O9e-dW-9Zf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="G41-mx-yT1" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="3Mx-93-a0R"/>
+                            <constraint firstItem="qPB-QU-2eV" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="5qn-lr-Vwc"/>
                             <constraint firstItem="G41-mx-yT1" firstAttribute="leading" secondItem="6DS-CF-3Js" secondAttribute="leadingMargin" constant="30" id="66q-tr-2Fj"/>
                             <constraint firstItem="Uug-N5-e4K" firstAttribute="top" secondItem="ULd-zC-rP1" secondAttribute="bottom" id="EnK-fE-sVE"/>
                             <constraint firstItem="62l-qG-gC2" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="Gok-St-UlP"/>
@@ -88,6 +102,7 @@
                             <constraint firstItem="ULd-zC-rP1" firstAttribute="top" secondItem="6DS-CF-3Js" secondAttribute="top" id="NWD-oX-aNz"/>
                             <constraint firstItem="RaA-Pb-3JT" firstAttribute="top" secondItem="jOq-pV-rQc" secondAttribute="bottom" constant="100" id="PKd-oi-ebv"/>
                             <constraint firstItem="62l-qG-gC2" firstAttribute="top" secondItem="jOq-pV-rQc" secondAttribute="bottom" constant="100" id="Rrm-lw-lb8"/>
+                            <constraint firstItem="qPB-QU-2eV" firstAttribute="top" secondItem="G41-mx-yT1" secondAttribute="bottom" constant="15" id="S3g-Op-Fpi"/>
                             <constraint firstItem="ULd-zC-rP1" firstAttribute="leading" secondItem="6DS-CF-3Js" secondAttribute="leading" id="ZaP-WS-1hq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G41-mx-yT1" secondAttribute="trailing" constant="30" id="bCe-GY-7TR"/>
                             <constraint firstItem="RaA-Pb-3JT" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="eXm-LU-M5f"/>
@@ -97,9 +112,11 @@
                     </view>
                     <connections>
                         <outlet property="addProfileImage" destination="62l-qG-gC2" id="82A-Rd-2uB"/>
+                        <outlet property="doneButton" destination="l6m-GD-Md4" id="L5k-4y-xWh"/>
                         <outlet property="firstNameTextField" destination="0dz-YH-sai" id="MMW-ln-D0g"/>
                         <outlet property="lastNameTextField" destination="GbC-Di-tSR" id="Fa5-5U-uAv"/>
                         <outlet property="profileImage" destination="RaA-Pb-3JT" id="E3q-Vl-mUb"/>
+                        <outlet property="updateButton" destination="qPB-QU-2eV" id="cRH-Jc-xbm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aLD-bc-CZO" userLabel="First Responder" sceneMemberID="firstResponder"/>
