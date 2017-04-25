@@ -22,50 +22,37 @@ class QueueTableViewCell: UITableViewCell {
             updateView()
         }
     }
-    var votes = [Vote]() {
-        didSet {
-            updateView()
-        }
-    }
-    
     
     func updateView() {
         guard let question = question else { return }
-        guard let recordID = UserController.shared.loggedInUser?.recordID else { return }
+        questionLabel.text = question.question
+        ownerLabel.text = question.questionOwner
+        voteCountLabel.text = "\(question.vote)"
         
-        if votes.isEmpty {
-            DispatchQueue.main.async {
-                self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
-            }
+        guard let currentUser = UserController.shared.loggedInUser?.recordID?.recordName
+             else { return }
+        
+        if question.upVote.contains(currentUser) {
+            self.likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
+
         } else {
-            for vote in votes {
-                if vote.userReference.recordID == recordID {
-                    DispatchQueue.main.async {
-                        self.likeButton.setImage(#imageLiteral(resourceName: "filledHeart"), for: .normal)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
-                    }
-                }
+            self.likeButton.setImage(#imageLiteral(resourceName: "emptyHeart"), for: .normal)
             }
+        
+            DispatchQueue.main.async {
+                self.questionLabel.text = question.question
+                self.ownerLabel.text = question.questionOwner
+                self.voteCountLabel.text = "\(question.vote)"
+            }
+        }
+        
+        
+        @IBAction func likeButtonTapped(_ sender: Any) {
+            delegate?.completeVoteChanged(sender: self)
             
         }
-        
-        DispatchQueue.main.async {
-            self.questionLabel.text = question.question
-            self.ownerLabel.text = question.questionOwner
-            self.voteCountLabel.text = "\(self.votes.count)"
-        }
     }
     
-    
-    @IBAction func likeButtonTapped(_ sender: Any) {
-        delegate?.completeVoteChanged(sender: self)
-        
-    }
-}
-
-protocol VoteQueueTableViewCellDelegate: class {
-    func completeVoteChanged(sender: QueueTableViewCell)
+    protocol VoteQueueTableViewCellDelegate: class {
+        func completeVoteChanged(sender: QueueTableViewCell)
 }
