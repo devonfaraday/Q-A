@@ -89,6 +89,10 @@
                                     <action selector="updateButtonTapped:" destination="cZx-mD-UjH" eventType="touchUpInside" id="O9e-dW-9Zf"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kIP-HK-ncS">
+                                <rect key="frame" x="142" y="266" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -99,6 +103,7 @@
                             <constraint firstItem="62l-qG-gC2" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="Gok-St-UlP"/>
                             <constraint firstAttribute="trailing" secondItem="ULd-zC-rP1" secondAttribute="trailing" id="Ilx-Mf-pr8"/>
                             <constraint firstItem="l6m-GD-Md4" firstAttribute="trailing" secondItem="6DS-CF-3Js" secondAttribute="trailingMargin" id="JV7-M1-lye"/>
+                            <constraint firstItem="kIP-HK-ncS" firstAttribute="centerY" secondItem="6DS-CF-3Js" secondAttribute="centerY" id="LoO-dG-y4s"/>
                             <constraint firstItem="ULd-zC-rP1" firstAttribute="top" secondItem="6DS-CF-3Js" secondAttribute="top" id="NWD-oX-aNz"/>
                             <constraint firstItem="RaA-Pb-3JT" firstAttribute="top" secondItem="jOq-pV-rQc" secondAttribute="bottom" constant="100" id="PKd-oi-ebv"/>
                             <constraint firstItem="62l-qG-gC2" firstAttribute="top" secondItem="jOq-pV-rQc" secondAttribute="bottom" constant="100" id="Rrm-lw-lb8"/>
@@ -107,10 +112,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="G41-mx-yT1" secondAttribute="trailing" constant="30" id="bCe-GY-7TR"/>
                             <constraint firstItem="RaA-Pb-3JT" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="eXm-LU-M5f"/>
                             <constraint firstItem="l6m-GD-Md4" firstAttribute="top" secondItem="jOq-pV-rQc" secondAttribute="bottom" constant="8" id="evd-a3-Moo"/>
+                            <constraint firstItem="kIP-HK-ncS" firstAttribute="centerX" secondItem="6DS-CF-3Js" secondAttribute="centerX" id="xpD-XR-7bu"/>
                             <constraint firstItem="G41-mx-yT1" firstAttribute="top" secondItem="RaA-Pb-3JT" secondAttribute="bottom" constant="30" id="zPV-j1-4xK"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="kIP-HK-ncS" id="V1T-0K-hKZ"/>
                         <outlet property="addProfileImage" destination="62l-qG-gC2" id="82A-Rd-2uB"/>
                         <outlet property="doneButton" destination="l6m-GD-Md4" id="L5k-4y-xWh"/>
                         <outlet property="firstNameTextField" destination="0dz-YH-sai" id="MMW-ln-D0g"/>

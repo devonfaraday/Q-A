@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         if let currentUser = UserController.shared.loggedInUser {
             self.currentUser = currentUser
         }
+        self.activityIndicator.stopAnimating()
     }
     
     //==============================================================
@@ -36,6 +37,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     @IBOutlet weak var addProfileImage: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     //==============================================================
     // MARK: - IBActions
@@ -51,6 +53,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     }
     
     @IBAction func updateButtonTapped(_ sender: Any) {
+        self.activityIndicator.startAnimating()
         firstNameTextField.resignFirstResponder()
         lastNameTextField.resignFirstResponder()
         guard let user = currentUser, let firstname = self.firstNameTextField.text, let lastname = lastNameTextField.text, let image = profileImage.image else { return }
@@ -59,6 +62,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         guard let imageData = UIImageJPEGRepresentation(image, 1.0) else { return }
         user.profileImageData = imageData
         UserController.shared.modifyUser(user: user) {
+            self.activityIndicator.stopAnimating()
            self.dismiss(animated: true, completion: nil)
         }
     }
