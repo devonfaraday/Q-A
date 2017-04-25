@@ -17,7 +17,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var topic: Topic?
     let cloudKitManager = CloudKitManager()
-    var votes = [Vote]()
     
     //==============================================================
     // MARK: - IBOutlets
@@ -50,7 +49,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
-//        questionTableView.reloadData()
         
         if let topic = topic {
             TopicController.shared.currentTopic = topic
@@ -67,14 +65,11 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkTopicsReadyCheckBool), name: TopicController.shared.topicBoolNotificationName, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: VoteController.shared.voteCreatedOrDeleted, object: nil)
-       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshTableView()
-        
     }
     
     //==============================================================
@@ -122,20 +117,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
-        
-        
         let question = QuestionController.shared.questions[indexPath.row]
-        VoteController.shared.fetchVotesFor(question: question) { (votes) in
-            self.votes = votes
-            DispatchQueue.main.async {
-                cell.layer.cornerRadius = 7
-                cell.layer.borderWidth = 1
-                cell.layer.borderColor = #colorLiteral(red: 0.1777849495, green: 0.1777901053, blue: 0.1777873635, alpha: 1).cgColor
-                cell.question = question
-                cell.votes = self.votes
-                cell.delegate = self
-            }
-        }
+        cell.layer.cornerRadius = 7
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = #colorLiteral(red: 0.1777849495, green: 0.1777901053, blue: 0.1777873635, alpha: 1).cgColor
+        cell.question = question
+        cell.delegate = self
         return cell
     }
     
@@ -172,31 +159,26 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     
     func completeVoteChanged(sender: QueueTableViewCell) {
-        // Check for an empty vote array.  If it's empty create a vote and add to the sender.votes.  If that array isn't empty then check to see if current user had already voted, and if current user has voted then delete their vote.  If array isn't empty and current user hasn't voted then add vote to array.
+        guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
-        let questionPressed = QuestionController.shared.questions[indexPath.row]
-        if sender.votes.isEmpty {
-            VoteController.shared.voteOnQuestion(questionPressed) { (vote ,error) in
-                if let error = error {
-                    print("Error with creating vote record: \(error)")
-                } else {
-                    guard  let vote = vote else { return }
-                    sender.votes.append(vote)
-                    self.refreshTableView()
-                }
-            }
-        } else {
-            let votes = sender.votes.filter { $0.userReference.recordID == UserController.shared.loggedInUser?.recordID }
-            if votes.isEmpty {
-                VoteController.shared.voteOnQuestion(questionPressed, completion: { (vote, _) in
-                    guard let vote = vote else { return }
-                    sender.votes.append(vote)
-                    self.refreshTableView()
+        let questionSelected = QuestionController.shared.questions[indexPath.row]
+        guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
+        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
+            if !questionSelected.upVote.contains(recordName) {
+                QuestionController.shared.upvote(question: questionSelected, completion: {
+                    QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                        DispatchQueue.main.async {
+                            self.questionTableView.reloadData()
+                        }
+                    })
                 })
             } else {
-                guard let vote = votes.first else { return }
-                VoteController.shared.delete(vote: vote, completion: {
-                    self.refreshTableView()
+                QuestionController.shared.downvote(question: questionSelected, completion: {
+                    QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                        DispatchQueue.main.async {
+                            self.questionTableView.reloadData()
+                        }
+                    })
                 })
             }
         }

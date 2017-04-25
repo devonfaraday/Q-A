@@ -66,6 +66,26 @@ class QuestionController {
         }
         operation.savePolicy = .changedKeys
         self.cloudKitManager.publicDatabase.add(operation)
+//        operation.perRecordCompletionBlock = { (record, error) in
+//            if let error = error {
+//                
+//                print("Error with modifying question model: \(error.localizedDescription)")
+//                
+//                self.cloudKitManager.fetchRecord(withID: record.recordID, completion: { (updatedRecord, error) in
+//                    if let error = error {
+//                        print("Error fetching the modified Question Record: \(error.localizedDescription)")
+//                        completion()
+//                    }
+//                    guard let updatedRecord = updatedRecord else { completion(); return }
+//                    let updatedQestion = Question(cloudKitRecord: updatedRecord)
+//                    updatedQestion?.vote += 1
+//                    guard let finalQuestion = updatedQestion else { completion(); return }
+//                    self.modifyQuestion(question: finalQuestion, completion: {
+//                        completion()
+//                    })
+//                })
+//            }
+//        }
     }
     
     func deleteQuestion(withRecordID recordID: CKRecordID, completion: @escaping (CKRecordID?, Error?) -> Void) {
