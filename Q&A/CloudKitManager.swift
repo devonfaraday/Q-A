@@ -421,7 +421,7 @@ class CloudKitManager {
     
     // MARK: - Subscriptions
     
-    func subscripeToStudentReadyCheck(topic: Topic) {
+    func subscribeToStudentReadyCheck(topic: Topic) {
         guard let topicID = topic.recordID else { return }
         let topifRef = CKReference(recordID: topicID, action: .none)
         let notificationInfo = CKNotificationInfo()
@@ -454,21 +454,19 @@ class CloudKitManager {
         
     }
     
-    func subscribeToVotes() {
+    func subscribeToQuestionVotesIn(topic: Topic) {
         
+        guard let topicID = topic.recordID else { return }
+        let questionPredicate = NSPredicate(value: true)
+        let topicRefPredicate = NSPredicate(format: "topicReference == %@", topicID)
+        let predicates = NSCompoundPredicate(andPredicateWithSubpredicates: [questionPredicate, topicRefPredicate])
         
-        
-        let predicate = NSPredicate(value: true)
-        
-        
-        subscribe("Vote", predicate: predicate, subscriptionID: "VoteCreation", contentAvailable: true, options: .firesOnRecordCreation) { (_, _) in
-            
-        }
-        
-        subscribe("Vote", predicate: predicate, subscriptionID: "VoteDeletion", contentAvailable: true, options: .firesOnRecordDeletion) { (_, _) in
+        subscribe("Question", predicate: predicates, subscriptionID: "QuestionVote", contentAvailable: true, options: .firesOnRecordUpdate) { (_, _) in
             
         }
     }
+
+
     
     func subscribeToTopicBool(topic: Topic) {
         let notificationInfo = CKNotificationInfo()

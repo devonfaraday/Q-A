@@ -54,9 +54,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if let topic = topic {
             TopicController.shared.currentTopic = topic
-            cloudKitManager.subscripeToStudentReadyCheck(topic: topic)
+            cloudKitManager.subscribeToStudentReadyCheck(topic: topic)
             cloudKitManager.subscribeToStudentQuestion(topic: topic)
-            cloudKitManager.subscribeToVotes()
+            cloudKitManager.subscribeToQuestionVotesIn(topic: topic)
             cloudKitManager.subscribeToTopicBool(topic: topic)
             TopicController.shared.fetchUsersForTopic(topic: topic, completion: {
             })
