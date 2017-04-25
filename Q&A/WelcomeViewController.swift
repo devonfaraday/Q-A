@@ -19,13 +19,20 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        welcomeTextView.animate(newText: welcomeTextView.text ?? "Welcome Thank you for downloading our app! Let's get you started.", CharacterDelay: 0.1)
         pictureFrameCircular()
         firstNameTextField.attributedPlaceholder = NSAttributedString(string: "First Name:", attributes: [NSForegroundColorAttributeName: UIColor.white])
         lastNameTextField.attributedPlaceholder = NSAttributedString(string: "Last Name:", attributes: [NSForegroundColorAttributeName: UIColor.white])
         firstNameBorderWhite()
         lastNameBoarderWhite()
         nextButtonBoarderWhite()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        UITextView.transition(with: welcomeTextView, duration: 1.1, options: .transitionCurlDown, animations: {
+            self.welcomeTextView.textColor = .white
+        }, completion: nil)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -144,16 +151,3 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.nextButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
 }
-
-extension UITextView {
-    func animate(newText: String, CharacterDelay: TimeInterval) {
-        self.text = ""
-        
-        for (index, character) in newText.characters.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + CharacterDelay * Double(index)) {
-                self.text?.append(character)
-            }
-        }
-    }
-}
-
