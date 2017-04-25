@@ -13,12 +13,10 @@ class TutorialDataController: NSObject, UIPageViewControllerDataSource {
     static let shared = TutorialDataController()
     
     var pageData: [UIImage] = []
-    let test1 = #imageLiteral(resourceName: "RedButton")
-    let test2 = #imageLiteral(resourceName: "GreenButton")
  
     override init() {
         super.init()
-        pageData = [test1, test2]
+        pageData = [#imageLiteral(resourceName: "TopicView"), #imageLiteral(resourceName: "UserView"), #imageLiteral(resourceName: "QuestionView"), #imageLiteral(resourceName: "OwnerView"), #imageLiteral(resourceName: "ReadyCheck")]
         
     }
     
