@@ -164,25 +164,28 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
         QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
             refreshTableView()
-            let questionSelected = QuestionController.shared.questions[indexPath.row]
-            if !questionSelected.upVote.contains(recordName) {
-                QuestionController.shared.upvote(question: questionSelected, completion: {
-                    QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                        DispatchQueue.main.async {
-                            self.questionTableView.reloadData()
-                        }
+            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
+                let questionSelected = QuestionController.shared.questions[indexPath.row]
+                if !questionSelected.upVote.contains(recordName) {
+                    QuestionController.shared.upvote(question: questionSelected, completion: {
+                        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                            DispatchQueue.main.async {
+                                self.questionTableView.reloadData()
+                            }
+                        })
                     })
-                })
-            } else {
-                QuestionController.shared.downvote(question: questionSelected, completion: {
-                    QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                        DispatchQueue.main.async {
-                            self.questionTableView.reloadData()
-                        }
+                } else {
+                    QuestionController.shared.downvote(question: questionSelected, completion: {
+                        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                            DispatchQueue.main.async {
+                                self.questionTableView.reloadData()
+                            }
+                        })
                     })
-                })
+                }
             }
         }
+        
     }
     
     
