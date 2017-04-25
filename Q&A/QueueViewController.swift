@@ -50,8 +50,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         viewTypeSetup()
         showTopicNumber()
         questionTableView.estimatedRowHeight = 80
-        questionTableView.rowHeight = 95
-        questionTableView.reloadData()
+//        questionTableView.reloadData()
         
         if let topic = topic {
             TopicController.shared.currentTopic = topic
@@ -124,6 +123,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
         
+        
         let question = QuestionController.shared.questions[indexPath.row]
         VoteController.shared.fetchVotesFor(question: question) { (votes) in
             self.votes = votes
@@ -182,7 +182,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 } else {
                     guard  let vote = vote else { return }
                     sender.votes.append(vote)
-                    self.questionTableView.reloadData()
+                    self.refreshTableView()
                 }
             }
         } else {
@@ -191,14 +191,12 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 VoteController.shared.voteOnQuestion(questionPressed, completion: { (vote, _) in
                     guard let vote = vote else { return }
                     sender.votes.append(vote)
-                    self.questionTableView.reloadData()
+                    self.refreshTableView()
                 })
             } else {
                 guard let vote = votes.first else { return }
                 VoteController.shared.delete(vote: vote, completion: {
-                    DispatchQueue.main.async {
-                        self.questionTableView.reloadData()
-                    }
+                    self.refreshTableView()
                 })
             }
         }
@@ -308,9 +306,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBAction func clearButtonTapped(_ sender: Any) {
         QuestionController.shared.clearAllQuestions {
-            DispatchQueue.main.async {
-                self.questionTableView.reloadData()
-            }
+            self.refreshTableView()
         }
     }
     

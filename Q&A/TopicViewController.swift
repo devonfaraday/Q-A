@@ -90,11 +90,11 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         label4.text = ""
         
         
-        if section == 0 && !TopicController.shared.userTopicsOwner.isEmpty {
+        if section == 0 && !TopicController.shared.userTopicsOwner.isEmpty  {
             return label
         } else if section == 1 && !TopicController.shared.userTopics.isEmpty {
             return label2
-        } else if section == 0 && TopicController.shared.userTopicsOwner.isEmpty {
+        } else if section == 0 && TopicController.shared.userTopicsOwner.isEmpty && TopicController.shared.userTopics.isEmpty {
             return label3
         } else {
             return label4
