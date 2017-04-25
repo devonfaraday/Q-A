@@ -162,12 +162,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
-        
-            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
-                refreshWith(completion: { 
-                    let questionSelected = QuestionController.shared.questions[indexPath.row]
+        let oldQuestion = QuestionController.shared.questions[indexPath.row]
+        QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (questions) in
+            self.refreshWith(completion: {
+                let questionSelected = questions[indexPath.row]
+                if oldQuestion.cloudKitRecordID == questionSelected.cloudKitRecordID {
                     if !questionSelected.upVote.contains(recordName) {
-                        QuestionController.shared.upvote(question: questionSelected, completion: {
+                        QuestionController.shared.upvote(question: oldQuestion, completion: {
                             QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                                 DispatchQueue.main.async {
                                     self.questionTableView.reloadData()
@@ -175,7 +176,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             })
                         })
                     } else {
-                        QuestionController.shared.downvote(question: questionSelected, completion: {
+                        QuestionController.shared.downvote(question: oldQuestion, completion: {
                             QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
                                 DispatchQueue.main.async {
                                     self.questionTableView.reloadData()
@@ -183,15 +184,18 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                             })
                         })
                     }
-                })
-            }
+                }
+            })
+            
         }
+    }
     
     
     func refreshWith(completion: @escaping() -> Void) {
         DispatchQueue.main.async {
             self.questionTableView.reloadData()
         }
+        completion()
     }
     
     
