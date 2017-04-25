@@ -162,16 +162,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
         guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
+        let questionYouThoughtYouHit = QuestionController.shared.questions[indexPath.row]
         QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
-            self.refreshTableView()
-            QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
-                let questionSelected = QuestionController.shared.questions[indexPath.row]
+            let questionSelected = QuestionController.shared.questions[indexPath.row]
+            if questionYouThoughtYouHit == questionSelected {
                 if !questionSelected.upVote.contains(recordName) {
                     QuestionController.shared.upvote(question: questionSelected, completion: {
                         QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
-                            DispatchQueue.main.async {
-                                self.questionTableView.reloadData()
-                            }
+                            self.refreshTableView()
                         })
                     })
                 } else {
@@ -183,10 +181,18 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         })
                     })
                 }
+            } else {
+                self.refreshTableView()
+                QuestionController.shared.upvote(question: questionSelected, completion: {
+                    QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
+                        self.refreshTableView()
+                    })
+                })
             }
         }
-        
     }
+    
+    
     
     
     
