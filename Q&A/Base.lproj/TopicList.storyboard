@@ -146,8 +146,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFD-hi-PDR">
-                                <rect key="frame" x="16" y="28" width="34" height="34"/>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFD-hi-PDR">
+                                <rect key="frame" x="16" y="40" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="Cai-ge-fMH"/>
                                     <constraint firstAttribute="width" constant="34" id="bvw-m7-HSE"/>
@@ -243,13 +243,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="2c8-sa-ByV" secondAttribute="trailing" constant="45" id="H5U-9t-sTe"/>
                             <constraint firstItem="E6i-IH-uvy" firstAttribute="top" secondItem="2cj-K5-Tjt" secondAttribute="bottom" id="IA5-wM-jH7"/>
                             <constraint firstItem="FFD-hi-PDR" firstAttribute="leading" secondItem="dGq-Lh-Kjg" secondAttribute="leadingMargin" id="IQL-eF-0m5"/>
-                            <constraint firstItem="FFD-hi-PDR" firstAttribute="top" secondItem="fCe-CT-mSP" secondAttribute="bottom" constant="8" id="JVV-DN-zTw"/>
+                            <constraint firstItem="FFD-hi-PDR" firstAttribute="top" secondItem="fCe-CT-mSP" secondAttribute="bottom" constant="20" id="JVV-DN-zTw"/>
                             <constraint firstItem="2cj-K5-Tjt" firstAttribute="leading" secondItem="dGq-Lh-Kjg" secondAttribute="leading" id="Lwy-Sb-0qK"/>
                             <constraint firstItem="rIH-BP-48Q" firstAttribute="trailing" secondItem="dGq-Lh-Kjg" secondAttribute="trailingMargin" id="WTB-d3-npK"/>
                             <constraint firstItem="MYj-rq-3TY" firstAttribute="leading" secondItem="dGq-Lh-Kjg" secondAttribute="leading" id="dIn-nT-aGv"/>
                             <constraint firstItem="2c8-sa-ByV" firstAttribute="leading" secondItem="dGq-Lh-Kjg" secondAttribute="leadingMargin" constant="45" id="gkW-i1-9fC"/>
                             <constraint firstItem="2c8-sa-ByV" firstAttribute="top" secondItem="fCe-CT-mSP" secondAttribute="bottom" constant="90" id="kCf-32-7ih"/>
-                            <constraint firstItem="2cj-K5-Tjt" firstAttribute="top" secondItem="FFD-hi-PDR" secondAttribute="bottom" constant="93" id="l3L-Fh-iP3"/>
                             <constraint firstAttribute="trailing" secondItem="2cj-K5-Tjt" secondAttribute="trailing" id="qMH-c0-bTc"/>
                             <constraint firstItem="NJM-qi-MWP" firstAttribute="top" secondItem="fCe-CT-mSP" secondAttribute="bottom" constant="8" id="zUb-AC-r5g"/>
                         </constraints>
