@@ -45,8 +45,8 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
         guard let firstName = self.firstNameTextField.text,
             let lastName = self.lastNameTextField.text,
             let image = pictureImageView.image,
-        !firstName.isEmpty,
-        !lastName.isEmpty
+            !firstName.isEmpty,
+            !lastName.isEmpty
             else { addPhotoAlert(); return }
         if let imageData = UIImageJPEGRepresentation(image, 1.0) {
             UserController.shared.saveUser(firstName: firstName, lastName: lastName, imageData: imageData, completion: { (_) in
@@ -85,7 +85,6 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func pictureFrameCircular() {
-        let imageCircle = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         pictureImageView.layer.cornerRadius = pictureImageView.frame.size.height / 2
         pictureImageView.layer.borderWidth = 1
         pictureImageView.layer.borderColor = UIColor.clear.cgColor
@@ -148,14 +147,13 @@ class WelcomeViewController: UIViewController, UIImagePickerControllerDelegate, 
 
 extension UITextView {
     func animate(newText: String, CharacterDelay: TimeInterval) {
-        DispatchQueue.main.async {
-            self.text = ""
-            
-            for (index, character) in newText.characters.enumerated() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + CharacterDelay * Double(index)) {
-                    self.text?.append(character)
-                }
+        self.text = ""
+        
+        for (index, character) in newText.characters.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + CharacterDelay * Double(index)) {
+                self.text?.append(character)
             }
         }
     }
 }
+
