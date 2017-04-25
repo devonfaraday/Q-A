@@ -38,13 +38,13 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //==============================================================
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let currentUser = UserController.shared.loggedInUser {
-            self.currentUser = currentUser
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if let currentUser = UserController.shared.loggedInUser {
+            self.currentUser = currentUser
+        }
         TopicController.shared.fetchTopicsForUser(completion: { (topics) in
             if topics.count == 0 {
                 print("No topics were fetched for this user")
