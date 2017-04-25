@@ -451,6 +451,9 @@ class CloudKitManager {
         subscribe("Question", predicate: predicate, subscriptionID: "NewQuestion", contentAvailable: true, options: .firesOnRecordCreation) { (_, _) in
             
         }
+        subscribe("Question", predicate: predicate, subscriptionID: "DeletedQuestion", contentAvailable: true, options: .firesOnRecordDeletion) { (_, _) in
+            
+        }
         
     }
     

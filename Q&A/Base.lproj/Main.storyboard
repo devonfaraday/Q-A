@@ -193,7 +193,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="67" id="sju-S0-B8A"/>
                                 </constraints>
-                                <state key="normal" title="Ready"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Not Ready">
+                                    <color key="titleColor" red="0.99019607840000001" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="readyButtonTapped:" destination="Q4A-s4-6jR" eventType="touchUpInside" id="tDp-7n-v0D"/>
                                 </connections>
