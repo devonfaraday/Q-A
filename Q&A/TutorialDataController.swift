@@ -16,7 +16,7 @@ class TutorialDataController: NSObject, UIPageViewControllerDataSource {
  
     override init() {
         super.init()
-        pageData = [#imageLiteral(resourceName: "TopicView"), #imageLiteral(resourceName: "UserView"), #imageLiteral(resourceName: "QuestionView"), #imageLiteral(resourceName: "OwnerView"), #imageLiteral(resourceName: "ReadyCheck")]
+        pageData = [#imageLiteral(resourceName: "TopicView"), #imageLiteral(resourceName: "UserView"), #imageLiteral(resourceName: "ReadyCheck")]
         
     }
     
