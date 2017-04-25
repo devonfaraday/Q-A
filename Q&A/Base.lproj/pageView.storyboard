@@ -31,7 +31,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gPY-7v-SqS">
-                                <rect key="frame" x="8" y="36" width="304" height="532"/>
+                                <rect key="frame" x="16" y="20" width="288" height="548"/>
                             </imageView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Sjk-CR-4Cn">
                                 <rect key="frame" x="130" y="508" width="60" height="40"/>
@@ -41,7 +41,7 @@
                                 </constraints>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVV-TP-8eH">
-                                <rect key="frame" x="220" y="518" width="92" height="42"/>
+                                <rect key="frame" x="205" y="507" width="92" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="92" id="QbI-8g-qRj"/>
                                     <constraint firstAttribute="height" constant="42" id="s2d-qo-yxl"/>
@@ -57,17 +57,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gPY-7v-SqS" firstAttribute="leading" secondItem="C2L-wn-aAz" secondAttribute="leading" constant="8" id="5Jl-6f-20v"/>
-                            <constraint firstItem="HEG-38-OIw" firstAttribute="top" secondItem="gPY-7v-SqS" secondAttribute="bottom" id="8ca-LS-vQT"/>
-                            <constraint firstItem="gPY-7v-SqS" firstAttribute="top" secondItem="M1q-T8-zRY" secondAttribute="bottom" constant="16" id="NeE-CB-2gD"/>
+                            <constraint firstItem="HEG-38-OIw" firstAttribute="top" secondItem="gPY-7v-SqS" secondAttribute="bottom" id="493-Vs-V3t"/>
+                            <constraint firstItem="gPY-7v-SqS" firstAttribute="top" secondItem="M1q-T8-zRY" secondAttribute="bottom" id="F6M-sB-Z0g"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gPY-7v-SqS" secondAttribute="trailing" id="O0l-NM-hto"/>
                             <constraint firstItem="HEG-38-OIw" firstAttribute="top" secondItem="Sjk-CR-4Cn" secondAttribute="bottom" constant="20" id="PrG-4E-VCB"/>
                             <constraint firstItem="Sjk-CR-4Cn" firstAttribute="centerX" secondItem="C2L-wn-aAz" secondAttribute="centerX" id="SyQ-Bc-qzt"/>
-                            <constraint firstAttribute="trailing" secondItem="gPY-7v-SqS" secondAttribute="trailing" constant="8" id="bKc-Vb-m8w"/>
-                            <constraint firstItem="HEG-38-OIw" firstAttribute="top" secondItem="eVV-TP-8eH" secondAttribute="bottom" constant="8" id="lf8-sg-Vl1"/>
-                            <constraint firstItem="eVV-TP-8eH" firstAttribute="trailing" secondItem="C2L-wn-aAz" secondAttribute="trailingMargin" constant="8" id="oqm-Bd-FDc"/>
+                            <constraint firstItem="gPY-7v-SqS" firstAttribute="leading" secondItem="C2L-wn-aAz" secondAttribute="leadingMargin" id="j0d-DV-Vxz"/>
+                            <constraint firstItem="HEG-38-OIw" firstAttribute="top" secondItem="eVV-TP-8eH" secondAttribute="bottom" constant="19" id="lf8-sg-Vl1"/>
+                            <constraint firstItem="eVV-TP-8eH" firstAttribute="trailing" secondItem="C2L-wn-aAz" secondAttribute="trailingMargin" constant="-7" id="oqm-Bd-FDc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="eVV-TP-8eH" id="nE2-xc-Dbk"/>
                         <outlet property="imageOutlet" destination="gPY-7v-SqS" id="cbV-4w-UOi"/>
                         <outlet property="page" destination="Sjk-CR-4Cn" id="4Zf-9w-HMm"/>
                     </connections>

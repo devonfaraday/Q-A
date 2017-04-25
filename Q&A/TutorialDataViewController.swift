@@ -12,12 +12,16 @@ class TutorialDataViewController: UIViewController {
 
     @IBOutlet weak var imageOutlet: UIImageView!
     @IBOutlet weak var page: UIPageControl!
+    @IBOutlet weak var doneButton: UIButton!
     
    
     var tutorialImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.doneButton.layer.cornerRadius = 5
+        self.doneButton.layer.borderWidth = 1
+        self.doneButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
 
     }
 
