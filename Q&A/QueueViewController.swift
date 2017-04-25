@@ -68,6 +68,8 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: QuestionController.shared.questionDataRefreshed, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(checkTopicsReadyCheckBool), name: TopicController.shared.topicBoolNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTableView), name: VoteController.shared.voteCreatedOrDeleted, object: nil)
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,7 +123,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = questionTableView.dequeueReusableCell(withIdentifier: "questionCell", for: indexPath) as? QueueTableViewCell else {return UITableViewCell()}
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshQuestionData), name: QuestionController.shared.NewQuestionAdded, object: nil)
+        
         let question = QuestionController.shared.questions[indexPath.row]
         VoteController.shared.fetchVotesFor(question: question) { (votes) in
             self.votes = votes
@@ -201,7 +203,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         }
     }
-    
     
     
     

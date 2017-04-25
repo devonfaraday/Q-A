@@ -15,6 +15,7 @@ class Vote: Equatable {
     static let questionReferenceKey = "QuestionReference"
     static let userRefKey = "UserRef"
     
+    
     let questionReference: CKReference
     let userReference: CKReference
     var recordID: CKRecordID?

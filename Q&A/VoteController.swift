@@ -13,6 +13,7 @@ class VoteController {
     
     static let shared = VoteController()
     private let cloudKitManager = CloudKitManager()
+    let voteCreatedOrDeleted = Notification.Name("VoteWasCreatedOrDeleted")
     
     func voteOnQuestion(_ question: Question, completion: @escaping(Vote?, Error?) -> Void) {
         guard let questionID = question.cloudKitRecordID,
