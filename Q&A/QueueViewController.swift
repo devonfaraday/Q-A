@@ -161,9 +161,9 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func completeVoteChanged(sender: QueueTableViewCell) {
         guard let topic = self.topic else { return }
         guard let indexPath = self.questionTableView.indexPath(for: sender) else { return }
-        let questionSelected = QuestionController.shared.questions[indexPath.row]
         guard let recordName = UserController.shared.loggedInUser?.recordID?.recordName else { return }
         QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic) { (_) in
+            let questionSelected = QuestionController.shared.questions[indexPath.row]
             if !questionSelected.upVote.contains(recordName) {
                 QuestionController.shared.upvote(question: questionSelected, completion: {
                     QuestionController.shared.fetchQuestionsWithTopicRef(topic: topic, completion: { (_) in
