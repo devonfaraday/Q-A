@@ -79,10 +79,25 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         label2.text = "J O I N E D"
         label2.textAlignment = .center
         
-        if section == 0 {
+        let label3 = UILabel()
+        label3.backgroundColor = UIColor(red: 50.0/255.0, green: 50.0/255.0, blue: 50.0/255.0, alpha: 1)
+        label3.textColor = UIColor.white
+        label3.text = "N O  T O P I C S"
+        label3.textAlignment = .center
+        
+        let label4 = UILabel()
+        label4.backgroundColor = UIColor.clear
+        label4.text = ""
+        
+        
+        if section == 0 && !TopicController.shared.userTopicsOwner.isEmpty {
             return label
-        } else {
+        } else if section == 1 && !TopicController.shared.userTopics.isEmpty {
             return label2
+        } else if section == 0 && TopicController.shared.userTopicsOwner.isEmpty {
+            return label3
+        } else {
+            return label4
         }
     }
     

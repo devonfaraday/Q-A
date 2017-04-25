@@ -26,7 +26,7 @@ class TopicController {
         let randomNum = randomNumGenerator()
         self.tempGeneratedNumber = randomNum
         guard let recordID = currentUser?.recordID else { completion(nil); return }
-        let userRef = CKReference(recordID: recordID, action: .none)
+        let userRef = CKReference(recordID: recordID, action: .deleteSelf)
         let topic = Topic(name: name, codeGenerator: randomNum, topicOwner: userRef)
         let record = CKRecord(topic: topic)
         cloudKitManager.publicDatabase.save(record) { (savedTopicRecord, error) in
