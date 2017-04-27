@@ -57,6 +57,10 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         })
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     //==============================================================
     // MARK: - Data Source Function
     //==============================================================
@@ -210,4 +214,6 @@ class TopicViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.submitButton.layer.borderWidth = 1
         self.submitButton.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).cgColor
     }
+    
+    
 }
